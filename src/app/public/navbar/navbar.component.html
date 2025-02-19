@@ -1,0 +1,103 @@
+<div class="header">
+    <div class="header-left d-flex align-items-center">
+        <div class="menu-icon dw dw-menu text-light mx-3"></div>
+        <!-- <mat-icon class="menu-icon" style="cursor: pointer;">menu</mat-icon>
+        <div class="search-toggle-icon dw dw-search2 text-dark d-none d-lg-block"
+      data-toggle="header_search"></div> -->
+        <button mat-stroked-button color="DEFAULT"
+            class="text-light border-0"
+            (click)="Location.back()"><mat-icon>reply</mat-icon>
+        </button>
+        <div class="header-search d-none d-lg-block">
+            <div class="form-group mb-0 d-none">
+                <i class="dw dw-search2 search-icon"></i>
+                <input type="text" class="form-control search-input"
+                    placeholder="Rechercher ici...">
+                <div class="dropdown">
+                    <a class="dropdown-toggle no-arrow" href="#" role="button"
+                        data-toggle="dropdown">
+                        <i class="ion-arrow-down-c"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="form-group row">
+                            <label
+                                class="col-sm-12 col-md-2 col-form-label">Libelle</label>
+                            <div class="col-sm-12 col-md-10">
+                                <input
+                                    class="form-control form-control-sm form-control-line"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label
+                                class="col-sm-12 col-md-2 col-form-label">DU</label>
+                            <div class="col-sm-12 col-md-10">
+                                <input
+                                    class="form-control form-control-sm form-control-line"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label
+                                class="col-sm-12 col-md-2 col-form-label">AU</label>
+                            <div class="col-sm-12 col-md-10">
+                                <input
+                                    class="form-control form-control-sm form-control-line"
+                                    type="text">
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <button class mat-raised-button
+                                color="primary">Trouver
+                                maintenant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="font-size: 16px;" class="h4 text-light">{{ getSalutation() }}, <span class
+                    style="color: #F8FCEB">{{ InfoUser.prenom }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-right d-flex align-items-center">
+        <!-- <div class="col d-flex align-items-center justify-content-end">
+            <button mat-stroked-button color="primary" class="mx-2 border-light text-light"><span class="micon dw dw-export"></span>
+            </button>
+            <button mat-stroked-button color="primary" class="mx-2 border-light text-light"><span class="micon dw dw-notification"></span>
+            </button>
+        </div> -->
+        <div class="user-info-dropdown">
+            <div class="dropdown">
+                <a class="dropdown-toggle" role="button" data-toggle="dropdown">
+                    <!-- <span class="user-icon mx-2 p-2">
+                        <img
+                            src="https://img.favpng.com/25/7/23/computer-icons-user-profile-avatar-image-png-favpng-LFqDyLRhe3PBXM0sx2LufsGFU.jpg"
+                            class="w-100" alt="Profile de l'utilisateur">
+                    </span> -->
+                    <strong class="user-name">
+                        <span class="text-uppercase fw-bold"
+                            style="color: #ffffff;">Acc&#232;s : <span class="text-warning fw-bold">{{ 'Administrator' }}</span></span>
+                    </strong>
+                </a>
+                <div
+                    class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                    <button class="dropdown-item"
+                        routerLink="/auth/profile-user"><i
+                            class="dw dw-user1"></i>
+                        Profile</button>
+                    <!-- <button class="dropdown-item" routerLink="/settings/overview"><i class="dw dw-settings2"></i>
+                        Param&#232;tres</button>
+                    <button class="dropdown-item" routerLink="/settings/overview"><i class="dw dw-help"></i>
+                        Documentation</button> -->
+                    <button class="dropdown-item text-danger fw-bold"
+                        (click)="logout()"><i class="dw dw-logout"></i>
+                        Deconnexion</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="github-link">
+        <a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg" alt=""></a>
+      </div> -->
+    </div>
+</div>
