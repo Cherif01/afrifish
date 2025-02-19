@@ -1,0 +1,38 @@
+<div class="login-container">
+    <!-- <div class="col-left d-none d-lg-block">
+        <div class="overlay">
+            <h2>Bienvenue à tous</h2>
+            <p>Découvrez nos fonctionnalités et connectez-vous pour
+                commencer.</p>
+        </div>
+    </div> -->
+    <div class="col-right">
+        <div class="form-container">
+            <h2>Identifiez vous !</h2>
+            <img
+                src="https://static.vecteezy.com/system/resources/previews/006/947/344/non_2x/fish-logo-template-free-vector.jpg"
+                class="img-responsive" style="height: 150px;width: auto;border-radius: 50%;" alt>
+            <div class="form my-4">
+                <form [formGroup]="loginForm">
+                    <div class="col-form mb-3">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Numero de t&#233;l&#233;phone</mat-label>
+                            <input matInput type="telephone"
+                                placeholder="0000 000 000..."
+                                formControlName="telephone" required />
+                        </mat-form-field>
+                        <div class="col-form mb-2">
+                            <mat-form-field class="w-100" appearance="outline">
+                                <mat-label>Mot de passe</mat-label>
+                                <input matInput type="password"
+                                    placeholder="Mot de passe..."
+                                    formControlName="mot_de_passe" required />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <button mat-flat-button color="primary" (click)="onSubmit()">Connexion</button>
+            </div>
+        </div>
+    </div>
+</div>

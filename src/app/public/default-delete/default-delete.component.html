@@ -1,0 +1,21 @@
+<div class="dialog-container">
+    <h1 class="text-center fw-bold text-uppercase" matDialogTitle>{{ title }}</h1>
+    <div class="p-3 text-dark">
+      <h2 class="fw-bold">Confirmez l'op&#233;ration ?</h2>
+      <div class="icons p-2">
+        <mat-icon color="warn">warning</mat-icon>
+      </div>
+      <h5 class="small">Apr&#232;s la suppression vous ne pourrez plus revenir en arri&#232;re, alors r&#233;flechissez
+        bien
+        avant de confirmer...</h5>
+    </div>
+    <div class="card-footer">
+      <button class="btn_ btn_primary w-100" mat-flat-button (click)="closeDialog(false)" color="primary">
+        <mat-icon>close</mat-icon> | {{
+        messageNo
+        }}</button>
+      <button class="btn_ btn_danger w-100" mat-flat-button (click)="closeDialog(true)"
+        color="warn"><mat-icon>check</mat-icon> | {{ messageYes
+        }}</button>
+    </div>
+  </div>
