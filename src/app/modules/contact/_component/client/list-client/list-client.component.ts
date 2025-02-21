@@ -15,7 +15,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-client.component.scss']
 })
 export class ListClientComponent {
- title: string = 'Gestion des entites';
+ title: string = 'Gestion des Clients';
   created_by = localStorage.getItem('id_user');
   Client = new FormGroup({
     libelle: new FormControl('', Validators.required),
@@ -50,10 +50,10 @@ export class ListClientComponent {
   }
 
   ngOnInit(): void {
-    this.getZone();
+    this.getClient();
   }
 
-  getZone() {
+  getClient() {
     this.service.getall('client', 'readAll.php').subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
@@ -66,6 +66,8 @@ export class ListClientComponent {
   }
 
   onAjouter() {
+  console.log('donnes',this.Client.value);
+
     if (this.Client.valid) {
       const formData = convertObjectInFormData(this.Client.value);
       this.service.create('public', 'create.php', formData).subscribe({
@@ -78,8 +80,12 @@ export class ListClientComponent {
             verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Client.reset();
-          this.getZone();
+          this.Client.reset(
+            {
+              table: 'client',
+            }
+          );
+          this.getClient();
         },
         error: (err) => {
           this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -107,7 +113,7 @@ export class ListClientComponent {
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.service.delete('agence', 'delete.php', table, id).subscribe({
+          this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
               const messageClass =
                 response.status == 1
@@ -124,7 +130,7 @@ export class ListClientComponent {
               console.error('Error : ', err);
             },
           });
-          this.getZone();
+          this.getClient();
         }
       });
   }

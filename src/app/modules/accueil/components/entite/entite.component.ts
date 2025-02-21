@@ -17,14 +17,15 @@ import { HomeService } from '../../services/home.service';
 export class EntiteComponent {
   title: string = 'Gestion des entites';
   created_by = localStorage.getItem('id_user');
-  Zones = new FormGroup({
-    libelle: new FormControl('', Validators.required),
-    id_devise: new FormControl('', Validators.required),
+  Entite = new FormGroup({
+    reference: new FormControl('', Validators.required),
+    codeEntite: new FormControl('', Validators.required),
     table: new FormControl('entite', Validators.required),
-    created_by: new FormControl(this.created_by, Validators.required),
+    //created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'libelle', 'devise', 'actions'];
+  displayedColumns: string[] = ['id', 'reference', 'codeEntite', 'actions'];
+
 
   constructor(
     private service: HomeService,
@@ -47,13 +48,13 @@ export class EntiteComponent {
   }
 
   ngOnInit(): void {
-    this.getZone();
+    this.getEntite();
   }
 
-  getZone() {
-    this.service.getall('zones', 'readAll.php').subscribe({
+  getEntite() {
+    this.service.getall('entite', 'readAll.php').subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
@@ -63,20 +64,26 @@ export class EntiteComponent {
   }
 
   onAjouter() {
-    if (this.Zones.valid) {
-      const formData = convertObjectInFormData(this.Zones.value);
-      this.service.create('zones', 'create.php', formData).subscribe({
+    console.log('valllll',this.Entite.value);
+
+    if (this.Entite.valid) {
+      const formData = convertObjectInFormData(this.Entite.value);
+      this.service.create('public', 'create.php', formData).subscribe({
         next: (response) => {
           const message =
-            response?.message || 'Zones  Enregistrer avec succès !';
+            response?.message || 'Entite  Enregistrer avec succès !';
           this.snackBar.open(message, 'Okay', {
             duration: 3000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Zones.reset();
-          this.getZone();
+          this.Entite.updateValueAndValidity();
+          this.Entite.reset({
+            table: 'entite',
+          });
+
+          this.getEntite();
         },
         error: (err) => {
           this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -86,6 +93,8 @@ export class EntiteComponent {
             panelClass: ['bg-danger', 'text-white'],
           });
           console.log('Error : ', err);
+         
+
         },
       });
     }
@@ -104,7 +113,7 @@ export class EntiteComponent {
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.service.delete('agence', 'delete.php', table, id).subscribe({
+          this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
               const messageClass =
                 response.status == 1
@@ -121,7 +130,7 @@ export class EntiteComponent {
               console.error('Error : ', err);
             },
           });
-          this.getZone();
+          this.getEntite();
         }
       });
   }

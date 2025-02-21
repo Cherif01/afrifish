@@ -24,7 +24,16 @@ export class ListApprovisionnementComponent {
     created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'libelle', 'devise', 'actions'];
+  displayedColumns: string[] = [
+    'id',
+    'id_initCommande',
+    'id_article',
+    'quantite',
+    'statut',
+    'created_at',
+    'modify_at',
+    'actions'
+  ];
 
   constructor(
     private service: HomeService,
@@ -104,7 +113,7 @@ export class ListApprovisionnementComponent {
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.service.delete('agence', 'delete.php', table, id).subscribe({
+          this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
               const messageClass =
                 response.status == 1

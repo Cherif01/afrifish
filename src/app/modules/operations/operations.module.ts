@@ -7,6 +7,8 @@ import { AddVentesComponent } from './_component/ventes/add-ventes/add-ventes.co
 import { DemoMaterialModule } from 'src/app/demo-material-module';
 import { RouterModule } from '@angular/router';
 import { operationRouting } from './operations.routing';
+import { ClientVenteComponent } from './_component/ventes/client-vente/client-vente.component';
+import { InitVenteComponent } from './_component/ventes/init-vente/init-vente.component';
 
 
 
@@ -15,7 +17,9 @@ import { operationRouting } from './operations.routing';
     FactureProformatComponent,
     ListVentesComponent,
     BonDeCommandeComponent,
-    AddVentesComponent
+    AddVentesComponent,
+    ClientVenteComponent,
+    InitVenteComponent
   ],
   imports: [
     CommonModule,

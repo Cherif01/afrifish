@@ -1,0 +1,95 @@
+<div class="card-box">
+  <mat-card class="p-4 shadow-sm ">
+    <h3 class="form-title text-center text-uppercase shadow p-3" style="font-weight: bold;">
+      Nouvel Article
+    </h3>
+    <div class="text-center py-2">
+      <img
+        src="https://myhealthybox.tn/wp-content/uploads/2024/07/Fruit-de-la-passion-.png"
+        id="img-round1"
+        alt="Image article"
+        style="border-radius: 50%; width: 150px; height: 150px;"
+      />
+    </div>
+    <form [formGroup]="Article" (ngSubmit)="saveDataArticle()">
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Catégorie</mat-label>
+        <mat-select formControlName="id_categorie">
+          <mat-option *ngFor="let categorie of categories" [value]="categorie.id">
+            {{ categorie.libelle }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="Article.get('id_categorie')?.invalid">
+          Veuillez sélectionner une catégorie.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Référence</mat-label>
+        <input matInput formControlName="reference" placeholder="Exemple : REF123" />
+        <mat-error *ngIf="Article.get('reference')?.invalid">
+          La référence est obligatoire et ne doit pas dépasser 75 caractères.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Désignation</mat-label>
+        <input matInput formControlName="designation" placeholder="Exemple : Pommes" />
+        <mat-error *ngIf="Article.get('designation')?.invalid">
+          La désignation est obligatoire et ne doit pas dépasser 255 caractères.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Prix Unitaire Initial</mat-label>
+        <input matInput type="number" formControlName="puInitial" placeholder="Exemple : 1500.00" />
+        <mat-error *ngIf="Article.get('puInitial')?.invalid">
+          Veuillez entrer un prix unitaire valide.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Quantité Initiale</mat-label>
+        <input matInput type="number" formControlName="qteInitiale" placeholder="Exemple : 10" />
+        <mat-error *ngIf="Article.get('qteInitiale')?.invalid">
+          Veuillez entrer une quantité initiale valide.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Prix de Vente Initial</mat-label>
+        <input matInput type="number" formControlName="pvInitial" placeholder="Exemple : 2000.00" />
+        <mat-error *ngIf="Article.get('pvInitial')?.invalid">
+          Veuillez entrer un prix de vente valide.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Date de Péremption</mat-label>
+        <input matInput type="date" formControlName="datePeremption" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class=" mb-3">
+        <mat-label>Descriptions</mat-label>
+        <textarea
+          matInput
+          formControlName="descriptions"
+          placeholder="Exemple : Description de l'article"
+          rows="3"
+        ></textarea>
+      </mat-form-field>
+      <div class="justify-content-center">
+        <button
+        mat-raised-button
+        color="primary"
+        [disabled]="Article.invalid"
+        type="submit"
+
+      >
+        <mat-icon class="me-2">save</mat-icon> Ajouter
+      </button>
+      </div>
+
+    </form>
+  </mat-card>
+</div>

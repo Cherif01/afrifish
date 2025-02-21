@@ -9,6 +9,10 @@ import { DetailsInventaireComponent } from './_component/inventaire/details-inve
 import { DemoMaterialModule } from 'src/app/demo-material-module';
 import { RouterModule } from '@angular/router';
 import { stockRouting } from './stock.routing';
+import { AddArticleComponent } from './_dialogs/add-article/add-article.component';
+import { FournisseurApprovisionnerComponent } from './_component/approvisionner/fournisseur-approvisionner/fournisseur-approvisionner.component';
+import { InitCommandeComponent } from './_component/approvisionner/init-commande/init-commande.component';
+import { PanierCommandeComponent } from './_component/approvisionner/panier-commande/panier-commande.component';
 
 
 
@@ -19,7 +23,11 @@ import { stockRouting } from './stock.routing';
     ListCategoriesComponent,
     DetailsCategoriesComponent,
     ListArticleComponent,
-    DetailsInventaireComponent
+    DetailsInventaireComponent,
+    AddArticleComponent,
+    FournisseurApprovisionnerComponent,
+    InitCommandeComponent,
+    PanierCommandeComponent
   ],
   imports: [
     CommonModule,

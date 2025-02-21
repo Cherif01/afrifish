@@ -1,0 +1,19 @@
+.scrollable-dialog-container {
+  max-width: 600px;
+  width: 90%;
+  height: 80%; /* Limite la hauteur */
+  overflow: hidden; /* Empêche le débordement global */
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollable-dialog-container .mat-dialog-content {
+  flex: 1; /* Permet à la section du contenu d'occuper l'espace restant */
+  overflow-y: auto; /* Active le défilement vertical */
+  padding: 16px; /* Ajoute un espace interne */
+}
+
+.scrollable-dialog-container .mat-dialog-actions {
+  padding: 8px 16px;
+  border-top: 1px solid #ddd; /* Ligne de séparation pour les actions */
+}

@@ -25,7 +25,12 @@ export class AppComponent {
         }
         this.canShowMenu =
           event.url !== '/login' && event.url !== '/auth/login';
-
+          // const hiddenExactUrls = ['/operation/add-vente'];
+          //  // Vérification des URL exactes à cacher
+          //  if (hiddenExactUrls.includes(event.url)) {
+          //   this.canShowMenu = false;
+          //   return;
+          // }
         // Mettre à jour le lien
         this.link = event.url;
       });

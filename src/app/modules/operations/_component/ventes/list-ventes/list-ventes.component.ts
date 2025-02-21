@@ -15,16 +15,17 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-ventes.component.scss']
 })
 export class ListVentesComponent {
-   title: string = 'Gestion des entites';
+   title: string = 'Gestion des Ventes';
     created_by = localStorage.getItem('id_user');
-    Zones = new FormGroup({
-      libelle: new FormControl('', Validators.required),
-      id_devise: new FormControl('', Validators.required),
-      table: new FormControl('entite', Validators.required),
-      created_by: new FormControl(this.created_by, Validators.required),
+    PanierVente = new FormGroup({
+      id_article: new FormControl('', Validators.required),
+      id_initVente: new FormControl('', Validators.required),
+      table: new FormControl('panierVente', Validators.required),
+      //created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'libelle', 'devise', 'actions'];
+    displayedColumns: string[] = ['id', 'initVente', 'article', 'statut', 'actions'];
+
 
     constructor(
       private service: HomeService,
@@ -47,11 +48,11 @@ export class ListVentesComponent {
     }
 
     ngOnInit(): void {
-      this.getZone();
+      this.getVente();
     }
 
-    getZone() {
-      this.service.getall('zones', 'readAll.php').subscribe({
+    getVente() {
+      this.service.getall('panierVente', 'readAll.php').subscribe({
         next: (reponse: any) => {
           // console.log('REPONSE SUCCESS : ', reponse);
           this.dataSource.data = reponse;
@@ -63,20 +64,20 @@ export class ListVentesComponent {
     }
 
     onAjouter() {
-      if (this.Zones.valid) {
-        const formData = convertObjectInFormData(this.Zones.value);
-        this.service.create('zones', 'create.php', formData).subscribe({
+      if (this.PanierVente.valid) {
+        const formData = convertObjectInFormData(this.PanierVente.value);
+        this.service.create('public', 'create.php', formData).subscribe({
           next: (response) => {
             const message =
-              response?.message || 'Zones  Enregistrer avec succès !';
+              response?.message || 'PanierVente  Enregistrer avec succès !';
             this.snackBar.open(message, 'Okay', {
               duration: 3000,
               horizontalPosition: 'right',
               verticalPosition: 'top',
               panelClass: ['bg-success', 'text-white'],
             });
-            this.Zones.reset();
-            this.getZone();
+            this.PanierVente.reset();
+            this.getVente();
           },
           error: (err) => {
             this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -104,7 +105,7 @@ export class ListVentesComponent {
         .afterClosed()
         .subscribe((data: any) => {
           if (data) {
-            this.service.delete('agence', 'delete.php', table, id).subscribe({
+            this.service.delete('public', 'delete.php', table, id).subscribe({
               next: (response: any) => {
                 const messageClass =
                   response.status == 1
@@ -121,7 +122,7 @@ export class ListVentesComponent {
                 console.error('Error : ', err);
               },
             });
-            this.getZone();
+            this.getVente();
           }
         });
     }

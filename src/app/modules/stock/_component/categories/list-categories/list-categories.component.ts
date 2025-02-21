@@ -15,16 +15,18 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-categories.component.scss']
 })
 export class ListCategoriesComponent {
- title: string = 'Gestion des entites';
+ title: string = 'Gestion des Categories';
   created_by = localStorage.getItem('id_user');
-  Zones = new FormGroup({
+  Category = new FormGroup({
     libelle: new FormControl('', Validators.required),
-    id_devise: new FormControl('', Validators.required),
-    table: new FormControl('entite', Validators.required),
-    created_by: new FormControl(this.created_by, Validators.required),
+    id_entite: new FormControl('', Validators.required),
+    table: new FormControl('categorie', Validators.required),
+    //created_by: new FormControl(this.created_by, Validators.required), 
   });
+
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'libelle', 'devise', 'actions'];
+  displayedColumns: string[] = ['id', 'libelle', 'entite', 'actions'];
+  entites:any
 
   constructor(
     private service: HomeService,
@@ -47,11 +49,12 @@ export class ListCategoriesComponent {
   }
 
   ngOnInit(): void {
-    this.getZone();
+    this.getCategory();
+    this.getEntite()
   }
 
-  getZone() {
-    this.service.getall('zones', 'readAll.php').subscribe({
+  getCategory() {
+    this.service.getall('categorie', 'readAll.php').subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -61,22 +64,37 @@ export class ListCategoriesComponent {
       },
     });
   }
+  getEntite() {
+    this.service.getall('entite', 'readAll.php').subscribe({
+      next: (reponse: any) => {
+        // console.log('REPONSE SUCCESS : ', reponse);
+        this.entites = reponse;
+      },
+      error: (err: any) => {
+        console.log('REPONSE ERROR : ', err);
+      },
+    });
+  }
 
   onAjouter() {
-    if (this.Zones.valid) {
-      const formData = convertObjectInFormData(this.Zones.value);
-      this.service.create('zones', 'create.php', formData).subscribe({
+    if (this.Category.valid) {
+      const formData = convertObjectInFormData(this.Category.value);
+      this.service.create('public', 'create.php', formData).subscribe({
         next: (response) => {
           const message =
-            response?.message || 'Zones  Enregistrer avec succès !';
+            response?.message || 'Category  Enregistrer avec succès !';
           this.snackBar.open(message, 'Okay', {
             duration: 3000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Zones.reset();
-          this.getZone();
+          this.Category.reset(
+            {
+              table: 'entite',
+            }
+          );
+          this.getCategory();
         },
         error: (err) => {
           this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -104,7 +122,7 @@ export class ListCategoriesComponent {
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.service.delete('agence', 'delete.php', table, id).subscribe({
+          this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
               const messageClass =
                 response.status == 1
@@ -121,7 +139,7 @@ export class ListCategoriesComponent {
               console.error('Error : ', err);
             },
           });
-          this.getZone();
+          this.getCategory();
         }
       });
   }

@@ -15,16 +15,24 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-utilisateur.component.scss']
 })
 export class ListUtilisateurComponent {
- title: string = 'Gestion des entites';
+ title: string = 'Gestion des Utilisateurs';
   created_by = localStorage.getItem('id_user');
-  Zones = new FormGroup({
-    libelle: new FormControl('', Validators.required),
-    id_devise: new FormControl('', Validators.required),
-    table: new FormControl('entite', Validators.required),
-    created_by: new FormControl(this.created_by, Validators.required),
+  Utilisateurs  = new FormGroup({
+    nom: new FormControl('', Validators.required),
+    prenom: new FormControl('', Validators.required),
+    telephone: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    ville: new FormControl('', Validators.required),
+    pays: new FormControl('', Validators.required),
+    adresse: new FormControl(''),
+    mot_de_passe: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    privilege: new FormControl('', Validators.required),
+    //table: new FormControl('utilisateur', Validators.required),
+   // created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'libelle', 'devise', 'actions'];
+  displayedColumns: string[] = ['id', 'nom',  'email',   'actions'];
+
 
   constructor(
     private service: HomeService,
@@ -47,11 +55,11 @@ export class ListUtilisateurComponent {
   }
 
   ngOnInit(): void {
-    this.getZone();
+    this.getUser();
   }
 
-  getZone() {
-    this.service.getall('zones', 'readAll.php').subscribe({
+  getUser() {
+    this.service.getall('utilisateur ', 'readAll.php').subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -63,20 +71,24 @@ export class ListUtilisateurComponent {
   }
 
   onAjouter() {
-    if (this.Zones.valid) {
-      const formData = convertObjectInFormData(this.Zones.value);
-      this.service.create('zones', 'create.php', formData).subscribe({
+    console.log('userrrrrr',this.Utilisateurs.value);
+
+    if (this.Utilisateurs .valid) {
+      const formData = convertObjectInFormData(this.Utilisateurs .value);
+      this.service.create('authentification ', 'register.php', formData).subscribe({
         next: (response) => {
           const message =
-            response?.message || 'Zones  Enregistrer avec succès !';
+            response?.message || 'Utilisateurs   Enregistrer avec succès !';
           this.snackBar.open(message, 'Okay', {
             duration: 3000,
             horizontalPosition: 'right',
             verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Zones.reset();
-          this.getZone();
+          this.Utilisateurs .reset(
+
+          );
+          this.getUser();
         },
         error: (err) => {
           this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -86,6 +98,7 @@ export class ListUtilisateurComponent {
             panelClass: ['bg-danger', 'text-white'],
           });
           console.log('Error : ', err);
+
         },
       });
     }
@@ -121,7 +134,7 @@ export class ListUtilisateurComponent {
               console.error('Error : ', err);
             },
           });
-          this.getZone();
+          this.getUser();
         }
       });
   }

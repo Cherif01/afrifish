@@ -15,7 +15,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-fournisseur.component.scss']
 })
 export class ListFournisseurComponent {
-   title: string = 'Gestion des entites';
+   title: string = 'Gestion des Fournisseurs';
     created_by = localStorage.getItem('id_user');
     Fournisseur = new FormGroup({
       raison_sociale: new FormControl('', Validators.required),
@@ -80,7 +80,11 @@ export class ListFournisseurComponent {
               verticalPosition: 'top',
               panelClass: ['bg-success', 'text-white'],
             });
-            this.Fournisseur.reset();
+            this.Fournisseur.reset(
+              {
+                table: 'fournisseur',
+              }
+            );
             this.getFournisseur();
           },
           error: (err) => {
@@ -109,7 +113,7 @@ export class ListFournisseurComponent {
         .afterClosed()
         .subscribe((data: any) => {
           if (data) {
-            this.service.delete('agence', 'delete.php', table, id).subscribe({
+            this.service.delete('public', 'delete.php', table, id).subscribe({
               next: (response: any) => {
                 const messageClass =
                   response.status == 1
