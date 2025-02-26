@@ -67,13 +67,13 @@ export class AuthserviceService {
   saveToken(
     token: string,
     idUser: string,
-    idAgence: string,
+    idEntite: string,
     privilege: string
   ) {
     if (token !== undefined) {
       localStorage.setItem('id_user', idUser);
       localStorage.setItem('token', token);
-      localStorage.setItem('id_agence', idAgence);
+      localStorage.setItem('id_entite', idEntite);
       localStorage.setItem('privilege', privilege);
       this.toastr.success('Vous êtes bien authentifier', 'Success!', {
         progressBar: true,
@@ -98,7 +98,7 @@ export class AuthserviceService {
   clearToken(): void {
     localStorage.removeItem('id_user');
     localStorage.removeItem('token');
-    localStorage.removeItem('id_agence');
+    localStorage.removeItem('id_entite');
     this.toastr.info('Session Femer avec success', 'Fermeture !', {
       progressBar: true,
     });
@@ -108,7 +108,7 @@ export class AuthserviceService {
   clearTokenExpired(): void {
     localStorage.removeItem('id_user');
     localStorage.removeItem('token');
-    localStorage.removeItem('id_agence');
+    localStorage.removeItem('id_entite');
     this.router.navigate(['/auth/login']);
   }
 

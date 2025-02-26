@@ -13,7 +13,7 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
   styleUrls: ['./client-vente.component.scss']
 })
 export class ClientVenteComponent {
-title: string = 'Gestion des entites';
+title: string = 'Gestion des Client';
 
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'libelle', 'pays', 'actions'];
@@ -42,9 +42,9 @@ title: string = 'Gestion des entites';
   ngOnInit(): void {
     this.getClient();
   }
-
+created_by=localStorage.getItem('id_user')
   getClient() {
-    this.service.getall('client', 'readAll.php').subscribe({
+    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -54,26 +54,31 @@ title: string = 'Gestion des entites';
       },
     });
   }
-  getOneInitCommande(id: any) {
-    console.log('ID du fournisseur : ', id);
-    this.service.getOne('initCommande', 'getOneByFournisseur.php', id).subscribe({
+  getOneInitVente(id: any) {
+    if (!id) {
+      console.error("ID du Client invalide :", id);
+      return;
+    }
+
+
+    console.log('ID du Client : ', id);
+    this.service.getOne('initVente', 'verifVente.php', id).subscribe({
       next: (response: any) => {
         console.log('Info : ', response);
 
-        if (response.data.statut === "En cours") {
-          console.log("Entrer dans if id", response.data.id);
-          // Redirection vers 'panier_commande' avec l'ID
-          this.router.navigate(['/stock/panier-commande', response.data.id]);
-        } else {
-          // Redirection vers 'init-commande' avec l'ID
-          this.router.navigate(['/stock/init-commande', response.data.id]);
+        if (response.status === 1 ) {
+         // console.log("Redirection vers panier-vente avec ID", response.data.initvente_id);
+          this.router.navigate(['/operation/panier-vente', response.data]);
+        }  else {
+          console.log("Réponse invalide, redirection vers init-vente");
+          this.router.navigate(['/operation/init-vente', id]);
         }
       },
       error: (error: any) => {
-        console.log("Entrer dans ERROR", error);
-        // En cas d'erreur, redirige vers 'init-commande' avec l'ID
-        this.router.navigate(['/stock/init-commande', id]);
+        console.error("Erreur API, redirection vers init-vente", error);
+        this.router.navigate(['/operation/init-vente', id]);
       },
+
     });
   }
 

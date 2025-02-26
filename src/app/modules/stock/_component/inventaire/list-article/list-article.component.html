@@ -52,7 +52,7 @@
                     <!-- PU Initial Column -->
                     <ng-container matColumnDef="puInitial">
                       <th mat-header-cell *matHeaderCellDef>PU Initial</th>
-                      <td mat-cell *matCellDef="let element">{{ element.puInitial | currency }}</td>
+                      <td mat-cell *matCellDef="let element">{{ element.puInitial | currency: 'GNF: ' }}</td>
                     </ng-container>
 
                     <!-- Qte Initiale Column -->
@@ -64,7 +64,7 @@
                     <!-- PV Initial Column -->
                     <ng-container matColumnDef="pvInitial">
                       <th mat-header-cell *matHeaderCellDef>PV Initial</th>
-                      <td mat-cell *matCellDef="let element">{{ element.pvInitial | currency }}</td>
+                      <td mat-cell *matCellDef="let element">{{ element.pvInitial | currency: 'GNF: ' }}</td>
                     </ng-container>
 
                     <!-- Actions Column -->

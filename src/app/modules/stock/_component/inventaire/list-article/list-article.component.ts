@@ -53,9 +53,9 @@ export class ListArticleComponent {
   }
 
   getArticle() {
-    this.service.getall('article', 'readAll.php').subscribe({
+    this.service.getByCreated('article', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+        console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {

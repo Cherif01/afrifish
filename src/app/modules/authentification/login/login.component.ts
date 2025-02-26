@@ -35,7 +35,7 @@ export class LoginComponent {
             this.loginService.saveToken(
               response.access_token,
               response.idUser,
-              response.id_agence,
+              response.idEntite,
               response.privilege
             );
           },

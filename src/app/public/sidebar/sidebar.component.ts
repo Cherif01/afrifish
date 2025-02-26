@@ -24,7 +24,7 @@ export class SidebarComponent {
   id_user = localStorage.getItem('id_user');
   getUserConnect() {
     this.authService
-      .getClauseID('utilisateurs', 'getOne.php', this.id_user)
+      .getClauseID('utilisateur', 'getOne.php', this.id_user)
       .subscribe({
         next: (response: any) => {
           // console.log(response);

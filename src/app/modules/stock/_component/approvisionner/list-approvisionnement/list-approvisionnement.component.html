@@ -1,104 +1,132 @@
 <div class="container-fluid mt-4">
   <!-- Header avec titre et bouton -->
   <div class="card g-4">
-      <div class="row">
-          <div class="col text-start">
-              <h4 class="text-uppercase fw-bold">{{title}}</h4>
-          </div>
-          <div class="col text-right">
-              <button mat-raised-button color="warn" routerLink="/stock/list-fournisseur">
-                  <mat-icon>add</mat-icon>
-                  S'approvisionner
-              </button>
-          </div>
+    <div class="row">
+      <div class="col text-start">
+        <h4 class="text-uppercase fw-bold">{{ title }}</h4>
       </div>
+      <div class="col text-right">
+        <button
+          mat-raised-button
+          color="warn"
+          routerLink="/stock/list-fournisseur"
+        >
+          <mat-icon>add</mat-icon>
+          S'approvisionner
+        </button>
+      </div>
+    </div>
   </div>
 
   <div class="row g-4">
+    <!-- Tableau -->
+    <div class="col">
+      <mat-card class="shadow-sm">
+        <div class="table-responsive p-3">
+          <h3 class="form-title text-center text-primary mb-3">
+            Listes des Zones
+          </h3>
+          <mat-form-field class="w-100 mb-3" appearance="outline">
+            <mat-label>Rechercher...</mat-label>
+            <input
+              matInput
+              (keyup)="applyFilter($event)"
+              placeholder="Rechercher"
+              #input
+            />
+          </mat-form-field>
 
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            id="maTable"
+            class="mat-elevation-z8"
+          >
+            <!-- Colonne ID -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef>#</th>
+              <td mat-cell *matCellDef="let element; let i = index">
+                {{ i + 1 }}
+              </td>
+            </ng-container>
 
-      <!-- Tableau -->
-      <div class="col">
-          <mat-card class="shadow-sm">
-              <div class="table-responsive p-3">
-                  <h3 class="form-title text-center text-primary mb-3">Listes
-                      des
-                      Zones</h3>
-                  <mat-form-field class="w-100 mb-3" appearance="outline">
-                      <mat-label>Rechercher...</mat-label>
-                      <input matInput (keyup)="applyFilter($event)"
-                          placeholder="Rechercher" #input>
-                  </mat-form-field>
+            <!-- Colonne representant -->
+            <ng-container matColumnDef="representant">
+              <th mat-header-cell *matHeaderCellDef>Fournisseur</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.representant }} <br />
+                <span class="text-blue">de : {{ element.raison_sociale }}</span>
+                <br />
+                <span class="text-red">{{ element.telephone }}</span>
+              </td>
+            </ng-container>
 
-                  <table mat-table [dataSource]="dataSource" id="maTable" class="mat-elevation-z8">
-                    <!-- Colonne ID -->
-                    <ng-container matColumnDef="id">
-                      <th mat-header-cell *matHeaderCellDef>#</th>
-                      <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-                    </ng-container>
+            <!-- Colonne Statut -->
+            <ng-container matColumnDef="statut">
+              <th mat-header-cell *matHeaderCellDef>Statut</th>
+              <td mat-cell *matCellDef="let element">
+                <span
+                [ngClass]="{
+                  'badge-valid': element.statut === 'terminer' || element.statut === 'en attente',
+                  'badge-en-cours': element.statut === 'en cours'
+                }"
+              >
+                {{ element.statut === "en attente" ? "terminer" : element.statut }}
+              </span>
+              </td>
+            </ng-container>
 
-                    <!-- Colonne ID Commande -->
-                    <ng-container matColumnDef="id_initCommande">
-                      <th mat-header-cell *matHeaderCellDef>ID Commande</th>
-                      <td mat-cell *matCellDef="let element">{{ element.id_initCommande }}</td>
-                    </ng-container>
+            <!-- Colonne Date de création -->
+            <ng-container matColumnDef="created_at">
+              <th mat-header-cell *matHeaderCellDef>Créé le</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.created_at | date : "short" }}
+              </td>
+            </ng-container>
 
-                    <!-- Colonne ID Article -->
-                    <ng-container matColumnDef="id_article">
-                      <th mat-header-cell *matHeaderCellDef>ID Article</th>
-                      <td mat-cell *matCellDef="let element">{{ element.id_article }}</td>
-                    </ng-container>
+            <!-- Colonne Dernière modification -->
+            <ng-container matColumnDef="modify_at">
+              <th mat-header-cell *matHeaderCellDef>Modifié le</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.modify_at | date : "short" }}
+              </td>
+            </ng-container>
 
-                    <!-- Colonne Quantité -->
-                    <ng-container matColumnDef="quantite">
-                      <th mat-header-cell *matHeaderCellDef>Quantité</th>
-                      <td mat-cell *matCellDef="let element">{{ element.quantite }}</td>
-                    </ng-container>
+            <!-- Colonne Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let element">
+                <div class="d-flex gap-2 justify-content-center">
 
-                    <!-- Colonne Statut -->
-                    <ng-container matColumnDef="statut">
-                      <th mat-header-cell *matHeaderCellDef>Statut</th>
-                      <td mat-cell *matCellDef="let element">{{ element.statut }}</td>
-                    </ng-container>
+                  <button
+                    *ngIf="element.statut === 'en cours'"
+                    mat-stroked-button
+                    color="primary"
+                    routerLink="/stock/panier-commande/{{ element.id }}"
+                  >
+                    <mat-icon>edit</mat-icon>
+                  </button>
 
-                    <!-- Colonne Date de création -->
-                    <ng-container matColumnDef="created_at">
-                      <th mat-header-cell *matHeaderCellDef>Créé le</th>
-                      <td mat-cell *matCellDef="let element">{{ element.created_at | date: 'short' }}</td>
-                    </ng-container>
+                  <button mat-stroked-button color="warn"routerLink="/stock/details-approvisionnement/{{ element.id }}">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
 
-                    <!-- Colonne Dernière modification -->
-                    <ng-container matColumnDef="modify_at">
-                      <th mat-header-cell *matHeaderCellDef>Modifié le</th>
-                      <td mat-cell *matCellDef="let element">{{ element.modify_at | date: 'short' }}</td>
-                    </ng-container>
+            <!-- Ligne d'en-tête -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-                    <!-- Colonne Actions -->
-                    <ng-container matColumnDef="actions">
-                      <th mat-header-cell *matHeaderCellDef>Actions</th>
-                      <td mat-cell *matCellDef="let element">
-                        <div class="d-flex gap-2 justify-content-center">
-                          <button mat-stroked-button color="primary" >
-                            <mat-icon>edit</mat-icon>
-                          </button>
-                          <button mat-stroked-button color="warn" (click)="deleteFunction(element.id,'panierCommande')">
-                            <mat-icon>delete</mat-icon>
-                          </button>
-                        </div>
-                      </td>
-                    </ng-container>
+            <!-- Ligne des données -->
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
 
-                    <!-- Ligne d'en-tête -->
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
-                    <!-- Ligne des données -->
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                  </table>
-
-                  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
-                      showFirstLastButtons></mat-paginator>
-              </div>
-          </mat-card>
-      </div>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </mat-card>
+    </div>
   </div>
 </div>

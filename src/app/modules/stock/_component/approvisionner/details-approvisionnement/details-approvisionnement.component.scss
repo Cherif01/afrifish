@@ -1,0 +1,91 @@
+/* Style global */
+.bon-de-commande {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: auto;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background: #fff;
+  color: #333;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #6D2323;
+  padding-bottom: 10px;
+}
+
+.header .logo img {
+  max-width: 100px;
+}
+
+.header .details {
+  text-align: right;
+}
+
+.client-info, .order-details, .summary {
+  margin-top: 20px;
+}
+
+h2 {
+  color: #6D2323;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #6D2323;
+  color: white;
+}
+
+.summary {
+  text-align: right;
+}
+
+.footer {
+  margin-top: 20px;
+  font-size: 0.9em;
+  text-align: center;
+  color: #555;
+}
+
+/* Card pour le bouton d'impression */
+.print-card {
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Styles pour l'impression */
+@media print {
+  .print-card {
+    display: none;
+  }
+
+  .bon-de-commande {
+    border: none;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  table th {
+    background-color: #ddd !important; /* Assurer que l'impression garde un bon contraste */
+  }
+}

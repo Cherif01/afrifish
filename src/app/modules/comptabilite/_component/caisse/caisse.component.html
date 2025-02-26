@@ -1,37 +1,21 @@
-<div class="pd-ltr-20">
-  <div class="card-box pd-20 height-100-p mb-30">
-    <div class="row align-items-center">
-      <div class="col-md-4">
-        <img src="/assets/image/fish.png" alt />
-      </div>
-      <div class="col">
-        <h4 class="font-20 weight-500 mb-10">
-          Environnement
-          <div class="weight-600 font-30" style="color: #6d2323;">AFRIFISH-APPS</div>
-        </h4>
-        <p class="font-18 max-width-600">
-          Une application Web est une application logicielle fournie aux utilisateurs sur
-          Internet. Les applications Web sont accessibles via un navigateur Web et
-          utilisables sur tout appareil avec une connexion Internet.
-        </p>
-      </div>
-    </div>
-  </div>
+<div class=" mt-4">
+  <h2 class="text-center text-primary"> Gestion de la Caisse</h2>
 
+  <!-- Section des cartes récapitulatives -->
   <div class="row">
     <div class="col-xl-3 mb-30">
       <div class="card-box height-100-p widget-style1">
         <div class="d-flex flex-wrap align-items-center">
           <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75"
-              alt
-            />
+              src="https://www.francenum.gouv.fr/files/styles/ds_image_paragraphe/public/2024-04/encaissement%20restaurant.jpg?h=8c2892df&itok=Yr3iKurYs"
+              class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ totalTransactions }} <span class="text-secondary small">Transactions</span></div>
-            <div class="weight-600 font-14 text-uppercase">Totales</div>
+            <div class="h4 mb-0">{{ infoCaisse?.soldeCaisse | currency: 'GNF: ' }} <span
+                class="text-secondary small"></span></div>
+            <div class="weight-600 font-14 text-uppercase">Encaissement</div>
           </div>
         </div>
       </div>
@@ -40,15 +24,15 @@
       <div class="card-box height-100-p widget-style1">
         <div class="d-flex flex-wrap align-items-center">
           <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
             <img
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75"
-              alt
-            />
+              class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ totalAmount | currency: 'USD' }} <span class="text-secondary small"></span></div>
-            <div class="weight-600 font-14 text-uppercase">Montant Total</div>
+            <div class="h4 mb-0">{{ 0 }} <span
+                class="text-secondary small">Categorie</span></div>
+            <div class="weight-600 font-14 text-uppercase">Afrifish</div>
           </div>
         </div>
       </div>
@@ -57,15 +41,15 @@
       <div class="card-box height-100-p widget-style1">
         <div class="d-flex flex-wrap align-items-center">
           <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75"
-              alt
-            />
+              src="https://www.francenum.gouv.fr/files/styles/ds_image_paragraphe/public/2024-04/encaissement%20restaurant.jpg?h=8c2892df&itok=Yr3iKurYs"
+              class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ successCount }} <span class="text-secondary small">Réussites</span></div>
-            <div class="weight-600 font-14 text-uppercase">Transactions Réussies</div>
+            <div class="h4 mb-0">{{ infoCaisse?.totalEncaissement | currency: 'GNF: ' }} <span
+                class="text-secondary small"></span></div>
+            <div class="weight-600 font-14 text-uppercase">Encaissement</div>
           </div>
         </div>
       </div>
@@ -74,18 +58,169 @@
       <div class="card-box height-100-p widget-style1">
         <div class="d-flex flex-wrap align-items-center">
           <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75"
-              alt
-            />
+              src="https://cdn.edi-static.fr/image/upload/c_scale,f_auto,h_564,q_auto/v1/Img/FICHEPRATIQUE/2021/5/361577/Tout-savoir-notion-decaissement-dans-domaine-LE.jpg"
+              class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ pendingCount }} <span class="text-secondary small">En attente</span></div>
-            <div class="weight-600 font-14 text-uppercase">Transactions</div>
+            <div class="h4 mb-0">{{ infoCaisse?.totalDecaissement  | currency: 'GNF: ' }} <span
+                class="text-secondary small"></span></div>
+            <div class="weight-600 font-14 text-uppercase">D&#233;caissment</div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-xl-3 mb-30">
+      <div class="card-box height-100-p widget-style1">
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
+              class="img-responsive w-75" alt>
+          </div>
+          <div class="widget-data">
+            <div class="h4 mb-0">{{ 0 }} <span
+                class="text-secondary small">En alerte</span></div>
+            <div class="weight-600 font-14 text-uppercase">Afrifish</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 mb-30">
+      <div class="card-box height-100-p widget-style1">
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
+              class="img-responsive w-75" alt>
+          </div>
+          <div class="widget-data">
+            <div class="h4 mb-0">{{ 0 }} <span
+                class="text-secondary small">Categorie</span></div>
+            <div class="weight-600 font-14 text-uppercase">Afrifish</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 mb-30">
+      <div class="card-box height-100-p widget-style1">
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
+            <img
+              src="https://www.francenum.gouv.fr/files/styles/ds_image_paragraphe/public/2024-04/encaissement%20restaurant.jpg?h=8c2892df&itok=Yr3iKurYs"
+              class="img-responsive w-75" alt>
+          </div>
+          <div class="widget-data">
+            <div class="h4 mb-0">{{ infoCaisse?.totalEncaissement | currency: 'GNF: ' }} <span
+                class="text-secondary small"></span></div>
+            <div class="weight-600 font-14 text-uppercase">Encaissement</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 mb-30">
+      <div class="card-box height-100-p widget-style1">
+        <div class="d-flex flex-wrap align-items-center">
+          <div class="progress-data">
+            <!-- <span class="micon dw dw-user3"></span> -->
+            <img
+              src="https://cdn.edi-static.fr/image/upload/c_scale,f_auto,h_564,q_auto/v1/Img/FICHEPRATIQUE/2021/5/361577/Tout-savoir-notion-decaissement-dans-domaine-LE.jpg"
+              class="img-responsive w-75" alt>
+          </div>
+          <div class="widget-data">
+            <div class="h4 mb-0">{{ infoCaisse?.totalDecaissement  | currency: 'GNF: ' }} <span
+                class="text-secondary small"></span></div>
+            <div class="weight-600 font-14 text-uppercase">D&#233;caissment</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulaire pour Ajouter une Transaction -->
+  <mat-card class="mt-4">
+    <mat-card-title>Nouvelle Transaction</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="Caisse">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Type</mat-label>
+              <mat-select formControlName="typeOperation" name="type">
+                <mat-option value="encaissement">Encaissement</mat-option>
+                <mat-option value="decaissement">Décaissement</mat-option>
+                <mat-option value="credit">Crédit</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Montant</mat-label>
+              <input matInput type="number"formControlName="montant" name="montant" required />
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-4">
+            <mat-form-field class="w-100">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="descriptions"  name="descriptions" />
+            </mat-form-field>
+          </div>
+        </div>
+
+
+       <div class="d-flex justify-content-center">
+        <button mat-raised-button color="primary" class="mt-2">Ajouter</button>
+       </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Liste des Transactions -->
+  <mat-card class="mt-4">
+    <mat-card-title>Historique des Transactions</mat-card-title>
+    <mat-card-content>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 w-100" id="maTable">
+        <!-- Type -->
+        <ng-container matColumnDef="typeOperation">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.typeOperation }}</td>
+        </ng-container>
+
+        <!-- Montant -->
+        <ng-container matColumnDef="montant">
+          <th mat-header-cell *matHeaderCellDef>Montant</th>
+          <td mat-cell *matCellDef="let element">{{ element.montant | currency: 'GNF' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="modeRegler">
+          <th mat-header-cell *matHeaderCellDef>Mode De paiements</th>
+          <td mat-cell *matCellDef="let element">{{ element.modeRegler }}</td>
+        </ng-container>
+
+        <!-- Description -->
+        <ng-container matColumnDef="descriptions">
+          <th mat-header-cell *matHeaderCellDef>Descriptions</th>
+          <td mat-cell *matCellDef="let element">{{ element.descriptions }}</td>
+        </ng-container>
+
+
+
+
+        <tr mat-header-row
+        *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
 </div>

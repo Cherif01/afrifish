@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
 
 @Component({
@@ -9,30 +10,43 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
   styleUrls: ['./init-commande.component.scss']
 })
 export class InitCommandeComponent {
-  Init_achat = new FormGroup({
-    statut: new FormControl('En cours'),
+  id_entite =localStorage.getItem('id_entite');
+  created_by =localStorage.getItem('id_user');
+  InitCommande = new FormGroup({
+    statut: new FormControl('en cours'),
     id_fournisseur: new FormControl(''),
+    id_entite: new FormControl(this.id_entite,Validators.required),
+    created_by: new FormControl(this.created_by,Validators.required),
 
   })
   fournisseur_id : any
   data: any;
   constructor(private router : Router, private activeroute : ActivatedRoute,private service : HomeService
   ){}
-  saveInitVente(){
-    // const formData = convertObjectInFormData(this.Init_achat.value);
-    // if (this.Init_achat.valid) {
-    //   console.log("formData", this.Init_achat.value);
+  ngOnInit(){
+    (this.fournisseur_id = this.activeroute.snapshot.params['id'])
+    console.log("id",this.fournisseur_id);
 
-    //   this.service.create('initAchat', 'create.php', formData).subscribe((data) => {
-    //     this.data = data
-    //     console.log("Id Fournisseur",this.fournisseur_id);
+    this.InitCommande.patchValue({
+      id_fournisseur: this.fournisseur_id
+    });
 
-    //     this.router.navigateByUrl(`/achat/panier_achat/${this.fournisseur_id}`)
-    //     console.log("id_Init_Achat",this.fournisseur_id);
 
-    //   }
-    //   )
+  }
 
-    // }
+  saveInitCommande(){
+    const formData = convertObjectInFormData(this.InitCommande.value);
+    if (this.InitCommande.valid) {
+      console.log("formData", this.InitCommande.value);
+
+      this.service.create('initCommande', 'create.php', formData).subscribe((data) => {
+        this.data = data
+        console.log("Id Fournisseur",this.fournisseur_id);
+
+        this.router.navigate(['/stock/panier-commande',this.fournisseur_id])
+      }
+      )
+
+    }
   }
 }

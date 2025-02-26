@@ -21,7 +21,7 @@ export class ListCategoriesComponent {
     libelle: new FormControl('', Validators.required),
     id_entite: new FormControl('', Validators.required),
     table: new FormControl('categorie', Validators.required),
-    //created_by: new FormControl(this.created_by, Validators.required), 
+    created_by: new FormControl(this.created_by, Validators.required),
   });
 
   dataSource = new MatTableDataSource([]);
@@ -64,11 +64,14 @@ export class ListCategoriesComponent {
       },
     });
   }
+  id_utilisateur =localStorage.getItem('id_user')
   getEntite() {
-    this.service.getall('entite', 'readAll.php').subscribe({
+    // console.log('user',this.iid_utilisateur);
+
+    this.service.getone('entite', 'readAll.php',this.id_utilisateur).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
-        this.entites = reponse;
+         console.log('REPONSE SUCCESS : ', reponse);
+        this.entites= reponse;
       },
       error: (err: any) => {
         console.log('REPONSE ERROR : ', err);

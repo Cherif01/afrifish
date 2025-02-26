@@ -15,7 +15,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-approvisionnement.component.scss']
 })
 export class ListApprovisionnementComponent {
- title: string = 'Gestion des entites';
+ title: string = 'Gestion des approvisionnement';
   created_by = localStorage.getItem('id_user');
   Zones = new FormGroup({
     libelle: new FormControl('', Validators.required),
@@ -26,12 +26,9 @@ export class ListApprovisionnementComponent {
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = [
     'id',
-    'id_initCommande',
-    'id_article',
-    'quantite',
+    'representant',
     'statut',
     'created_at',
-    'modify_at',
     'actions'
   ];
 
@@ -56,13 +53,13 @@ export class ListApprovisionnementComponent {
   }
 
   ngOnInit(): void {
-    this.getZone();
+    this.getApprovisionnement();
   }
 
-  getZone() {
-    this.service.getall('zones', 'readAll.php').subscribe({
+  getApprovisionnement() {
+    this.service.getByCreated('initCommande', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+        console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
@@ -85,7 +82,7 @@ export class ListApprovisionnementComponent {
             panelClass: ['bg-success', 'text-white'],
           });
           this.Zones.reset();
-          this.getZone();
+          this.getApprovisionnement();
         },
         error: (err) => {
           this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
@@ -130,7 +127,7 @@ export class ListApprovisionnementComponent {
               console.error('Error : ', err);
             },
           });
-          this.getZone();
+          this.getApprovisionnement();
         }
       });
   }

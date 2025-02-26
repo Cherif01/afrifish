@@ -44,6 +44,12 @@ export class HomeService {
   getOne(api: string, suffixUrl: string, id_: any) {
     return this.http.get<any[]>(`${BASE_URL}${api}/${suffixUrl}?id=${id_}`);
   }
+  getone(api: string, suffixUrl: string, id_utilisateur: any) {
+    return this.http.get<any[]>(`${BASE_URL}${api}/${suffixUrl}?id_utilisateur=${id_utilisateur}`);
+  }
+  getByCreated(api: string, suffixUrl: string, created_by: any) {
+    return this.http.get<any[]>(`${BASE_URL}${api}/${suffixUrl}?created_by=${created_by}`);
+  }
 
   // GET Unique
   getOneByID(api: string, suffixUrl: string, id_: any) {

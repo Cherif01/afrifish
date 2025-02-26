@@ -1,0 +1,63 @@
+<div class="print-container">
+  <!-- Bouton d'impression -->
+  <div class="print-card">
+    <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer la facture</button>
+  </div>
+
+  <!-- Contenu de la facture -->
+  <div class="bon-de-commande">
+    <!-- Informations sur l'entreprise et la facture -->
+    <!-- <section class="facture-info">
+      <div class="logo">
+        <img src="assets/logo.png" alt="Logo Entreprise">
+      </div>
+      <div class="details">
+        <h2>Facture</h2>
+        <p><strong>Date :</strong> {{ infoFacture?.date | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Référence :</strong> #{{ infoFacture?.reference }}</p>
+      </div>
+    </section> -->
+
+    <section class="client-info">
+      <h3>Informations du client</h3>
+      <p><strong>Nom :</strong> {{ infoFacture?.client?.libelle }}</p>
+      <p><strong>Adresse :</strong> {{ infoFacture?.client?.adresse }}</p>
+      <p><strong>Téléphone :</strong> {{ infoFacture?.client?.telephone }}</p>
+      <p><strong>Ville :</strong> {{ infoFacture?.client?.ville }}</p>
+    </section>
+
+    <section class="order-details">
+      <h3>Détails de la commande</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Prix Unitaire</th>
+            <th>Montant Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of infoFacture?.articles">
+            <td>{{ item.designation }}</td>
+            <td>{{ item.quantite_panier }}</td>
+            <td>{{ item.prix_de_vente | number:'1.0-0' }} GNF</td>
+            <td>{{ item.montant_total | number:'1.0-0' }} GNF</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="summary">
+      <h3>Résumé</h3>
+      <p><strong>Total HT :</strong></p>
+      <p><strong>Taxes :</strong></p>
+      <p class="total"><strong>Total TTC :</strong> {{ infoFacture?.montant_global | number:'1.0-0' }} GNF</p>
+    </section>
+
+    <footer class="footer">
+      <p><strong>Conditions générales :</strong> Paiement à réception.</p>
+      <p><strong>Signature :</strong> ___________________</p>
+    </footer>
+  </div>
+</div>

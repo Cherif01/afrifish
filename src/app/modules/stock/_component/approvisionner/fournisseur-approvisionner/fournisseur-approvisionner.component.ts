@@ -53,24 +53,32 @@ export class FournisseurApprovisionnerComponent {
         },
       });
     }
-    getOneInitCommande(id : any){
-      console.log('ID du fournisseurrrrrrrrrrrrrrrrrrrrrrrrr : ', id);
-      this.service.getOne('initCommande', 'getOneByFournisseur.php', id).subscribe({
+    getOneInitCommande(id: any) {
+      if (!id) {
+        console.error("ID du fournisseur invalide :", id);
+        return;
+      }
+
+      console.log('ID du fournisseur : ', id);
+      this.service.getOne('initCommande', 'verifInit.php', id).subscribe({
         next: (response: any) => {
           console.log('Info : ', response);
 
-          if(response.data.statut == "En cours"){
-            console.log("Entrer dans if id", response.data.id);
-            this.router.navigate(['/stock/panier_commande/:id'])
-          }
-          else{
-            this.router.navigate(['/stock/init-commande/:id'])
+          if (response.status === 1 ) {
+           // console.log("Redirection vers panier-commande avec ID", response.data.initCommande_id);
+            this.router.navigate(['/stock/panier-commande', response.data]);
+          }  else {
+            console.log("Réponse invalide, redirection vers init-commande");
+            this.router.navigate(['/stock/init-commande', id]);
           }
         },
         error: (error: any) => {
-          console.log("Entrer dans ERROR");
-          this.router.navigate(['/stock/init-commande/:id'])
-          },
+          console.error("Erreur API, redirection vers init-commande", error);
+          this.router.navigate(['/stock/init-commande', id]);
+        },
       });
     }
+
+
+
 }

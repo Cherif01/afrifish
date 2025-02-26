@@ -17,11 +17,12 @@ import { HomeService } from '../../services/home.service';
 export class EntiteComponent {
   title: string = 'Gestion des entites';
   created_by = localStorage.getItem('id_user');
+  selectedEntiteId: number | null = null;
   Entite = new FormGroup({
     reference: new FormControl('', Validators.required),
     codeEntite: new FormControl('', Validators.required),
     table: new FormControl('entite', Validators.required),
-    //created_by: new FormControl(this.created_by, Validators.required),
+    created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'reference', 'codeEntite', 'actions'];
@@ -46,13 +47,22 @@ export class EntiteComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+  editEntite(entite: any) {
+    this.selectedEntiteId = entite.id;
+    this.Entite.patchValue({
+      reference: entite.reference,
+      codeEntite: entite.codeEntite,
+    });
+  }
 
   ngOnInit(): void {
     this.getEntite();
   }
-
+id_utilisateur =localStorage.getItem('id_user')
   getEntite() {
-    this.service.getall('entite', 'readAll.php').subscribe({
+    // console.log('user',this.iid_utilisateur);
+
+    this.service.getone('entite', 'readAll.php',this.id_utilisateur).subscribe({
       next: (reponse: any) => {
          console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -79,10 +89,7 @@ export class EntiteComponent {
             panelClass: ['bg-success', 'text-white'],
           });
           this.Entite.updateValueAndValidity();
-          this.Entite.reset({
-            table: 'entite',
-          });
-
+          this.Entite.reset();
           this.getEntite();
         },
         error: (err) => {
@@ -93,8 +100,43 @@ export class EntiteComponent {
             panelClass: ['bg-danger', 'text-white'],
           });
           console.log('Error : ', err);
-         
+          this.Entite.reset({
+            table: 'entite',
+          });
 
+        },
+      });
+    }
+  }
+  onModifier() {
+    if (this.Entite.valid && this.selectedEntiteId !== null) {
+      const formData = convertObjectInFormData({
+        ...this.Entite.value,
+        id: this.selectedEntiteId
+      });
+
+      this.service.update('public', 'update.php', formData).subscribe({
+        next: (response) => {
+          console.log('Mise à jour :', response);
+          this.snackBar.open('Entité mise à jour avec succès !', 'Okay', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['bg-success', 'text-white'],
+          });
+
+          this.Entite.reset({ table: 'entite' });
+          this.selectedEntiteId = null;
+          this.getEntite();
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur lors de la mise à jour !', 'Okay', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            panelClass: ['bg-danger', 'text-white'],
+          });
+          console.log('Error : ', err);
         },
       });
     }

@@ -15,7 +15,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./historique.component.scss']
 })
 export class HistoriqueComponent {
-   title: string = 'Gestion des entites';
+   title: string = 'Historique des Operations';
     created_by = localStorage.getItem('id_user');
     Zones = new FormGroup({
       libelle: new FormControl('', Validators.required),

@@ -28,6 +28,17 @@ export class ListClientComponent {
   });
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'libelle', 'pays', 'actions'];
+  selectedClientId: number | null = null;
+  editClient(client: any) {
+    this.selectedClientId = client.id;
+    this.Client.patchValue({
+      libelle: client.libelle,
+      adresse: client.adresse,
+      telephone: client.telephone,
+      ville: client.ville,
+      pays: client.pays,
+    });
+  }
 
   constructor(
     private service: HomeService,
@@ -54,7 +65,7 @@ export class ListClientComponent {
   }
 
   getClient() {
-    this.service.getall('client', 'readAll.php').subscribe({
+    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -99,6 +110,40 @@ export class ListClientComponent {
       });
     }
   }
+  onModifier() {
+    if (this.Client.valid && this.selectedClientId !== null) {
+      const formData = convertObjectInFormData({
+        ...this.Client.value,
+        id: this.selectedClientId
+      });
+
+      this.service.update('public', 'update.php', formData).subscribe({
+        next: (response) => {
+          console.log('Mise à jour :', response);
+          this.snackBar.open('Client mis à jour avec succès !', 'Okay', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'top',
+            panelClass: ['bg-success', 'text-white'],
+          });
+
+          this.Client.reset({ table: 'client' });
+          this.selectedClientId = null;
+          this.getClient();
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur lors de la mise à jour !', 'Okay', {
+            duration: 3000,
+            horizontalPosition: 'right',
+            verticalPosition: 'bottom',
+            panelClass: ['bg-danger', 'text-white'],
+          });
+          console.log('Error : ', err);
+        },
+      });
+    }
+  }
+
   deleteFunction(id: any, table: string) {
     this.dialog
       .open(DefaultDeleteComponent, {

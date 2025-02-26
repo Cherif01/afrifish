@@ -53,8 +53,8 @@
 
                   <!-- Bouton d'action -->
                   <div class="text-center">
-                    <button mat-raised-button color="primary" type="submit" [disabled]="Entite.invalid" (click)="onAjouter()">
-                      <mat-icon class="me-2">save</mat-icon> Ajouter
+                    <button mat-raised-button color="primary" type="button" [disabled]="Entite.invalid" (click)="selectedEntiteId ? onModifier() : onAjouter()">
+                      <mat-icon class="me-2">{{ selectedEntiteId ? "edit" : "save" }}</mat-icon> {{ selectedEntiteId ? "Modifier" : "Ajouter" }}
                     </button>
                   </div>
                 </form>
@@ -103,7 +103,7 @@
                         <td mat-cell *matCellDef="let element">
                           <div class="d-flex gap-2 justify-content-center">
                             <!-- Modifier -->
-                            <button class="mx-2" mat-stroked-button color="primary">
+                            <button class="mx-2" mat-stroked-button color="primary" (click)="editEntite(element)">
                               <mat-icon>edit</mat-icon>
                             </button>
                             <!-- Supprimer -->

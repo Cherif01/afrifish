@@ -5,13 +5,15 @@ import { ListAccesComponent } from './_component/acces/list-acces/list-acces.com
 import { DemoMaterialModule } from 'src/app/demo-material-module';
 import { RouterModule } from '@angular/router';
 import { parametreRouting } from './parametre.routing';
+import { AffectationComponent } from './_component/affectation/affectation.component';
 
 
 
 @NgModule({
   declarations: [
     ListUtilisateurComponent,
-    ListAccesComponent
+    ListAccesComponent,
+    AffectationComponent
   ],
   imports: [
     CommonModule,

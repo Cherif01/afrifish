@@ -28,7 +28,7 @@ export class ListUtilisateurComponent {
     mot_de_passe: new FormControl('', [Validators.required, Validators.minLength(4)]),
     privilege: new FormControl('', Validators.required),
     //table: new FormControl('utilisateur', Validators.required),
-   // created_by: new FormControl(this.created_by, Validators.required),
+    created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'nom',  'email',   'actions'];

@@ -28,6 +28,17 @@ export class ListFournisseurComponent {
     });
     dataSource = new MatTableDataSource([]);
     displayedColumns: string[] = ['id', 'raison_sociale', 'representant','adresse', 'actions'];
+    selectedFournisseurId: number | null = null;
+    editFournisseur(fournisseur: any) {
+      this.selectedFournisseurId = fournisseur.id;
+      this.Fournisseur.patchValue({
+        raison_sociale: fournisseur.raison_sociale,
+        representant: fournisseur.representant,
+        telephone: fournisseur.telephone,
+        adresse: fournisseur.adresse,
+        pays: fournisseur.pays,
+      });
+    }
 
     constructor(
       private service: HomeService,
@@ -63,6 +74,39 @@ export class ListFournisseurComponent {
           console.log('REPONSE ERROR : ', err);
         },
       });
+    }
+    onModifier() {
+      if (this.Fournisseur.valid && this.selectedFournisseurId !== null) {
+        const formData = convertObjectInFormData({
+          ...this.Fournisseur.value,
+          id: this.selectedFournisseurId
+        });
+
+        this.service.update('public', 'update.php', formData).subscribe({
+          next: (response) => {
+            console.log('Mise à jour :', response);
+            this.snackBar.open('Fournisseur mis à jour avec succès !', 'Okay', {
+              duration: 3000,
+              horizontalPosition: 'right',
+              verticalPosition: 'top',
+              panelClass: ['bg-success', 'text-white'],
+            });
+
+            this.Fournisseur.reset({ table: 'fournisseur' });
+            this.selectedFournisseurId = null;
+            this.getFournisseur();
+          },
+          error: (err) => {
+            this.snackBar.open('Erreur lors de la mise à jour !', 'Okay', {
+              duration: 3000,
+              horizontalPosition: 'right',
+              verticalPosition: 'bottom',
+              panelClass: ['bg-danger', 'text-white'],
+            });
+            console.log('Error : ', err);
+          },
+        });
+      }
     }
 
     onAjouter() {

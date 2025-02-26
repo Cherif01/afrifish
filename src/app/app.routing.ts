@@ -5,7 +5,7 @@ export const AppRouting: Routes = [
   // Redirection initiale vers /home
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/auth',
     pathMatch: 'full',
   },
   // Route principale pour /home avec protection par AuthGuard

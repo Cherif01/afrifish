@@ -23,7 +23,7 @@ export class AddArticleComponent {
     datePeremption: new FormControl(null), // Champ optionnel
     descriptions: new FormControl('', [Validators.maxLength(250)]), // Champ optionnel
     table: new FormControl('article', Validators.required),
-   // created_by: new FormControl(this.created_by, Validators.required), // Champ utilisateur créé
+   created_by: new FormControl(this.created_by, Validators.required), // Champ utilisateur créé
   });
 
   // Liste des catégories

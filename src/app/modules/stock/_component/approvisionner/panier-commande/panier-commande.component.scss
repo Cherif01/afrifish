@@ -1,0 +1,30 @@
+/* Améliorer l'affichage des inputs dans le tableau */
+.mat-form-field {
+  width: 100% !important;  /* Forcer la largeur */
+  margin: 0;               /* Réduire les marges */
+}
+
+.mat-form-field-infix {
+  padding: 10px 0;         /* Ajouter de l'espace vertical */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding: 0 !important;   /* Supprimer le padding interne */
+}
+
+/* Ajuster la hauteur des inputs */
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  height: 40px;  /* Hauteur uniforme */
+  align-items: center; /* Centrer le texte */
+}
+
+/* Ajuster la taille des cellules contenant des inputs */
+td.mat-cell {
+  padding: 8px 12px;  /* Ajouter un peu d'espace autour des inputs */
+}
+
+/* Uniformiser le style des champs */
+input.mat-input-element {
+  font-size: 14px; /* Taille du texte */
+  text-align: center; /* Centrer le texte */
+}

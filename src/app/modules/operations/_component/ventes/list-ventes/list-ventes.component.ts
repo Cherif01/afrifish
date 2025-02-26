@@ -21,10 +21,10 @@ export class ListVentesComponent {
       id_article: new FormControl('', Validators.required),
       id_initVente: new FormControl('', Validators.required),
       table: new FormControl('panierVente', Validators.required),
-      //created_by: new FormControl(this.created_by, Validators.required),
+      created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'initVente', 'article', 'statut', 'actions'];
+    displayedColumns: string[] = ['id', 'Nom_complet_client',  'statut', 'actions'];
 
 
     constructor(
@@ -52,9 +52,9 @@ export class ListVentesComponent {
     }
 
     getVente() {
-      this.service.getall('panierVente', 'readAll.php').subscribe({
+      this.service.getByCreated('initVente', 'readAll.php',this.created_by).subscribe({
         next: (reponse: any) => {
-          // console.log('REPONSE SUCCESS : ', reponse);
+           console.log('REPONSE SUCCESS : ', reponse);
           this.dataSource.data = reponse;
         },
         error: (err: any) => {
