@@ -57,7 +57,7 @@ export class ListApprovisionnementComponent {
   }
 
   getApprovisionnement() {
-    this.service.getByCreated('initCommande', 'readAll.php',this.created_by).subscribe({
+    this.service.getall('initCommande', 'readAll.php').subscribe({
       next: (reponse: any) => {
         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;

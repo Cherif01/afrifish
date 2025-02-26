@@ -65,7 +65,7 @@ export class ListClientComponent {
   }
 
   getClient() {
-    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
+    this.service.getall('client', 'readAll.php').subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -127,7 +127,7 @@ export class ListClientComponent {
             panelClass: ['bg-success', 'text-white'],
           });
 
-          this.Client.reset({ table: 'client' });
+          this.Client.reset({ table: 'lient' });
           this.selectedClientId = null;
           this.getClient();
         },

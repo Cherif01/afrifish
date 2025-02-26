@@ -42,9 +42,9 @@ title: string = 'Gestion des Client';
   ngOnInit(): void {
     this.getClient();
   }
-created_by=localStorage.getItem('id_user')
+
   getClient() {
-    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
+    this.service.getall('client', 'readAll.php').subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;

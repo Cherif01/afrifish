@@ -52,7 +52,7 @@ export class ListVentesComponent {
     }
 
     getVente() {
-      this.service.getByCreated('initVente', 'readAll.php',this.created_by).subscribe({
+      this.service.getall('initVente', 'readAll.php').subscribe({
         next: (reponse: any) => {
            console.log('REPONSE SUCCESS : ', reponse);
           this.dataSource.data = reponse;
