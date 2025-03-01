@@ -24,7 +24,7 @@ export class ListClientComponent {
     pays: new FormControl('', Validators.required),
     telephone: new FormControl('', Validators.required),
     table: new FormControl('client', Validators.required),
-   // created_by: new FormControl(this.created_by, Validators.required),
+    created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'libelle', 'pays', 'actions'];
@@ -65,9 +65,9 @@ export class ListClientComponent {
   }
 
   getClient() {
-    this.service.getall('client', 'readAll.php').subscribe({
+    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
@@ -94,6 +94,7 @@ export class ListClientComponent {
           this.Client.reset(
             {
               table: 'client',
+              created_by :this.created_by
             }
           );
           this.getClient();

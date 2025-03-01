@@ -19,34 +19,34 @@ export class InitCommandeComponent {
     created_by: new FormControl(this.created_by,Validators.required),
 
   })
-  fournisseur_id : any
+  id_fournisseur : any
   data: any;
   constructor(private router : Router, private activeroute : ActivatedRoute,private service : HomeService
   ){}
   ngOnInit(){
-    (this.fournisseur_id = this.activeroute.snapshot.params['id'])
-    console.log("id",this.fournisseur_id);
+    (this.id_fournisseur = this.activeroute.snapshot.params['id'])
+    console.log("id",this.id_fournisseur);
 
     this.InitCommande.patchValue({
-      id_fournisseur: this.fournisseur_id
+      id_fournisseur: this.id_fournisseur
     });
 
 
   }
 
-  saveInitCommande(){
+  saveInitCommande() {
     const formData = convertObjectInFormData(this.InitCommande.value);
+    
     if (this.InitCommande.valid) {
-      console.log("formData", this.InitCommande.value);
-
-      this.service.create('initCommande', 'create.php', formData).subscribe((data) => {
-        this.data = data
-        console.log("Id Fournisseur",this.fournisseur_id);
-
-        this.router.navigate(['/stock/panier-commande',this.fournisseur_id])
-      }
-      )
-
+      this.service.create('initCommande', 'create.php', formData).subscribe((response: any) => {
+        if (response.status === 1) {
+          const id_commande = response.id_commande; // Récupération de l'ID de la commande
+          this.router.navigate(['/stock/panier-commande', id_commande]); // Redirection avec l'ID de la commande
+        } else {
+          console.error("Erreur lors de la création de la commande :", response.message);
+        }
+      });
     }
   }
+   
 }

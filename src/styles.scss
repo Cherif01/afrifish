@@ -53,6 +53,10 @@ mat-card-title {
 mat-form-field {
   width: 100%;
   margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
 /* Responsive Design */
@@ -64,6 +68,9 @@ mat-form-field {
   .form, .table-container {
     min-width: 100%;
   }
+}
+#maTable th, #maTable td {
+  vertical-align: middle;
 }
 
 #maTable {
@@ -100,6 +107,10 @@ mat-form-field {
 
   td {
     background-color: white;
+  }
+  td .mat-icon {
+    vertical-align: middle;
+    font-size: 20px;
   }
 
   td:first-child {

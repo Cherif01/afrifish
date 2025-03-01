@@ -31,8 +31,8 @@
               class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 }} <span
-                class="text-secondary small">Entit&#233;</span></div>
+            <div class="h4 mb-0">{{ infoDashStatistique?.totalVentes }} <span
+                class="text-secondary small">Ventes/Jour</span></div>
             <div class="weight-600 font-14 text-uppercase">Afrifish</div>
           </div>
         </div>
@@ -44,11 +44,11 @@
           <div class="progress-data">
             <!-- <span class="micon dw dw-user3"></span> -->
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuWfsxXJE-q6tDJ2hvRHJcL3HsD--WPYJuNg&s"
               class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 }} <span
+            <div class="h4 mb-0">{{ infoDashStatistique?.totalClients }}<span
                 class="text-secondary small">Clients</span></div>
             <div class="weight-600 font-14 text-uppercase">Enregistr&#233;</div>
           </div>
@@ -61,11 +61,11 @@
           <div class="progress-data">
             <!-- <span class="micon dw dw-user3"></span> -->
             <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuWfsxXJE-q6tDJ2hvRHJcL3HsD--WPYJuNg&s"
               class="img-responsive w-75" alt>
           </div>
           <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 }} <span
+            <div class="h4 mb-0">{{ infoDashStatistique?.totalFournisseurs }} <span
                 class="text-secondary small">Fournisseurs</span></div>
             <div class="weight-600 font-14 text-uppercase">Enregistr&#233;</div>
           </div>
@@ -93,75 +93,67 @@
 
   <!-- 2e -->
   <div class="row">
+    <!-- Solde Caisse -->
     <div class="col-xl-3 mb-30">
-      <div class="card-box height-100-p widget-style1">
-        <div class="d-flex flex-wrap align-items-center">
-          <div class="progress-data">
-            <!-- <span class="micon dw dw-user3"></span> -->
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75" alt>
-          </div>
-          <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 }} <span
-                class="text-secondary small">En alerte</span></div>
-            <div class="weight-600 font-14 text-uppercase">Afrifish</div>
-          </div>
+        <div class="card-box height-100-p widget-style1">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="progress-data">
+                    <span class="material-icons md-48 text-primary">account_balance_wallet</span>
+                </div>
+                <div class="widget-data">
+                    <div class="h4 mb-0">{{ infoDashTodayBoard?.soldeCaisse }} <br> GNF</div>
+                    <div class="weight-600 font-14 text-uppercase">Solde Caisse</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+
+    <!-- Afrifish  -->
+   <!-- Total Crédit -->
+   <div class="col-xl-3 mb-30">
+    <div class="card-box height-100-p widget-style1">
+        <div class="d-flex flex-wrap align-items-center">
+            <div class="progress-data">
+                <span class="material-icons md-48 text-warning">payments</span>
+            </div>
+            <div class="widget-data">
+                <div class="h4 mb-0">{{ infoDashTodayBoard?.totalCredit }} <br> GNF</div>
+                <div class="weight-600 font-14 text-uppercase">Total Crédit</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Total Encaissement -->
     <div class="col-xl-3 mb-30">
-      <div class="card-box height-100-p widget-style1">
-        <div class="d-flex flex-wrap align-items-center">
-          <div class="progress-data">
-            <!-- <span class="micon dw dw-user3"></span> -->
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75" alt>
-          </div>
-          <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 }} <span
-                class="text-secondary small">Categorie</span></div>
-            <div class="weight-600 font-14 text-uppercase">Afrifish</div>
-          </div>
+        <div class="card-box height-100-p widget-style1">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="progress-data">
+                    <span class="material-icons md-48 text-success">arrow_downward</span>
+                </div>
+                <div class="widget-data">
+                    <div class="h4 mb-0">{{ infoDashTodayBoard?.totalEncaissement }} <br> GNF</div>
+                    <div class="weight-600 font-14 text-uppercase">Total Encaissement</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
+
+    <!-- Total Décaissement -->
     <div class="col-xl-3 mb-30">
-      <div class="card-box height-100-p widget-style1">
-        <div class="d-flex flex-wrap align-items-center">
-          <div class="progress-data">
-            <!-- <span class="micon dw dw-user3"></span> -->
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75" alt>
-          </div>
-          <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 | currency: 'GNF: ' }} <span
-                class="text-secondary small"></span></div>
-            <div class="weight-600 font-14 text-uppercase">Encaissement</div>
-          </div>
+        <div class="card-box height-100-p widget-style1">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="progress-data">
+                    <span class="material-icons md-48 text-danger">arrow_upward</span>
+                </div>
+                <div class="widget-data">
+                    <div class="h4 mb-0">{{ infoDashTodayBoard?.totalDecaissement }} <br> GNF</div>
+                    <div class="weight-600 font-14 text-uppercase">Total Décaissement</div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <div class="col-xl-3 mb-30">
-      <div class="card-box height-100-p widget-style1">
-        <div class="d-flex flex-wrap align-items-center">
-          <div class="progress-data">
-            <!-- <span class="micon dw dw-user3"></span> -->
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqRiXTQQOWQVlfY3rK464L9fZywaU_f1ux3g&s"
-              class="img-responsive w-75" alt>
-          </div>
-          <div class="widget-data">
-            <div class="h4 mb-0">{{ 0 | currency: 'GNF: ' }} <span
-                class="text-secondary small"></span></div>
-            <div class="weight-600 font-14 text-uppercase">D&#233;caissment</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
 
   <div class="row">
     <div class="col-xl-8 mb-30">

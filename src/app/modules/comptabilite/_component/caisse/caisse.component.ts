@@ -23,6 +23,9 @@ export class CaisseComponent {
        table: new FormControl('caisse', Validators.required),
        created_by: new FormControl(this.created_by, Validators.required),
      });
+     typeOperations = ['encaissement', 'decaissement'];
+  modesRegler = ['carte bancaire', 'espece', 'virement'];
+
      dataSource = new MatTableDataSource([]);
      displayedColumns: string[] = [ 'typeOperation', 'modeRegler','montant','descriptions'];
 
@@ -67,8 +70,9 @@ export class CaisseComponent {
        this.service.getall('caisse', 'getCaisse.php').subscribe({
          next: (reponse: any) => {
 
-           this.infoCaisse = reponse.data[0];
+           this.infoCaisse = reponse;
            console.log('REPONSE Caisse : ',this.infoCaisse);
+           
          },
          error: (err: any) => {
            console.log('REPONSE ERROR : ', err);
@@ -79,7 +83,7 @@ export class CaisseComponent {
      onAjouter() {
        if (this.Caisse.valid) {
          const formData = convertObjectInFormData(this.Caisse.value);
-         this.service.create('Caisse', 'create.php', formData).subscribe({
+         this.service.create('public', 'create.php', formData).subscribe({
            next: (response) => {
              const message =
                response?.message || 'Caisse  Enregistrer avec succès !';
@@ -89,7 +93,13 @@ export class CaisseComponent {
                verticalPosition: 'top',
                panelClass: ['bg-success', 'text-white'],
              });
-             this.Caisse.reset();
+             this.Caisse.reset(
+              {
+                table: 'caisse',
+                created_by :this.created_by
+              }
+             );
+             this.getTotal();
              this.getCaisse();
            },
            error: (err) => {

@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
+import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 
 @Component({
   selector: 'app-details-proformat',
@@ -74,65 +75,14 @@ created_by =localStorage.getItem('id_user');
       },
     });
   }
-  validerArticle(article: any) {
-    const articleValide = {
-      id: article.id,
-     // id_initCommande: this.id_initCommande,
-      designation: article.designation,
-      quantite: article.quantite,
-      prix_unitaire: article.prix_unitaire,
-    //  statut: 'valide',
-      created_by: this.created_by
-    };
 
-    const formData = convertObjectInFormData(articleValide);
-
-    this.service.create('article', 'update.php', formData).subscribe({
-      next: (response: any) => {
-        console.log('Article validé et ajouté au stock :', response);
-        this.snackBar.open('Article validé avec succès !', 'Fermer', { duration: 3000 });
-
-        // Supprimer l'article validé de la liste affichée
-        this.dataSource.data = this.dataSource.data.filter((a: any) => a.id !== article.id);
-      },
-      error: (err: any) => {
-        console.error('Erreur lors de la validation de l\'article', err);
-        this.snackBar.open('Erreur lors de la validation', 'Fermer', { duration: 3000 });
-      },
-    });
-  }
-
-  rejeterArticle(article: any) {
-    const articleRejete = {
-      id: article.id,
-      id_initCommande: this.id_initCommande,
-      statut: 'rejete',
-      created_by: this.created_by
-    };
-
-    const formData = convertObjectInFormData(articleRejete);
-
-    this.service.create('initCommande', 'update.php', formData).subscribe({
-      next: (response: any) => {
-        console.log('Article rejeté :', response);
-        this.snackBar.open('Article rejeté avec succès !', 'Fermer', { duration: 3000 });
-
-        // Supprimer l'article rejeté de la liste affichée
-        this.dataSource.data = this.dataSource.data.filter((a: any) => a.id !== article.id);
-      },
-      error: (err: any) => {
-        console.error('Erreur lors du rejet de l\'article', err);
-        this.snackBar.open('Erreur lors du rejet', 'Fermer', { duration: 3000 });
-      },
-    });
-  }
 
 
   validerCommande() {
 
 const commande = {
   id : this.id_initCommande ,
-  statut :'terminer',
+  statut :'en livraison',
   created_by: this.created_by,
 }
 
@@ -148,7 +98,7 @@ const commande = {
 
         // Rafraîchir la liste du panier après validation
 
-        this.router.navigate(['/stock/list-aprovisionnement'])
+        this.router.navigate(['/operation/pro-format'])
       },
       error: (err: any) => {
         console.error('Erreur lors de la validation de la commande', err);
@@ -184,6 +134,42 @@ const commande = {
       },
     });
   }
+
+  deleteFunction(id: any, table: string) {
+        this.dialog
+          .open(DefaultDeleteComponent, {
+            disableClose: true,
+            data: {
+              title: 'Suppression demandée!',
+              message: 'Voulez-vous vraiment supprimer cet élément ?',
+              messageNo: 'Non ?',
+              messageYes: 'Oui, Confirmer !',
+            },
+          })
+          .afterClosed()
+          .subscribe((data: any) => {
+            if (data) {
+              this.service.delete('public', 'delete.php', table, id).subscribe({
+                next: (response: any) => {
+                  const messageClass =
+                    response.status == 1
+                      ? ['bg-success', 'text-white']
+                      : ['bg-danger', 'text-white'];
+                  this.snackBar.open(response.message, 'Okay', {
+                    duration: 3000,
+                    horizontalPosition: 'right',
+                    verticalPosition: 'top',
+                    panelClass: messageClass,
+                  });
+                },
+                error: (err: any) => {
+                  console.error('Error : ', err);
+                },
+              });
+              this.getAllPanierCommandeByFournisseur();
+            }
+          });
+      }
  print(): void {
    window.print();
  }

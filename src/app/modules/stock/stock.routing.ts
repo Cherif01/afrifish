@@ -34,7 +34,7 @@ export const stockRouting: Routes = [
     component: InitCommandeComponent,
   },
   {
-    path: 'panier-commande/:id',
+    path: 'panier-commande/:id_commande',
     component: PanierCommandeComponent,
   },
 

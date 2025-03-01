@@ -32,7 +32,7 @@ export const operationRouting: Routes = [
     component: ListVentesComponent,
   },
   {
-    path: 'panier-vente/:id',
+    path: 'panier-vente/:id_vente',
     component: AddVentesComponent,
   },
   {

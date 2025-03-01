@@ -28,7 +28,7 @@ title: string = 'Panier de Commande';
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'designation', 'puInitial', 'qteInitiale','actions'];
 
-  displayedColumns2 : string[] = ['id', 'designation', 'prix', 'quantite'];
+  displayedColumns2 : string[] = ['id', 'designation',  'quantite'];
   dataSource2 : any = new MatTableDataSource([]);
   constructor(
     private activeroute: ActivatedRoute,
@@ -56,18 +56,23 @@ title: string = 'Panier de Commande';
       this.dataSource2.paginator.firstPage()
     }
   }
- // id_fournisseur: any;
+  id_fournisseur: any;
  id_initCommande: any
-  ngOnInit(): void {
-    (this.id_initCommande = this.activeroute.snapshot.params['id'])
-    console.log("id initCommande", this.id_initCommande);
+ initCommande_id: any
+ ngOnInit(): void {
+  // this.activeroute.params.subscribe(params => {
+  //   this.id_initCommande = params['id_commande']; // Assigne l'ID correctement
+  //   console.log("ID de la commande récupéré :", this.id_initCommande);
+  //   if (this.id_initCommande) {
+  //     this.getAllPanierCommandeByFournisseur(); // Charge les données si l'ID est valide
+  //   }
+  // });
+  (this.id_initCommande = this.activeroute.snapshot.params['id_commande'])
+  console.log("ID de la commande récupéré :", this.id_initCommande);
+  this.getArticle();
+  this.getAllPanierCommandeByFournisseur();
+}
 
-    // this.PanierCommande.patchValue({
-    //   id_initCommande: this.initCommande_id
-    // });
-    this.getArticle(),
-    this.getAllPanierCommandeByFournisseur();
-  }
 
   getArticle() {
     this.service.getByCreated('article', 'readAll.php',this.created_by).subscribe({
@@ -81,53 +86,52 @@ title: string = 'Panier de Commande';
     });
   }
   getAllPanierCommandeByFournisseur() {
-    console.log("ID Fournisseur", this.id_initCommande);
-
+    if (!this.id_initCommande) {
+      console.warn("Impossible de récupérer les commandes : ID InitCommande manquant !");
+      return;
+    }
     this.service.getOne('panierCommande', 'getOne.php', this.id_initCommande).subscribe({
       next: (reponse: any) => {
-        console.log('Panier Commande : ', reponse.data);
-      //  this.dataSource2.data = reponse.data;
-
-        // ✅ Stocker id_initCommande pour l'utiliser plus tard
-        // this.initCommande_id = reponse.data.initCommande_id;
-        // console.log('Id de Init Commande', this.initCommande_id);
+        if (reponse.status === 1) {
+          console.log('Panier Commande : ', reponse);
+          this.dataSource2.data = reponse.articles;
+          this.initCommande_id = reponse.initCommande_id;
+        } else {
+          console.warn('Aucune commande trouvée avec cet ID.');
+        }
       },
       error: (err: any) => {
-        console.log('REPONSE ERROR : ', err);
-      },
+        console.error('Erreur lors de la récupération du panier :', err);
+      }
     });
   }
+  
 
   ajouterPanier(article: any) {
     if (!this.id_initCommande) {
       this.snackBar.open('Erreur : ID InitCommande introuvable !', 'Fermer', { duration: 3000 });
       return;
     }
-
+  
     const commande = {
       id_article: article.id,
       quantite: article.qteInitiale,
-      id_initCommande: this.id_initCommande,
-     created_by: this.created_by,
-      table :'paniercommande',
+      id_initCommande: this.id_initCommande, // S'assurer que c'est bien défini
+      created_by: this.created_by,
+      table: 'paniercommande',
     };
-    console.log('Commande envoyée', commande);
-    const formData = convertObjectInFormData(commande);
-
-    console.log('Commande envoyée', formData);
-    this.service.create('public', 'create.php', formData).subscribe({
-      next: (response: any) => {
-        this.snackBar.open(`Commande pour ${article.designation} Ajouter au panier !`, 'Fermer', { duration: 3000 })
+    this.service.create('public', 'create.php', convertObjectInFormData(commande)).subscribe({
+      next: () => {
+        this.snackBar.open(`Commande pour ${article.designation} ajoutée au panier !`, 'Fermer', { duration: 3000 });
         this.getAllPanierCommandeByFournisseur();
-      }
-
-      ,
+      },
       error: (err: any) => {
-        console.error('Erreur lors de l\'enregistrement de la commande', err);
-        this.snackBar.open('Erreur lors de l\'enregistrement', 'Fermer', { duration: 3000 });
+        console.error('Erreur lors de l\'ajout de la commande', err);
+        this.snackBar.open('Erreur lors de l\'ajout', 'Fermer', { duration: 3000 });
       }
     });
   }
+  
   validerCommande() {
 
 const commande = {
@@ -195,7 +199,64 @@ const commande = {
         }
       });
   }
+  // ajouter(article: any) {
+  //   if (!this.id_initCommande) {
+  //     this.snackBar.open('Erreur : ID InitCommande introuvable !', 'Fermer', { duration: 3000 });
+  //     return;
+  //   }
 
+  //   // Vérifier si l'article est déjà dans le panier
+  //   const existingArticle = this.dataSource2.data.find((item: any) => item.id_article === article.id);
+
+  //   if (existingArticle) {
+  //     // Mettre à jour la quantité de l'article existant
+  //     const updatedQuantity = existingArticle.quantite + article.qteInitiale;
+
+  //     const updatedCommande = {
+  //       id: existingArticle.id,  // ID de l'article dans le panier
+  //       quantite: updatedQuantity,
+  //       table: 'paniercommande'
+  //     };
+
+  //     console.log('Mise à jour de la quantité:', updatedCommande);
+
+  //     // Mise à jour de l'article via le backend
+  //     const formData = convertObjectInFormData(updatedCommande);
+  //     this.service.create('public', 'update.php', formData).subscribe({
+  //       next: () => {
+  //         this.snackBar.open(Quantité mise à jour pour ${article.designation} !, 'Fermer', { duration: 3000 });
+  //         this.getAllPanierCommandeByFournisseur();
+  //       },
+  //       error: (err: any) => {
+  //         console.error('Erreur lors de la mise à jour de la quantité', err);
+  //         this.snackBar.open('Erreur lors de la mise à jour', 'Fermer', { duration: 3000 });
+  //       }
+  //     });
+  //   } else {
+  //     // Ajouter un nouvel article au panier
+  //     const nouvelleCommande = {
+  //       id_article: article.id,
+  //       quantite: article.qteInitiale,
+  //       id_initCommande: this.id_initCommande,
+  //       created_by: this.created_by,
+  //       table: 'paniercommande',
+  //     };
+
+  //     console.log('Ajout de la commande:', nouvelleCommande);
+
+  //     const formData = convertObjectInFormData(nouvelleCommande);
+  //     this.service.create('public', 'create.php', formData).subscribe({
+  //       next: () => {
+  //         this.snackBar.open(Commande pour ${article.designation} ajoutée au panier !, 'Fermer', { duration: 3000 });
+  //         this.getAllPanierCommandeByFournisseur();
+  //       },
+  //       error: (err: any) => {
+  //         console.error('Erreur lors de l\'ajout de la commande', err);
+  //         this.snackBar.open('Erreur lors de l\'ajout', 'Fermer', { duration: 3000 });
+  //       }
+  //     });
+  //   }
+  // }
 
 
 }

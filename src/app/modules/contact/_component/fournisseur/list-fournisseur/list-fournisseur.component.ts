@@ -24,7 +24,7 @@ export class ListFournisseurComponent {
       adresse: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required),
       table: new FormControl('fournisseur', Validators.required),
-     // created_by: new FormControl(this.created_by, Validators.required),
+     created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
     displayedColumns: string[] = ['id', 'raison_sociale', 'representant','adresse', 'actions'];
@@ -127,6 +127,7 @@ export class ListFournisseurComponent {
             this.Fournisseur.reset(
               {
                 table: 'fournisseur',
+                created_by :this.created_by
               }
             );
             this.getFournisseur();

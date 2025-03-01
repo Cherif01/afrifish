@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
 import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
@@ -35,7 +36,8 @@ export class ListApprovisionnementComponent {
   constructor(
     private service: HomeService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog ,
+    private router :Router , 
   ) {}
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -57,7 +59,7 @@ export class ListApprovisionnementComponent {
   }
 
   getApprovisionnement() {
-    this.service.getall('initCommande', 'readAll.php').subscribe({
+    this.service.getByCreated('initCommande', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
@@ -96,6 +98,7 @@ export class ListApprovisionnementComponent {
       });
     }
   }
+
   deleteFunction(id: any, table: string) {
     this.dialog
       .open(DefaultDeleteComponent, {
@@ -131,4 +134,31 @@ export class ListApprovisionnementComponent {
         }
       });
   }
+  
+
+  getOneInitCommande(idFournisseur: number): void {
+    if (!idFournisseur) {
+      console.error("ID du fournisseur invalide :", idFournisseur);
+      return;
+    }
+
+    console.log('Vérification de la commande pour le fournisseur ID :', idFournisseur);
+
+    this.service.getOne('initCommande', 'verifInit.php', idFournisseur).subscribe({
+      next: (response: any) => {
+        console.log('Réponse API :', response);
+
+        if (response.status === 1) {
+          this.router.navigate(['/stock/panier-commande', response.data]);
+        } else {
+          this.router.navigate(['/stock/init-commande', idFournisseur]);
+        }
+      },
+      error: (error: any) => {
+        console.error("Erreur API, redirection vers init-commande", error);
+        this.router.navigate(['/stock/init-commande', idFournisseur]);
+      }
+    });
+  }
+
 }

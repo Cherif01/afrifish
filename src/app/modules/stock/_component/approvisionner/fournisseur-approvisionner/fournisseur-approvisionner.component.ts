@@ -65,7 +65,7 @@ export class FournisseurApprovisionnerComponent {
           console.log('Info : ', response);
 
           if (response.status === 1 ) {
-           // console.log("Redirection vers panier-commande avec ID", response.data.initCommande_id);
+            console.log("Redirection vers panier-commande avec ID", response.data);
             this.router.navigate(['/stock/panier-commande', response.data]);
           }  else {
             console.log("Réponse invalide, redirection vers init-commande");

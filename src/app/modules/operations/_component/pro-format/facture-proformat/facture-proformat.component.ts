@@ -16,7 +16,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
 })
 export class FactureProformatComponent {
 
-   title: string = 'Gestion des Commandes';
+   title: string = 'Facture Pro Format';
    created_by = localStorage.getItem('id_user');
    Zones = new FormGroup({
      libelle: new FormControl('', Validators.required),
@@ -58,7 +58,7 @@ export class FactureProformatComponent {
    }
 
    getBonCommande() {
-     this.service.getall('initCommande', 'initAttente.php').subscribe({
+     this.service.getByCreated('initCommande', 'initAttente.php',this.created_by).subscribe({
        next: (reponse: any) => {
          console.log('REPONSE SUCCESS : ', reponse);
          this.dataSource.data = reponse;
@@ -68,4 +68,40 @@ export class FactureProformatComponent {
        },
      });
    }
+   validerCommande(idCommande: number) {
+
+const commande = {
+  idCommande : idCommande ,
+ // created_by: this.created_by,
+}
+    const formData = convertObjectInFormData(commande);
+    
+
+    this.service.create('initCommande','validationCommande.php', formData).subscribe({
+      next: (response: any) => {
+          console.log('Response',response);
+
+        if (response.success) {
+          this.snackBar.open('Commande validée avec succès', 'Fermer', {
+            duration: 3000,
+            panelClass: ['snackbar-success']
+          });
+          this.getBonCommande(); // Rafraîchir la liste des commandes
+        } else {
+          this.snackBar.open(response.error, 'Fermer', {
+            duration: 3000,
+            panelClass: ['snackbar-error']
+          });
+        }
+      },
+      error: (err: any) => {
+        console.error('Erreur :', err);
+        this.snackBar.open('Une erreur est survenue', 'Fermer', {
+          duration: 3000,
+          panelClass: ['snackbar-error']
+        });
+      }
+    });
+  }
+
 }

@@ -125,7 +125,7 @@ const commande = {
 
         // Rafraîchir la liste du panier après validation
 
-        this.router.navigate(['/stock/list-aprovisionnement'])
+        this.router.navigate(['/operation/bon-commande'])
       },
       error: (err: any) => {
         console.error('Erreur lors de la validation de la commande', err);

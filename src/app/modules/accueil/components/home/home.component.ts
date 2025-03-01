@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HomeService } from '../../services/home.service';
 
 @Component({
   selector: 'app-home',
@@ -15,9 +16,42 @@ export class HomeComponent {
 
   displayedColumns: string[] = ['id', 'date', 'amount', 'status'];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getDashboard();
+    this.getStatistique();
+  }
 
-  constructor() {}
-
+  constructor(
+    private service: HomeService,
+    
+  ) {}
+infoDashTodayBoard:any
+infoDashStatistique:any
   // CHARTS
+  getDashboard() {
+    this.service.getall('dashboard', 'today.php').subscribe({
+      next: (reponse: any) => {
+
+        this.infoDashTodayBoard = reponse;
+        console.log('REPONSE Dashboard : ',this.infoDashTodayBoard);
+        
+      },
+      error: (err: any) => {
+        console.log('REPONSE ERROR : ', err);
+      },
+    });
+  }
+  getStatistique() {
+    this.service.getall('dashboard', 'statistique.php').subscribe({
+      next: (reponse: any) => {
+
+        this.infoDashStatistique = reponse;
+        console.log('REPONSE Dashboard : ',this.infoDashStatistique);
+        
+      },
+      error: (err: any) => {
+        console.log('REPONSE ERROR : ', err);
+      },
+    });
+  }
 }

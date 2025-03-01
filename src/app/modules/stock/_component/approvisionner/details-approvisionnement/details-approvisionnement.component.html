@@ -29,9 +29,10 @@
         </thead>
         <tbody>
           <tr *ngFor="let item of infoBonCommande?.articles">
-            <td>{{ item.quantite}}</td>
             <td>{{ item.designation }}</td>
-            <td>{{ item.prix_unitaire_initiale | currency }}</td>
+            <td>{{ item.quantite}}</td>
+
+            <td>{{ item.prix_unitaire_initiale | currency : 'GNF: ' }}</td>
             <td>{{ item.montantTotal | currency }}</td>
           </tr>
         </tbody>

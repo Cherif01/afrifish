@@ -1,23 +1,12 @@
 <div class="print-container">
-  <!-- Bouton d'impression -->
+  <!-- Boutons d'action -->
   <div class="print-card">
     <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer la facture</button>
+
   </div>
 
   <!-- Contenu de la facture -->
   <div class="bon-de-commande">
-    <!-- Informations sur l'entreprise et la facture -->
-    <!-- <section class="facture-info">
-      <div class="logo">
-        <img src="assets/logo.png" alt="Logo Entreprise">
-      </div>
-      <div class="details">
-        <h2>Facture</h2>
-        <p><strong>Date :</strong> {{ infoFacture?.date | date:'dd/MM/yyyy' }}</p>
-        <p><strong>Référence :</strong> #{{ infoFacture?.reference }}</p>
-      </div>
-    </section> -->
-
     <section class="client-info">
       <h3>Informations du client</h3>
       <p><strong>Nom :</strong> {{ infoFacture?.client?.libelle }}</p>
@@ -40,7 +29,7 @@
         <tbody>
           <tr *ngFor="let item of infoFacture?.articles">
             <td>{{ item.designation }}</td>
-            <td>{{ item.quantite_panier }}</td>
+            <td>{{ item.quantite_vente }}</td>
             <td>{{ item.prix_de_vente | number:'1.0-0' }} GNF</td>
             <td>{{ item.montant_total | number:'1.0-0' }} GNF</td>
           </tr>
@@ -53,6 +42,26 @@
       <p><strong>Total HT :</strong></p>
       <p><strong>Taxes :</strong></p>
       <p class="total"><strong>Total TTC :</strong> {{ infoFacture?.montant_global | number:'1.0-0' }} GNF</p>
+      <p *ngIf="montantRestant > 0"><strong>Montant restant :</strong> {{ montantRestant | number:'1.0-0' }} GNF</p>
+    </section>
+
+    <section class="payment-form" *ngIf="montantRestant > 0" >
+      <h3>Effectuer un paiement</h3>
+      <mat-form-field appearance="outline">
+        <mat-label>Montant à payer</mat-label>
+        <input matInput type="number" [(ngModel)]="montantPaiement">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mode de paiement</mat-label>
+        <mat-select [(value)]="modePaiement">
+          <mat-option value="cash">💵 Espèces</mat-option>
+          <mat-option value="virement">🏦 Virement</mat-option>
+          <mat-option value="carte bancaire">💳 Carte bancaire</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="accent" (click)="payerFacture()">💰 Payer</button>
     </section>
 
     <footer class="footer">

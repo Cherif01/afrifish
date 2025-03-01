@@ -24,7 +24,7 @@ export class ListVentesComponent {
       created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'Nom_complet_client',  'statut', 'actions'];
+    displayedColumns: string[] = ['id', 'Nomcompletclient',  'statut', 'actions'];
 
 
     constructor(
@@ -52,7 +52,7 @@ export class ListVentesComponent {
     }
 
     getVente() {
-      this.service.getall('initVente', 'readAll.php').subscribe({
+      this.service.getByCreated('initVente', 'readAll.php',this.created_by).subscribe({
         next: (reponse: any) => {
            console.log('REPONSE SUCCESS : ', reponse);
           this.dataSource.data = reponse;

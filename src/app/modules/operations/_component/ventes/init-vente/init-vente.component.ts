@@ -18,34 +18,39 @@ export class InitVenteComponent { id_entite =localStorage.getItem('id_entite');
     created_by: new FormControl(this.created_by,Validators.required),
 
   })
-  client_id : any
+  id_client : any
   data: any;
   constructor(private router : Router, private activeroute : ActivatedRoute,private service : HomeService
   ){}
   ngOnInit(){
-    (this.client_id = this.activeroute.snapshot.params['id'])
-    console.log("id",this.client_id);
+    (this.id_client = this.activeroute.snapshot.params['id'])
+    console.log("id",this.id_client);
 
     this.InitVente.patchValue({
-      id_client: this.client_id
+      id_client: this.id_client
     });
 
 
   }
 
-  saveInitVente(){
+  saveInitVente() {
     const formData = convertObjectInFormData(this.InitVente.value);
+  
     if (this.InitVente.valid) {
-      console.log("formData", this.InitVente.value);
-
-      this.service.create('initVente', 'create.php', formData).subscribe((data) => {
-        this.data = data
-        console.log("Id client",this.client_id);
-
-        this.router.navigate(['/operation/panier-vente',this.client_id])
-      }
-      )
-
+      this.service.create('initVente', 'create.php', formData).subscribe(
+        (response: any) => {
+          if (response.status === 1) {
+            const id_vente = response.id_vente; // Récupération de l'ID de la vente
+            this.router.navigate(['/operation/panier-vente', id_vente]); // Redirection avec l'ID de la vente
+          } else {
+            console.error("Erreur lors de la création de la vente :", response.message);
+          }
+        },
+        (error) => {
+          console.error("Erreur serveur :", error);
+        }
+      );
     }
   }
+  
 }

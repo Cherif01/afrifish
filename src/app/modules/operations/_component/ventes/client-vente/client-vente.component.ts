@@ -42,12 +42,31 @@ title: string = 'Gestion des Client';
   ngOnInit(): void {
     this.getClient();
   }
-
+created_by =localStorage.getItem('id_user')
   getClient() {
-    this.service.getall('client', 'readAll.php').subscribe({
+    this.service.getByCreated('client', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
+      },
+      error: (err: any) => {
+        console.log('REPONSE ERROR : ', err);
+      },
+    });
+  }
+
+  id_initVente :any
+  getAllPanierVenteByClient() {
+    console.log("ID Init Vente", this.id_initVente);
+
+    this.service.getOne('panierVente', 'getOne.php', this.id_initVente).subscribe({
+      next: (reponse: any) => {
+        console.log('Panier Vente : ', reponse);
+
+
+        // ✅ Stocker id_initVente pour l'utiliser plus tard
+        this.id_initVente = reponse.initVente_id;
+        console.log('Id de Init Vente', this.id_initVente);
       },
       error: (err: any) => {
         console.log('REPONSE ERROR : ', err);

@@ -25,9 +25,10 @@ export class AddVentesComponent {
     created_by: new FormControl(this.created_by, Validators.required), // Champ utilisateur créé
    });
    dataSource = new MatTableDataSource([]);
-   displayedColumns: string[] = ['id', 'designation', 'pvInitial', 'qteInitiale','actions'];
+   displayedColumns: string[] = ['id', 'designation', 'pvInitial', 'qteInitiale','quantite_vente','actions'];
 
-
+   displayedColumns2 : string[] = ['id', 'designation', 'quantite_vente','prix_de_vente'];
+   dataSource2 : any = new MatTableDataSource([]);
    constructor(
      private activeroute: ActivatedRoute,
      private service: HomeService,
@@ -40,21 +41,27 @@ export class AddVentesComponent {
    ngAfterViewInit() {
      this.dataSource.paginator = this.paginator;
      this.dataSource.sort = this.sort;
+     this.dataSource2.paginator = this.paginator;
+     this.dataSource2.sort = this.sort;
 
    }
    applyFilter(event: Event) {
      const filterValue = (event.target as HTMLInputElement).value;
      this.dataSource.filter = filterValue.trim().toLowerCase();
+     this.dataSource2.filter = filterValue.trim().toLowerCase();
 
      if (this.dataSource.paginator) {
        this.dataSource.paginator.firstPage();
+     }
+     if (this.dataSource2.paginator) {
+       this.dataSource2.paginator.firstPage();
      }
 
    }
   // id_client: any;
   id_initVente: any
    ngOnInit(): void {
-     (this.id_initVente = this.activeroute.snapshot.params['id'])
+     (this.id_initVente = this.activeroute.snapshot.params['id_vente'])
      console.log("id initVente", this.id_initVente);
 
      // this.PanierVente.patchValue({
@@ -81,11 +88,11 @@ export class AddVentesComponent {
      this.service.getOne('panierVente', 'getOne.php', this.id_initVente).subscribe({
        next: (reponse: any) => {
          console.log('Panier Vente : ', reponse);
-       //  this.dataSource2.data = reponse.data;
+        this.dataSource2.data = reponse.articles;
 
          // ✅ Stocker id_initVente pour l'utiliser plus tard
-         // this.initVente_id = reponse.data.initVente_id;
-         // console.log('Id de Init Vente', this.initVente_id);
+         this.id_initVente = reponse.initVente_id;
+         console.log('Id de Init Vente', this.id_initVente);
        },
        error: (err: any) => {
          console.log('REPONSE ERROR : ', err);
@@ -104,6 +111,7 @@ export class AddVentesComponent {
        quantite: article.qteInitiale,
        prixVente: article.pvInitial,
        id_initVente: this.id_initVente,
+       quantite_vente : article.quantite_vente,
        created_by: this.created_by,
        table :'paniervente',
      };
@@ -125,31 +133,21 @@ export class AddVentesComponent {
      });
    }
    validerVente() {
+    const vente = { idVente: this.id_initVente };
 
- const vente = {
-   id : this.id_initVente ,
-   statut :'valider',
-   created_by: this.created_by,
- }
+    const formData = convertObjectInFormData(vente);
 
-     // Convertir en FormData pour l'envoi
-     const formData = convertObjectInFormData(vente);
+    this.service.create('initVente', 'validationVente.php', formData).subscribe({
+      next: (response: any) => {
+        console.log('Réponse du serveur :', response);
+        this.snackBar.open('Vente validée avec succès !', 'Fermer', { duration: 3000 });
+        this.router.navigate(['/operation/list-vente']);
+      },
+      error: (err: any) => {
+        console.error('Erreur lors de la validation de la vente', err);
+        this.snackBar.open('Erreur lors de la validation', 'Fermer', { duration: 3000 });
+      },
+    });
+  }
 
-
-     // Envoyer la Vente au backend
-     this.service.create('initVente', 'update.php', formData).subscribe({
-       next: (response: any) => {
-         console.log('Réponse du serveur :', response);
-         this.snackBar.open('Vente validée avec succès !', 'Fermer', { duration: 3000 });
-
-         // Rafraîchir la liste du panier après validation
-
-         this.router.navigate(['/operation/list-vente'])
-       },
-       error: (err: any) => {
-         console.error('Erreur lors de la validation de la Vente', err);
-         this.snackBar.open('Erreur lors de la validation', 'Fermer', { duration: 3000 });
-       },
-     });
-   }
 }

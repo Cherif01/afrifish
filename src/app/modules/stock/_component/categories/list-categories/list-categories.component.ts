@@ -54,9 +54,9 @@ export class ListCategoriesComponent {
   }
 
   getCategory() {
-    this.service.getall('categorie', 'readAll.php').subscribe({
+    this.service.getByCreated('categorie', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
@@ -95,6 +95,7 @@ export class ListCategoriesComponent {
           this.Category.reset(
             {
               table: 'entite',
+              created_by:this.created_by
             }
           );
           this.getCategory();

@@ -28,7 +28,7 @@ export class ListUtilisateurComponent {
     mot_de_passe: new FormControl('', [Validators.required, Validators.minLength(4)]),
     privilege: new FormControl('', Validators.required),
     //table: new FormControl('utilisateur', Validators.required),
-    created_by: new FormControl(this.created_by, Validators.required),
+   // created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'nom',  'email',   'actions'];
@@ -59,9 +59,9 @@ export class ListUtilisateurComponent {
   }
 
   getUser() {
-    this.service.getall('utilisateur ', 'readAll.php').subscribe({
+    this.service.getByCreated('utilisateur', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
-        // console.log('REPONSE SUCCESS : ', reponse);
+         console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
@@ -69,6 +69,7 @@ export class ListUtilisateurComponent {
       },
     });
   }
+
 
   onAjouter() {
     console.log('userrrrrr',this.Utilisateurs.value);
@@ -85,7 +86,7 @@ export class ListUtilisateurComponent {
             verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Utilisateurs .reset(
+          this.Utilisateurs.reset(
 
           );
           this.getUser();

@@ -35,7 +35,7 @@ export class AddArticleComponent {
     private service: HomeService
   ) {}
   getCategory() {
-    this.service.getall('categorie', 'readAll.php').subscribe({
+    this.service.getByCreated('categorie', 'readAll.php',this.created_by).subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.categories = reponse;

@@ -24,7 +24,7 @@
       <mat-card class="shadow-sm">
         <div class="table-responsive p-3">
           <h3 class="form-title text-center text-primary mb-3">
-            Listes des Zones
+            Listes des Approvisionnements
           </h3>
           <mat-form-field class="w-100 mb-3" appearance="outline">
             <mat-label>Rechercher...</mat-label>
@@ -68,7 +68,9 @@
                 <span
                 [ngClass]="{
                   'badge-valid': element.statut === 'terminer' || element.statut === 'en attente',
-                  'badge-en-cours': element.statut === 'en cours'
+                  'badge-en-cours': element.statut === 'en cours',
+                  'badge-livraison': element.statut === 'en livraison',
+                  'badge-livrer': element.statut === 'livrer'
                 }"
               >
                 {{ element.statut === "en attente" ? "terminer" : element.statut }}

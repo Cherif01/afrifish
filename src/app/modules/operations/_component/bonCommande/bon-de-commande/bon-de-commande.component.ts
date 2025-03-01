@@ -57,7 +57,7 @@ export class BonDeCommandeComponent {
      }
 
      getBonCommande() {
-       this.service.getall('initCommande', 'initTerminer.php').subscribe({
+       this.service.getByCreated('initCommande', 'initTerminer.php',this.created_by).subscribe({
          next: (reponse: any) => {
            console.log('REPONSE SUCCESS : ', reponse);
            this.dataSource.data = reponse;
