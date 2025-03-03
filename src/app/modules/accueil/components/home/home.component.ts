@@ -13,7 +13,7 @@ export class HomeComponent {
     { id: 'T003', date: '2025-01-15', amount: '300 USD', status: 'En attente' },
     // Ajoutez plus de données ici
   ];
-
+created_by = localStorage.getItem('id_user');
   displayedColumns: string[] = ['id', 'date', 'amount', 'status'];
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ infoDashTodayBoard:any
 infoDashStatistique:any
   // CHARTS
   getDashboard() {
-    this.service.getall('dashboard', 'today.php').subscribe({
+    this.service.getByCreated('dashboard', 'today.php',this.created_by).subscribe({
       next: (reponse: any) => {
 
         this.infoDashTodayBoard = reponse;
@@ -42,7 +42,7 @@ infoDashStatistique:any
     });
   }
   getStatistique() {
-    this.service.getall('dashboard', 'statistique.php').subscribe({
+    this.service.getByCreated('dashboard', 'statistique.php',this.created_by).subscribe({
       next: (reponse: any) => {
 
         this.infoDashStatistique = reponse;

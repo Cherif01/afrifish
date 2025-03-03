@@ -6,6 +6,7 @@ import { DemoMaterialModule } from 'src/app/demo-material-module';
 import { RouterModule } from '@angular/router';
 import { parametreRouting } from './parametre.routing';
 import { AffectationComponent } from './_component/affectation/affectation.component';
+import { ProfileComponent } from './_component/utilisateurs/profile/profile.component';
 
 
 
@@ -13,7 +14,8 @@ import { AffectationComponent } from './_component/affectation/affectation.compo
   declarations: [
     ListUtilisateurComponent,
     ListAccesComponent,
-    AffectationComponent
+    AffectationComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

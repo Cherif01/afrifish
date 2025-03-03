@@ -58,7 +58,20 @@
                     style="color: #F8FCEB">{{ InfoUser.prenom }}</span>
             </div>
         </div>
+        <div class="notification-container">
+          <button mat-icon-button [matBadge]="unreadCount" matBadgeColor="warn">
+            <mat-icon>notifications</mat-icon>
+          </button>
+        
+          <div *ngIf="notifications.length > 0" class="dropdown">
+            <div *ngFor="let notification of notifications" class="notification-item">
+              <p>{{ notification.message }}</p>
+              <span>{{ notification.created_at | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
     </div>
+      
 
     <div class="header-right d-flex align-items-center">
         <!-- <div class="col d-flex align-items-center justify-content-end">
@@ -80,10 +93,12 @@
                             style="color: #ffffff;">Acc&#232;s : <span class="text-warning fw-bold">{{ 'Administrator' }}</span></span>
                     </strong>
                 </a>
+               
+                
                 <div
                     class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <button class="dropdown-item"
-                        routerLink="/auth/profile-user"><i
+                        routerLink="/parametre/profile"><i
                             class="dw dw-user1"></i>
                         Profile</button>
                     <!-- <button class="dropdown-item" routerLink="/settings/overview"><i class="dw dw-settings2"></i>

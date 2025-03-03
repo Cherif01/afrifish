@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { AuthserviceService } from 'src/app/core/guards/services/authservice.service';
+import { HomeService } from 'src/app/modules/accueil/services/home.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,10 +9,12 @@ import { AuthserviceService } from 'src/app/core/guards/services/authservice.ser
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
+  unreadCount: number = 0;
 
   constructor(
     public Location: Location,
-    private authService: AuthserviceService
+    private authService: AuthserviceService,
+    private service: HomeService
   ) {}
 
   logout() {
@@ -22,6 +25,10 @@ export class NavbarComponent {
     this.getUserConnect();
     this.getSalutation();
     this.getSalutationMessage();
+    this.loadNotifications();
+    setInterval(() => {
+      this.loadNotifications();
+    }, 10000);
   }
 
   getSalutation(): string {
@@ -51,6 +58,7 @@ export class NavbarComponent {
   // InofUser
   InfoUser: any = [];
   id_user = localStorage.getItem('id_user');
+  id_utilisateur = localStorage.getItem('id_user');
   getUserConnect() {
     this.authService
       .getClauseID('utilisateur', 'getOne.php', this.id_user)
@@ -64,6 +72,21 @@ export class NavbarComponent {
         },
       });
   }
+  notifications: any[] = [];
+
+
+loadNotifications() {
+  this.service.getone('notification', 'getNotif.php', this.id_utilisateur).subscribe({
+    next: (response: any) => {
+      console.log('Notifications:', response);
+      this.notifications = response;
+    },
+    error: (error: any) => {
+      console.log('Erreur lors du chargement des notifications:', error);
+    }
+  });
+}
+
 }
 
 

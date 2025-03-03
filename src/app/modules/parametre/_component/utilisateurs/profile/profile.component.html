@@ -1,0 +1,59 @@
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <div class="profile-header">
+        <div class="avatar-container">
+          <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuWfsxXJE-q6tDJ2hvRHJcL3HsD--WPYJuNg&s">
+        </div>
+        <h2>{{ InfoUser.nom }} {{ InfoUser.prenom }}</h2>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <div class="profile-details">
+        <div class="detail-item">
+          <mat-icon>email</mat-icon>
+          <span>Email :</span>
+          <strong>{{ InfoUser.email }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>call</mat-icon>
+          <span>Téléphone :</span>
+          <strong>{{ InfoUser.telephone }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>location_on</mat-icon>
+          <span>Adresse :</span>
+          <strong>{{ InfoUser.adresse }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>public</mat-icon>
+          <span>Pays :</span>
+          <strong>{{ InfoUser.pays }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>location_city</mat-icon>
+          <span>Ville :</span>
+          <strong>{{ InfoUser.ville }}</strong>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon>security</mat-icon>
+          <span>Privilège :</span>
+          <strong class="privilege">{{ InfoUser.privilege | uppercase }}</strong>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <!-- <button mat-button color="primary"><mat-icon>edit</mat-icon> Modifier</button> -->
+      <button mat-stroked-button color="warn"><mat-icon>logout</mat-icon> Déconnexion</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

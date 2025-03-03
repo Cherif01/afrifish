@@ -16,7 +16,7 @@ export class FournisseurApprovisionnerComponent {
   title: string = 'Gestion des entites';
  dataSource = new MatTableDataSource([]);
     displayedColumns: string[] = ['id', 'raison_sociale', 'representant','adresse', 'actions'];
-
+ created_by = localStorage.getItem('id_user');
     constructor(
       private service: HomeService,
       private snackBar: MatSnackBar,
@@ -64,7 +64,7 @@ export class FournisseurApprovisionnerComponent {
         next: (response: any) => {
           console.log('Info : ', response);
 
-          if (response.status === 1 ) {
+          if (response.status === 1 && this.created_by === response.created_by) {
             console.log("Redirection vers panier-commande avec ID", response.data);
             this.router.navigate(['/stock/panier-commande', response.data]);
           }  else {

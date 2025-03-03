@@ -55,7 +55,7 @@ export class CaisseComponent {
      }
 
      getCaisse() {
-       this.service.getall('caisse', 'readAll.php').subscribe({
+       this.service.getByCreated('caisse', 'readAll.php',this.created_by).subscribe({
          next: (reponse: any) => {
            console.log('REPONSE SUCCESS : ', reponse);
            this.dataSource.data = reponse;
@@ -67,7 +67,7 @@ export class CaisseComponent {
      }
      infoCaisse :any
      getTotal() {
-       this.service.getall('caisse', 'getCaisse.php').subscribe({
+       this.service.getByCreated('caisse', 'getCaisse.php',this.created_by).subscribe({
          next: (reponse: any) => {
 
            this.infoCaisse = reponse;
