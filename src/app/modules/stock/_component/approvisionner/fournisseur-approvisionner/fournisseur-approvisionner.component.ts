@@ -15,7 +15,7 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
 export class FournisseurApprovisionnerComponent {
   title: string = 'Gestion des entites';
  dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'raison_sociale', 'representant','adresse', 'actions'];
+    displayedColumns: string[] = ['id', 'raison_sociale', 'nom_representant','adresse', 'actions'];
  created_by = localStorage.getItem('id_user');
     constructor(
       private service: HomeService,

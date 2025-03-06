@@ -99,6 +99,17 @@ export class AddVentesComponent {
        },
      });
    }
+   isValiderDisabled(): boolean {
+    
+    const panierVide = this.dataSource2.data.length === 0;
+
+
+    const champsNonRemplis = this.dataSource.data.some((article: any) =>
+      !article.quantite_vente || !article.pvInitial || article.quantite_vente <= 0 || article.pvInitial <= 0
+    );
+
+    return panierVide || champsNonRemplis;
+  }
 
    ajouterPanier(article: any) {
      if (!this.id_initVente) {

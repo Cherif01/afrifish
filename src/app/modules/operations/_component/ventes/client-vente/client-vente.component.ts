@@ -85,7 +85,7 @@ created_by =localStorage.getItem('id_user')
       next: (response: any) => {
         console.log('Info : ', response);
 
-        if (response.status === 1 && this.created_by === response.created_by) {
+        if (response.status === 1 ) {
          // console.log("Redirection vers panier-vente avec ID", response.data.initvente_id);
           this.router.navigate(['/operation/panier-vente', response.data]);
         }  else {

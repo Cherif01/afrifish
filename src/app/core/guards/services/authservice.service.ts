@@ -63,6 +63,9 @@ export class AuthserviceService {
     };
     return this.http.get<any[]>(`${BASE_URL}${api}/${suffixUrl}/`, params);
   }
+  verifyFace(api: string, suffixURL: string, data: any): Observable<any> {
+    return this.http.post(`${BASE_URL}${api}/${suffixURL}`, data, this.httpOptions);
+  }
 
   saveToken(
     token: string,
@@ -75,19 +78,26 @@ export class AuthserviceService {
       localStorage.setItem('token', token);
       localStorage.setItem('id_entite', idEntite);
       localStorage.setItem('privilege', privilege);
-      this.toastr.success('Vous êtes bien authentifier', 'Success!', {
+
+      this.toastr.success('Vous êtes bien authentifié', 'Success!', {
         progressBar: true,
         closeButton: true,
       });
-      // this.router.navigate(['/home/home']);
-      window.location.href = '/home/home';
+
+      // 📌 Vérifier si l'utilisateur est un fournisseur et rediriger
+      if (privilege === 'fournisseur') {
+        window.location.href = '/operation/bon-commande';
+      } else {
+        window.location.href = '/home/home';
+      }
     } else {
-      this.toastr.error('Informations incorrect !', 'Incorrect!', {
+      this.toastr.error('Informations incorrectes !', 'Incorrect!', {
         progressBar: true,
       });
       this.router.navigate(['auth/login']);
     }
   }
+
 
   isLogged(): boolean {
     const token = localStorage.getItem('token');

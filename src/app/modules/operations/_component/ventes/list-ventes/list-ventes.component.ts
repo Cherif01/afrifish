@@ -24,7 +24,8 @@ export class ListVentesComponent {
       created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'Nomcompletclient',  'statut', 'actions'];
+    displayedColumns: string[] = ['id', 'Nomcompletclient', 'montantTotal', 'montantPaye', 'resteAPayer','etat',  'statut', 'actions'];
+
 
 
     constructor(
@@ -52,16 +53,23 @@ export class ListVentesComponent {
     }
 
     getVente() {
-      this.service.getByCreated('initVente', 'readAll.php',this.created_by).subscribe({
+      this.service.getByCreated('initVente', 'readAll.php', this.created_by).subscribe({
         next: (reponse: any) => {
-           console.log('REPONSE SUCCESS : ', reponse);
-          this.dataSource.data = reponse;
+          console.log('REPONSE SUCCESS : ', reponse);
+
+          this.dataSource.data = reponse.map((vente: any) => ({
+            ...vente,
+            etat: vente.resteAPayer > 0 ? 'En attente de paiement' : 'Payé' 
+          }));
+
+
         },
         error: (err: any) => {
           console.log('REPONSE ERROR : ', err);
         },
       });
     }
+
 
     onAjouter() {
       if (this.PanierVente.valid) {

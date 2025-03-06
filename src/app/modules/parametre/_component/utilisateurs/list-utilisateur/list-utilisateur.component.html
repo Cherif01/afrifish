@@ -111,8 +111,7 @@
                     <mat-option value="" disabled>Sélectionnez un privilège</mat-option>
                     <mat-option value="admin">Admin</mat-option>
                     <mat-option value="employer">Employer</mat-option>
-                    <mat-option value="fournisseur">Fournisseur</mat-option>
-                    <mat-option value="gerant">Gérant</mat-option>
+                   
                   </mat-select>
                   <mat-error *ngIf="Utilisateurs.get('privilege')?.invalid && Utilisateurs.get('privilege')?.touched">
                     Le privilège est obligatoire

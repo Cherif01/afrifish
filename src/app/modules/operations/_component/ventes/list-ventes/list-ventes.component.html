@@ -48,8 +48,7 @@
               <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
             </ng-container>
 
-            <!-- ID Init Vente Column -->
-
+            <!-- Client Column -->
             <ng-container matColumnDef="Nomcompletclient">
               <th mat-header-cell *matHeaderCellDef>Clients</th>
               <td mat-cell *matCellDef="let element">
@@ -60,43 +59,81 @@
               </td>
             </ng-container>
 
-            <!-- ID Article Column -->
-            <ng-container matColumnDef="article">
-              <th mat-header-cell *matHeaderCellDef>Article</th>
-              <td mat-cell *matCellDef="let element">{{ element.article }}</td>
+            <!-- Montant Total Column -->
+            <ng-container matColumnDef="montantTotal">
+              <th mat-header-cell *matHeaderCellDef>Montant Total</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.montantTotal | currency : "GNF: " }}
+              </td>
+            </ng-container>
+
+            <!-- Montant Payé Column -->
+            <ng-container matColumnDef="montantPaye">
+              <th mat-header-cell *matHeaderCellDef>Montant Payé</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.montantPaye | currency : "GNF: " }}
+              </td>
+            </ng-container>
+
+            <!-- Reste à Payer Column -->
+            <ng-container matColumnDef="resteAPayer">
+              <th mat-header-cell *matHeaderCellDef>Reste à Payer</th>
+              <td mat-cell *matCellDef="let element">
+                {{ element.resteAPayer | currency : "GNF: " }}
+              </td>
             </ng-container>
 
             <!-- Statut Column -->
+            <ng-container matColumnDef="etat">
+              <th mat-header-cell *matHeaderCellDef>Etat</th>
+              <td mat-cell *matCellDef="let element">
+                <span *ngIf="element.statut==='valider'"
+                  [ngClass]="{
+                    'badge-valid': element.etat === 'Payé',
+                    'badge-en-attente':
+                      element.etat === 'En attente de paiement'
+                  }"
+                >
+                  {{ element.etat }}
+                </span>
+              </td>
+            </ng-container>
             <ng-container matColumnDef="statut">
-              <th mat-header-cell *matHeaderCellDef>Statut</th>
+              <th mat-header-cell *matHeaderCellDef>Statut Vente</th>
               <td mat-cell *matCellDef="let element">
                 <span
                   [ngClass]="{
-                    'badge-valid': element.statut === 'valider',
-                    'badge-en-cours': element.statut === 'en cours'
+                    'badge-en-cours': element.statut === 'en cours',
+                    'badge-valider': element.statut === 'valider'
                   }"
                 >
                   {{ element.statut }}
                 </span>
               </td>
             </ng-container>
+
             <!-- Actions Column -->
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <div class="d-flex gap-2 justify-content-center">
                   <!-- Edit Button -->
-
                   <button
                     *ngIf="element.statut === 'en cours'"
                     mat-stroked-button
+                    class="mx-2"
                     color="primary"
                     routerLink="/operation/panier-vente/{{ element.id }}"
                   >
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <!-- Delete Button -->
-                  <button mat-stroked-button color="warn" routerLink="/operation/facture-vente/{{ element.id }}">
+                  <!-- Facture Button -->
+                  <button
+                    mat-stroked-button
+                    class="mx-2"
+                    color="warn"
+                    routerLink="/operation/facture-vente/{{ element.id }}"
+                  >
                     <mat-icon>visibility</mat-icon>
                   </button>
                 </div>

@@ -6,7 +6,12 @@
         <h4 class="text-uppercase fw-bold">{{ title }}</h4>
       </div>
       <div class="col text-right">
-        <button mat-raised-button color="accent" (click)="validerVente()">
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="validerVente()"
+          [disabled]="isValiderDisabled()"
+        >
           Valider la Vente
         </button>
       </div>
@@ -103,6 +108,11 @@
                         mat-raised-button
                         color="primary"
                         (click)="ajouterPanier(element)"
+                        [disabled]="
+                          !element.quantite_vente ||
+                          element.quantite_vente > element.qteInitiale ||
+                          element.quantite_vente <= 0
+                        "
                       >
                         <mat-icon class="mat-18">add</mat-icon>
                       </button>
@@ -154,11 +164,11 @@
                 </ng-container>
 
                 <ng-container matColumnDef="prix_de_vente">
-            <th mat-header-cell *matHeaderCellDef>Prix De Vente</th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.prix_de_vente | currency: 'GNF: ' }}
-            </td>
-          </ng-container>
+                  <th mat-header-cell *matHeaderCellDef>Prix De Vente</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.prix_de_vente | currency : "GNF: " }}
+                  </td>
+                </ng-container>
 
                 <ng-container matColumnDef="quantite_vente">
                   <th mat-header-cell *matHeaderCellDef>Quantité A Vendre</th>

@@ -6,9 +6,10 @@
         <h4 class="text-uppercase fw-bold">{{ title }}</h4>
       </div>
       <div class="col text-right">
-        <button mat-raised-button color="accent" (click)="validerCommande()">
+        <button mat-raised-button color="accent" (click)="validerCommande()" [disabled]="!infoBonCommande?.articles?.length">
           Valider la commande
         </button>
+
       </div>
     </div>
   </div>
@@ -19,7 +20,7 @@
     <div class="col">
       <mat-tab-group>
         <mat-tab>
-          <ng-template mat-tab-label >S'approvisionner</ng-template>
+          <ng-template mat-tab-label>S'approvisionner</ng-template>
           <mat-card class="shadow-sm">
             <div class="table-responsive p-3">
               <h3 class="form-title text-center text-primary mb-3">
@@ -63,7 +64,7 @@
                   <td mat-cell *matCellDef="let element">
                     <mat-form-field appearance="outline">
                       <input
-                      class="table-input"
+                        class="table-input"
                         matInput
                         type="number"
                         [(ngModel)]="element.puInitial"
@@ -76,7 +77,7 @@
                 <ng-container matColumnDef="qteInitiale">
                   <th mat-header-cell *matHeaderCellDef>Quantité Initiale</th>
                   <td mat-cell *matCellDef="let element">
-                    <mat-form-field  appearance="outline">
+                    <mat-form-field appearance="outline">
                       <input
                         matInput
                         type="number"
@@ -88,7 +89,6 @@
 
                 <!-- PV Initial Column (Editable) -->
 
-
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                   <th mat-header-cell *matHeaderCellDef>Actions</th>
@@ -98,17 +98,22 @@
                         mat-raised-button
                         color="primary"
                         (click)="ajouterPanier(element)"
+                        [disabled]="
+                          !element.qteInitiale || element.qteInitiale <= 0
+                        "
                       >
-                       <mat-icon class="mat-18">add</mat-icon>
+                        <mat-icon class="mat-18">add</mat-icon>
                       </button>
                     </div>
                   </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
               </table>
-
 
               <mat-paginator
                 [pageSizeOptions]="[5, 10, 20]"
@@ -119,61 +124,91 @@
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>Pannier Approvisionnement</ng-template>
-          <mat-card class="shadow-sm">
-            <div class="table-responsive p-3">
-              <h3 class="form-title text-center text-primary mb-3">
-                Listes des Articles
-              </h3>
-              <mat-form-field class="w-100 mb-3" appearance="outline">
-                <mat-label>Rechercher...</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher" #input />
-              </mat-form-field>
-              <table mat-table [dataSource]="dataSource2" id="maTable">
+          <div class="bon-de-commande">
+            <!-- Informations Client & Fournisseur Ensemble -->
+            <section class="client-fournisseur card">
+              <h2>Informations sur la Commande</h2>
+              <div class="info-container">
+                <!-- Infos Client -->
+                <div class="info-block">
+                  <h3>Client</h3>
+                  <p>
+                    <strong>Nom :</strong>
+                    {{ infoBonCommande?.utilisateur?.Nom_Complet }}
+                  </p>
+                  <p>
+                    <strong>Adresse :</strong>
+                    {{ infoBonCommande?.utilisateur?.Adresse }}
+                  </p>
+                  <p>
+                    <strong>Téléphone :</strong>
+                    {{ infoBonCommande?.utilisateur?.Telephone }}
+                  </p>
+                  <p>
+                    <strong>Email :</strong>
+                    {{ infoBonCommande?.utilisateur?.Email }}
+                  </p>
+                </div>
 
-                <ng-container matColumnDef="id">
-                  <th mat-header-cell *matHeaderCellDef>#</th>
-                  <td mat-cell *matCellDef="let i = index">{{ i + 1 }}</td>
-                </ng-container>
-
-                <ng-container matColumnDef="designation">
-                  <th mat-header-cell *matHeaderCellDef>Désignation</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.designation }}
-                  </td>
-                </ng-container>
-
-                <!-- <ng-container matColumnDef="prix">
-                  <th mat-header-cell *matHeaderCellDef>PU Initial</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.prix }}
-                  </td>
-                </ng-container> -->
-
-                <ng-container matColumnDef="quantite">
-                  <th mat-header-cell *matHeaderCellDef>Quantité Initiale</th>
-                  <td mat-cell *matCellDef="let element">
-                    {{ element.quantite }}
-                  </td>
-                </ng-container>
-
-
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns2"  (dblclick)="supprimerArticle(row)"></tr>
-              </table>
-
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-
-
-              <div class="text-center mt-3">
-                <button mat-raised-button color="accent" (click)="validerCommande()">
-                  Valider la commande
-                </button>
+                <!-- Infos Fournisseur -->
+                <div class="info-block">
+                  <h3>Fournisseur</h3>
+                  <p>
+                    <strong>Raison Sociale :</strong>
+                    {{ infoBonCommande?.fournisseur?.Raison_sociale }}
+                  </p>
+                  <p>
+                    <strong>Représentant :</strong>
+                    {{ infoBonCommande?.fournisseur?.Representant }}
+                  </p>
+                  <p>
+                    <strong>Adresse :</strong>
+                    {{ infoBonCommande?.fournisseur?.Adresse }}
+                  </p>
+                  <p>
+                    <strong>Pays :</strong>
+                    {{ infoBonCommande?.fournisseur?.Pays }}
+                  </p>
+                  <p>
+                    <strong>Téléphone :</strong>
+                    {{ infoBonCommande?.fournisseur?.Telephone }}
+                  </p>
+                </div>
               </div>
-            </div>
-          </mat-card>
-        </mat-tab>
+            </section>
 
+            <!-- Détails de la commande -->
+            <section class="order-details card">
+              <h2>Détails de la commande</h2>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Montant Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of infoBonCommande?.articles">
+                    <td>{{ item.designation }}</td>
+                    <td>{{ item.quantite }}</td>
+                    <td>
+                      {{ item.prix_unitaire_initiale | currency : "GNF: " }}
+                    </td>
+                    <td>{{ item.montant_total | currency : "GNF: " }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </section>
+
+            <!-- Pied de page -->
+            <footer class="footer">
+              <p>Conditions générales : paiement à réception.</p>
+              <p>Signature :</p>
+            </footer>
+          </div>
+        </mat-tab>
       </mat-tab-group>
     </div>
   </div>

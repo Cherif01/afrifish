@@ -1,91 +1,80 @@
-/* Style global */
-.bon-de-commande {
-  font-family: Arial, sans-serif;
+
+.invoice-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
   max-width: 800px;
   margin: auto;
-  border: 1px solid #ddd;
-  padding: 20px;
-  background: #fff;
-  color: #333;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
-.header {
+/* Section alignée */
+.header-info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid #6D2323;
-  padding-bottom: 10px;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
-.header .logo img {
-  max-width: 100px;
+/* Infos du client */
+.client-info {
+  flex: 1;
+  text-align: left;
+  padding-right: 20px;
 }
 
-.header .details {
+/* Infos de l'entreprise */
+.company-info {
+  flex: 1;
   text-align: right;
 }
 
-.client-info, .order-details, .summary {
-  margin-top: 20px;
+.invoice-title {
+  text-align: center;
+  color:#6D2323;
+  margin-bottom: 20px;
 }
 
-h2 {
-  color: #6D2323;
-  margin-bottom: 10px;
-}
-
-table {
+.invoice-table table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-table th, table td {
+.invoice-table th, .invoice-table td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 10px;
   text-align: left;
 }
 
-table th {
-  background-color: #6D2323;
+.invoice-table th {
+  background-color:#6D2323;
   color: white;
 }
 
-.summary {
-  text-align: right;
+.invoice-table tfoot {
+  font-weight: bold;
 }
 
-.footer {
+.payment-terms, .remarks {
+  background: #eef3f7;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+footer {
+  text-align: center;
   margin-top: 20px;
-  font-size: 0.9em;
-  text-align: center;
-  color: #555;
+  font-size: 14px;
 }
 
-/* Card pour le bouton d'impression */
+.signature {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+}
+
 .print-card {
-  margin-bottom: 20px;
   text-align: center;
-  padding: 15px;
-  border: 1px solid #ddd;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-}
-
-/* Styles pour l'impression */
-@media print {
-  .print-card {
-    display: none;
-  }
-
-  .bon-de-commande {
-    border: none;
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
-  }
-
-  table th {
-    background-color: #ddd !important; /* Assurer que l'impression garde un bon contraste */
-  }
+  margin-top: 20px;
 }

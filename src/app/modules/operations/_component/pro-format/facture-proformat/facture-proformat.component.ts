@@ -18,6 +18,7 @@ export class FactureProformatComponent {
 
    title: string = 'Facture Pro Format';
    created_by = localStorage.getItem('id_user');
+   modify_by = localStorage.getItem('id_user');
    Zones = new FormGroup({
      libelle: new FormControl('', Validators.required),
      id_devise: new FormControl('', Validators.required),
@@ -27,9 +28,9 @@ export class FactureProformatComponent {
    dataSource = new MatTableDataSource([]);
    displayedColumns: string[] = [
     'id',
+    'created_at',
     'representant',
     'statut',
-    'created_at',
     'actions'
   ];
 
@@ -72,10 +73,10 @@ export class FactureProformatComponent {
 
 const commande = {
   idCommande : idCommande ,
- // created_by: this.created_by,
+  modify_by: this.modify_by,
 }
     const formData = convertObjectInFormData(commande);
-    
+
 
     this.service.create('initCommande','validationCommande.php', formData).subscribe({
       next: (response: any) => {

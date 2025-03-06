@@ -71,6 +71,12 @@ export class ListClientComponent {
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
+        this.snackBar.open('Erreur, Impossible de Recuperer la Liste!', 'Okay', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          panelClass: ['bg-danger', 'text-white'],
+        });
         console.log('REPONSE ERROR : ', err);
       },
     });

@@ -65,7 +65,7 @@ export class AffectationComponent {
   }
   users :any
   getUser() {
-    this.service.getall('utilisateur', 'readAll.php').subscribe({
+    this.service.getone('utilisateur', 'readAll.php',this.id_utilisateur).subscribe({
       next: (reponse: any) => {
         // console.log('REPONSE SUCCESS : ', reponse);
         this.users = reponse;

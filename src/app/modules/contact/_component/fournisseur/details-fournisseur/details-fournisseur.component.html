@@ -1,1 +1,151 @@
-<p>details-fournisseur works!</p>
+<div class="container-fluid mt-4">
+  <div class="card shadow-lg p-4">
+    <div class="row">
+      <div class="col text-start">
+        <h4 class="text-uppercase fw-bold text-primary">{{ title }}</h4>
+      </div>
+    </div>
+  </div>
+
+  <mat-tab-group class="mt-4">
+    <!-- 🟢 Onglet Informations Fournisseurs + Approvisionnements -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span class="fw-bold">📄 Informations & Approvisionnements</span>
+      </ng-template>
+
+      <div class="row g-4">
+        <!-- 🔵 Carte du fournisseur (colonne de gauche) -->
+        <div class="col-lg-4">
+          <mat-card class="profile-card">
+            <mat-card-header>
+              <div class="profile-header">
+                <div class="avatar-container">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuWfsxXJE-q6tDJ2hvRHJcL3HsD--WPYJuNg&s"
+                    alt="Fournisseur"
+                    class="avatar"
+                  />
+                </div>
+                <h2 class="fw-bold text-dark">
+                  {{ infoFournisseur?.Representant }}
+                </h2>
+              </div>
+            </mat-card-header>
+
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+              <div class="profile-details">
+                <div class="detail-item">
+                  <mat-icon>business</mat-icon>
+                  <span>Raison Sociale :</span>
+                  <strong>{{ infoFournisseur?.Raison_sociale }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <mat-icon>call</mat-icon>
+                  <span>Téléphone :</span>
+                  <strong>{{ infoFournisseur?.Telephone }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <mat-icon>location_on</mat-icon>
+                  <span>Adresse :</span>
+                  <strong>{{ infoFournisseur?.Adresse }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <mat-icon>public</mat-icon>
+                  <span>Pays :</span>
+                  <strong>{{ infoFournisseur?.Pays }}</strong>
+                </div>
+
+                <div class="detail-item">
+                  <mat-icon>account_balance_wallet</mat-icon>
+                  <span>Solde :</span>
+                  <strong class="text-success">{{
+                    infoFournisseur?.Solde | currency : "GNF "
+                  }}</strong>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- 🟢 Liste des approvisionnements (colonne de droite) -->
+        <div class="col-lg-8">
+          <mat-card class="approvisionnement-card">
+            <mat-card-header>
+              <h5 class="text-primary fw-bold">
+                📦 Liste des Approvisionnements
+              </h5>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+              <!-- Conteneur avec scroll uniquement si nécessaire -->
+              <div class="table-container">
+                <table class="table table-hover">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Produit</th>
+                      <th>Quantité</th>
+                      <th>Montant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="
+                        let appro of listeApprovisionnements;
+                        let i = index
+                      "
+                    >
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ appro.date }}</td>
+                      <td>{{ appro.produit }}</td>
+                      <td>{{ appro.quantite }}</td>
+                      <td>{{ appro.montant | currency : "GNF " }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>Historique Des Paiements</ng-template>
+      <div class="table-container">
+        <table class="table table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Montant</th>
+              <th>Descriptions</th>
+              <th>Fait Par</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let appro of listeApprovisionnements;
+                let i = index
+              "
+            >
+              <td>{{ i + 1 }}</td>
+              <td>{{ appro.date }}</td>
+              <td>{{ appro.produit }}</td>
+              <td>{{ appro.quantite }}</td>
+              <td>{{ appro.montant | currency : "GNF " }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

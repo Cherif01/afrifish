@@ -17,6 +17,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
 export class DetailsProformatComponent {
 title: string = 'Panier de Commande'
 created_by =localStorage.getItem('id_user');
+modify_by =localStorage.getItem('id_user');
  dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'designation','quantite','prix_unitaire', 'quantite_Disponible','actions'];
 
@@ -83,7 +84,7 @@ created_by =localStorage.getItem('id_user');
 const commande = {
   id : this.id_initCommande ,
   statut :'en livraison',
-  created_by: this.created_by,
+  modify_by: this.modify_by,
 }
 
     // Convertir en FormData pour l'envoi

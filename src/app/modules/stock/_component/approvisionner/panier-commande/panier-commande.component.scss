@@ -28,3 +28,93 @@ input.mat-input-element {
   font-size: 14px; /* Taille du texte */
   text-align: center; /* Centrer le texte */
 }
+/* Style global */
+.bon-de-commande {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: auto;
+  padding: 30px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Bloc combiné Client & Fournisseur */
+.client-fournisseur {
+  padding: 20px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.client-fournisseur h2 {
+  text-align: center;
+  color: #8B0000;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+}
+
+/* Alignement côte à côte des informations client & fournisseur */
+.info-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.info-block {
+  flex: 1;
+}
+
+h3 {
+  color: #8B0000;
+  margin-bottom: 10px;
+  font-size: 1.3em;
+}
+
+/* Tableaux */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th, table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #8B0000;
+  color: white;
+  font-size: 1.1em;
+}
+
+/* Pied de page */
+.footer {
+  margin-top: 30px;
+  font-size: 1em;
+  text-align: center;
+  color: #555;
+}
+
+/* Impression */
+@media print {
+  .bon-de-commande {
+    border: none;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
+
+  table th {
+    background-color: #ddd !important;
+  }
+}

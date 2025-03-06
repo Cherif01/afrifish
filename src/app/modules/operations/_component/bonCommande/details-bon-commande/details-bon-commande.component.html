@@ -106,10 +106,16 @@
                   <th mat-header-cell *matHeaderCellDef>Actions</th>
                   <td mat-cell *matCellDef="let element">
                     <div class="d-flex gap-2 justify-content-center">
+                      <!-- *ngIf="+element.quantite !== +element.quantite_Disponible" -->
                       <button
                         mat-raised-button
                         color="primary"
                         (click)="ajouterPanier(element)"
+                        [disabled]="
+                        !element.quantite_Disponible || !element.prix_unitaire ||
+                        element.quantite_Disponible > element.quantite ||
+                        element.quantite_Disponible <= 0 || element.prix_unitaire <= 0
+                      "
                       >
                        <mat-icon class="mat-18">add</mat-icon>
                       </button>

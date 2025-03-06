@@ -25,10 +25,10 @@ export class NavbarComponent {
     this.getUserConnect();
     this.getSalutation();
     this.getSalutationMessage();
-    this.loadNotifications();
-    setInterval(() => {
-      this.loadNotifications();
-    }, 10000);
+    // this.loadNotifications();
+    // setInterval(() => {
+    //   this.loadNotifications();
+    // }, 10000);
   }
 
   getSalutation(): string {

@@ -62,7 +62,7 @@
           <button mat-icon-button [matBadge]="unreadCount" matBadgeColor="warn">
             <mat-icon>notifications</mat-icon>
           </button>
-        
+
           <div *ngIf="notifications.length > 0" class="dropdown">
             <div *ngFor="let notification of notifications" class="notification-item">
               <p>{{ notification.message }}</p>
@@ -71,7 +71,7 @@
           </div>
         </div>
     </div>
-      
+
 
     <div class="header-right d-flex align-items-center">
         <!-- <div class="col d-flex align-items-center justify-content-end">
@@ -90,11 +90,11 @@
                     </span> -->
                     <strong class="user-name">
                         <span class="text-uppercase fw-bold"
-                            style="color: #ffffff;">Acc&#232;s : <span class="text-warning fw-bold">{{ 'Administrator' }}</span></span>
+                            style="color: #ffffff;">Acc&#232;s : <span class="text-warning fw-bold">{{ InfoUser.privilege |uppercase }}</span></span>
                     </strong>
                 </a>
-               
-                
+
+
                 <div
                     class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                     <button class="dropdown-item"

@@ -8,6 +8,7 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
   styleUrls: ['./details-approvisionnement.component.scss']
 })
 export class DetailsApprovisionnementComponent {
+  title: string = 'Bon de Commande';
   constructor(private router: Router,
     private service :HomeService,
     private activeRoute:ActivatedRoute

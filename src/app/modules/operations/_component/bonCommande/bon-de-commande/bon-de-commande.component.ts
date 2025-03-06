@@ -26,9 +26,9 @@ export class BonDeCommandeComponent {
      dataSource = new MatTableDataSource([]);
      displayedColumns: string[] = [
       'id',
+      'created_at',
       'representant',
       'statut',
-      'created_at',
       'actions'
     ];
 

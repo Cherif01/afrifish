@@ -1,0 +1,94 @@
+// 🌟 Container principal
+.container-fluid {
+  max-width: 1500px;
+  margin: auto;
+}
+
+// 🌟 Mise en page
+.row {
+  display: flex;
+  align-items: start;
+}
+
+// 🌟 Carte du profil fournisseur
+.profile-card {
+  border-radius: 12px;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+// 🌟 Image de profil
+.avatar-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #3f51b5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// 🌟 Section des détails
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: #424242;
+}
+
+.detail-item mat-icon {
+  color: #3f51b5;
+}
+
+// 🌟 Table des approvisionnements
+.approvisionnement-card {
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 255, 0.1);
+}
+
+.table-dark th {
+  background-color: #3f51b5 !important;
+  color: white;
+}
+mat-tab-group {
+  width: 100%;
+}
+
+mat-tab-body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.row {
+  flex-wrap: nowrap; /* Évite le retour à la ligne */
+  overflow: hidden; /* Empêche le scroll */
+}
+
+.approvisionnement-card {
+  max-height: 400px; /* Ajuste selon ton besoin */
+  overflow-y: auto; /* Permet de scroller à l'intérieur sans affecter tout le mat-tab */
+}
+.table-container {
+  max-height: 300px; /* Ajuste selon ton besoin */
+  overflow-y: auto;
+}

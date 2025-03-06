@@ -19,7 +19,8 @@ export class ListFournisseurComponent {
     created_by = localStorage.getItem('id_user');
     Fournisseur = new FormGroup({
       raison_sociale: new FormControl('', Validators.required),
-      representant: new FormControl('', Validators.required),
+      nom_representant: new FormControl('', Validators.required),
+      prenom_representant: new FormControl('', Validators.required),
       telephone: new FormControl('', Validators.required),
       adresse: new FormControl('', Validators.required),
       pays: new FormControl('', Validators.required),
@@ -27,13 +28,14 @@ export class ListFournisseurComponent {
      created_by: new FormControl(this.created_by, Validators.required),
     });
     dataSource = new MatTableDataSource([]);
-    displayedColumns: string[] = ['id', 'raison_sociale', 'representant','adresse', 'actions'];
+    displayedColumns: string[] = ['id', 'raison_sociale', 'nom_representant','adresse', 'actions'];
     selectedFournisseurId: number | null = null;
     editFournisseur(fournisseur: any) {
       this.selectedFournisseurId = fournisseur.id;
       this.Fournisseur.patchValue({
         raison_sociale: fournisseur.raison_sociale,
-        representant: fournisseur.representant,
+        nom_representant: fournisseur.nom_representant,
+        prenom_representant: fournisseur.prenom_representant,
         telephone: fournisseur.telephone,
         adresse: fournisseur.adresse,
         pays: fournisseur.pays,

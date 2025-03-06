@@ -16,6 +16,7 @@ export class FactureVenteComponent {
   montantPaye: number = 0;
   montantPaiement: number = 0; // Pour stocker le montant que l'utilisateur veut payer
   modePaiement: string = 'cash'; // Mode de paiement sélectionné
+  descriptions: string = 'Paiement Factures'; // Mode de paiement sélectionné
   created_by = localStorage.getItem('id_user');
   constructor(
     private router: Router,
@@ -23,6 +24,8 @@ export class FactureVenteComponent {
     private activeRoute: ActivatedRoute,
     private snackBar: MatSnackBar
   ) {}
+  paiements: any[] = [];
+  displayedColumns: string[] = ['id','date', 'montant', 'modePaiement', 'effectue_par'];
 
   ngOnInit(): void {
     this.id_venteInit = this.activeRoute.snapshot.params['id'];
@@ -50,6 +53,7 @@ export class FactureVenteComponent {
         this.montantRestant = response.montantRestant || 0;
 
         this.montantPaye = response.totalPaye || 0;
+        this.paiements = response.paiements;
        // this.calculerMontantRestant();
       },
       error: (err: any) => {
@@ -72,6 +76,7 @@ export class FactureVenteComponent {
       id_initVente: this.id_venteInit,
       montant: this.montantPaiement,
       modePaiement: this.modePaiement,
+      descriptions: this.descriptions,
       created_by: this.created_by // Remplace par l'ID de l'utilisateur connecté
     };
     const formData = convertObjectInFormData(paiementData);

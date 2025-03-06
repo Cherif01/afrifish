@@ -17,6 +17,7 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
 export class ListUtilisateurComponent {
  title: string = 'Gestion des Utilisateurs';
   created_by = localStorage.getItem('id_user');
+  id_utilisateur = localStorage.getItem('id_user');
   Utilisateurs  = new FormGroup({
     nom: new FormControl('', Validators.required),
     prenom: new FormControl('', Validators.required),
@@ -59,7 +60,7 @@ export class ListUtilisateurComponent {
   }
 
   getUser() {
-    this.service.getByCreated('utilisateur', 'readAll.php',this.created_by).subscribe({
+    this.service.getone('utilisateur', 'readAll.php',this.id_utilisateur).subscribe({
       next: (reponse: any) => {
          console.log('REPONSE SUCCESS : ', reponse);
         this.dataSource.data = reponse;

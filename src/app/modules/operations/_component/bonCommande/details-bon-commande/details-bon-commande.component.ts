@@ -16,6 +16,7 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
 export class DetailsBonCommandeComponent {
 title: string = 'Panier de Commande'
 created_by =localStorage.getItem('id_user');
+modify_by =localStorage.getItem('id_user');
  dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'designation','quantite','prix_unitaire', 'quantite_Disponible','actions'];
 
@@ -110,7 +111,7 @@ ajouterPanier(article: any) {
 const commande = {
   id : this.id_initCommande ,
   statut :'en attente',
-  created_by: this.created_by,
+  modify_by: this.modify_by,
 }
 
     // Convertir en FormData pour l'envoi

@@ -37,7 +37,7 @@ export class ListApprovisionnementComponent {
     private service: HomeService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog ,
-    private router :Router , 
+    private router :Router ,
   ) {}
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -134,7 +134,7 @@ export class ListApprovisionnementComponent {
         }
       });
   }
-  
+
 
   getOneInitCommande(idFournisseur: number): void {
     if (!idFournisseur) {
@@ -160,5 +160,6 @@ export class ListApprovisionnementComponent {
       }
     });
   }
+  
 
 }

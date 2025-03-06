@@ -1,168 +1,138 @@
-<div class="left-side-bar">
-    <div class="brand-logo">
-        <div class="profile-container">
-            <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&s"
-                class="w-100" alt="Profil utilisateur" class="profile-image">
-            <div class="profile-info">
-                <h4
-                    class="text-uppercase"><strong>{{'AFRIFISH ADMIN'}}</strong></h4>
-                Status : <i class="fw-bold" style="color: rgb(137, 255, 137);font-size: 11px;">connect&#233;</i>
-            </div>
-        </div>
-    </div>
-    <div class="menu-block customscroll">
-        <div class="sidebar-menus">
-            <ul id="accordion-menu" class="mt-3">
-                <!-- Dashboard -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Dashboard</h4>
-                <li>
-                    <a routerLink="/home/home" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">dashboard</mat-icon>
-                        <span class="mtext">Tableau de bord</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/home/entite" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">flag</mat-icon>
-                        <span class="mtext">Liste des entit&#233;s</span>
-                    </a>
-                </li>
-                <!-- Contact -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Contact</h4>
-                <li>
-                    <a routerLink="/contact/list-fournisseur" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">person</mat-icon>
-                        <span class="mtext">Fournisseurs</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/contact/list-client" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">person</mat-icon>
-                        <span class="mtext">Clients</span>
-                    </a>
-                </li>
-                <!-- Gestion -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Stock</h4>
-                <li>
-                    <a routerLink="/stock/list-article" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">dashboard</mat-icon>
-                        <span class="mtext">Inventaire</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/stock/list-category" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">flag</mat-icon>
-                        <span class="mtext">Cat&#233;gorie</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/stock/list-aprovisionnement" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">dashboard</mat-icon>
-                        <span class="mtext">Approvisionner</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/stock/list-" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">dashboard</mat-icon>
-                        <span class="mtext">Analyse</span>
-                    </a>
-                </li>
-                <!-- Operations -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Opérations</h4>
-                <li>
-                    <a routerLink="/operation/bon-commande"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">send</mat-icon>
-                        <span class="mtext">Bon de commande</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/operation/pro-format"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">folder</mat-icon>
+<div class="left-side-bar" *ngIf="privilege !== ''">
+  <div class="brand-logo">
+      <div class="profile-container">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpCKq1XnPYYDaUIlwlsvmLPZ-9-rdK28RToA&s"
+              class="w-100" alt="Profil utilisateur" class="profile-image">
+          <div class="profile-info">
+              <h4 class="text-uppercase"><strong>{{InfoUser.nom}} {{InfoUser.prenom}}</strong></h4>
+              Status : <i class="fw-bold" style="color: rgb(137, 255, 137);font-size: 11px;">connecté</i>
+          </div>
+      </div>
+  </div>
 
-                        <span class="mtext">Pro-Forma</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/operation/list-vente"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">money_off</mat-icon>
-                        <span class="mtext">Ventes</span>
-                    </a>
-                </li>
-                <!-- Comptabilité -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Comptabilité</h4>
-                <li>
-                    <a routerLink="/comptabilite/caisse"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">account_balance</mat-icon>
-                        <span class="mtext">Caisse</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/comptabilite/historique"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">history</mat-icon>
-                        <span class="mtext">Historique</span>
-                    </a>
-                </li>
-                <!-- Paramètres -->
-                <h4
-                    class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Paramètres</h4>
-                <li>
-                    <a routerLink="/parametre/list-user"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">group</mat-icon>
-                        <span class="mtext">Utilisateurs</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/parametre/list-acces"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">lock</mat-icon>
-                        <span class="mtext">Accèss</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/parametre/list-affectation"
-                        routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">settings_accessibility</mat-icon>
-                        <span class="mtext">Affectation</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/parametre/home4" routerLinkActive="active-sidebar"
-                        class="dropdown-toggle no-arrow">
-                        <mat-icon class="micon">settings</mat-icon>
-                        <span class="mtext">Configuration</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="p-5"></div>
-    </div>
+  <div class="menu-block customscroll">
+      <div class="sidebar-menus">
+          <ul id="accordion-menu" class="mt-3">
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100" *ngIf="privilege === 'admin'|| privilege === 'employer'">Dashboard</h4>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/home/home" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">dashboard</mat-icon>
+                      <span class="mtext">Tableau de bord</span>
+                  </a>
+              </li>
+
+              <!-- ENTITÉ (Visible seulement pour admin) -->
+              <li *ngIf="privilege === 'admin'">
+                  <a routerLink="/home/entite" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">flag</mat-icon>
+                      <span class="mtext">Liste des entités</span>
+                  </a>
+              </li>
+
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100"  *ngIf="privilege === 'admin'|| privilege === 'employer'">Contact</h4>
+              <li *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/contact/list-fournisseur" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">person</mat-icon>
+                      <span class="mtext">Fournisseurs</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/contact/list-client" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">person</mat-icon>
+                      <span class="mtext">Clients</span>
+                  </a>
+              </li>
+
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100"  *ngIf="privilege === 'admin'|| privilege === 'employer'">Stock</h4>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/stock/list-article" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">dashboard</mat-icon>
+                      <span class="mtext">Inventaire</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/stock/list-category" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">flag</mat-icon>
+                      <span class="mtext">Catégorie</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/stock/list-aprovisionnement" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">dashboard</mat-icon>
+                      <span class="mtext">Approvisionner</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/stock/list-" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">dashboard</mat-icon>
+                      <span class="mtext">Analyse</span>
+                  </a>
+              </li>
+
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100">Opérations</h4>
+              <li *ngIf="privilege === 'admin' || privilege === 'fournisseur' || privilege ==='employer'">
+                  <a routerLink="/operation/bon-commande" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">send</mat-icon>
+                      <span class="mtext">Bon de commande</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/operation/pro-format" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">folder</mat-icon>
+                      <span class="mtext">Pro-Forma</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'|| privilege === 'employer'">
+                  <a routerLink="/operation/list-vente" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">money_off</mat-icon>
+                      <span class="mtext">Ventes</span>
+                  </a>
+              </li>
+
+              <!-- COMPTABILITÉ (Non accessible aux employés) -->
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100"  *ngIf="privilege === 'admin'">Comptabilité</h4>
+              <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/comptabilite/caisse" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">account_balance</mat-icon>
+                      <span class="mtext">Caisse</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/comptabilite/historique" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">history</mat-icon>
+                      <span class="mtext">Historique</span>
+                  </a>
+              </li>
+
+              <!-- PARAMÈTRES (Non accessible aux employés) -->
+              <h4 class="desc_btn rounded-0 text-start ps-1 mb-2 w-100"  *ngIf="privilege === 'admin'">Paramètres</h4>
+              <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/parametre/list-user" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">group</mat-icon>
+                      <span class="mtext">Utilisateurs</span>
+                  </a>
+              </li>
+              <!-- <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/parametre/list-acces" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">lock</mat-icon>
+                      <span class="mtext">Accès</span>
+                  </a>
+              </li> -->
+              <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/parametre/list-affectation" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">settings_accessibility</mat-icon>
+                      <span class="mtext">Affectation</span>
+                  </a>
+              </li>
+              <li  *ngIf="privilege === 'admin'">
+                  <a routerLink="/parametre/home4" routerLinkActive="active-sidebar" class="dropdown-toggle no-arrow">
+                      <mat-icon class="micon">settings</mat-icon>
+                      <span class="mtext">Configuration</span>
+                  </a>
+              </li>
+          </ul>
+      </div>
+      <div class="p-5"></div>
+  </div>
 </div>
 <div class="mobile-menu-overlay"></div>

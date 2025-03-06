@@ -1,54 +1,90 @@
-<div class="print-container">
-  <!-- Card pour le bouton d'impression -->
-  <div class="print-card">
-    <button mat-raised-button color="primary" (click)="print()">Imprimer le bon de commande</button>
+<div class="card g-4">
+  <div class="row">
+    <div class="col text-start">
+      <h4 class="text-uppercase fw-bold">{{ title }}</h4>
+    </div>
+    <div class="col text-right">
+      <button mat-raised-button color="primary" (click)="print()">Imprimer le bon de commande</button>
+    </div>
   </div>
+</div>
+<div class="invoice-container">
 
-  <!-- Contenu du bon de commande -->
-  <div class="bon-de-commande">
 
+  <h2 class="invoice-title">BON DE COMMANDE</h2>
 
-    <section class="client-info">
-      <h2>Informations sur le client</h2>
-      <p><strong>Nom :</strong> {{ infoBonCommande?.utilisateur?.Nom_Complet}}</p>
+  <!-- Section pour les infos client et entreprise alignées -->
+  <div class="header-info">
+    <div class="client-info">
+      <h3>Informations du Client</h3>
+      <p><strong>Nom :</strong> {{ infoBonCommande?.utilisateur?.Nom_Complet }}</p>
       <p><strong>Adresse :</strong> {{ infoBonCommande?.utilisateur?.Adresse }}</p>
       <p><strong>Téléphone :</strong> {{ infoBonCommande?.utilisateur?.Telephone }}</p>
       <p><strong>Email :</strong> {{ infoBonCommande?.utilisateur?.Email }}</p>
-    </section>
+    </div>
 
-    <section class="order-details">
-      <h2>Détails de la commande</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix Unitaire</th>
-            <th>Montant Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of infoBonCommande?.articles">
-            <td>{{ item.designation }}</td>
-            <td>{{ item.quantite}}</td>
-
-            <td>{{ item.prix_unitaire_initiale | currency : 'GNF: ' }}</td>
-            <td>{{ item.montant_total | currency : 'GNF: ' }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- <section class="summary">
-      <h2>Résumé</h2>
-      <p><strong>Total HT :</strong> {{ totalHT | currency }}</p>
-      <p><strong>Taxes ({{ taxRate }}%) :</strong> {{ taxes | currency }}</p>
-      <p><strong>Total TTC :</strong> {{ totalTTC | currency }}</p>
-    </section> -->
-
-    <footer class="footer">
-      <p>Conditions générales : paiement à réception.</p>
-      <p>Signature :</p>
-    </footer>
+    <div class="company-info">
+      <h1>AFRIFISH</h1>
+      <p>Le commerce au service de votre évolution</p>
+      <p> Simbaya1 / Matoto</p>
+      <p> +224 628 68 37 39 / 625 06 71 61</p>
+      <p> afrifish@gmail.com</p>
+      <p> RCCM/GN. TCC.2024.10906 | RCCM/GN. TCC.2024. A.09733</p>
+    </div>
   </div>
+
+  <section class="invoice-details">
+    <p><strong>Numéro unique :</strong> {{ infoBonCommande?.numero }}</p>
+    <p><strong>Date d'émission :</strong> {{ infoBonCommande?.date | date: 'dd/MM/yyyy' }}</p>
+  </section>
+
+  <section class="invoice-table">
+    <table>
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Désignation</th>
+          <th>Quantité</th>
+          <th>Prix unitaire (GNF)</th>
+          <th>Montant (GNF)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of infoBonCommande?.articles; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.designation }}</td>
+          <td>{{ item.quantite_Disponible }}</td>
+          <td>{{ item.prix_unitaire | number:'1.0-2' }}</td>
+          <td>{{ item.montant_total | number:'1.0-2' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4"><strong>Total</strong></td>
+          <td><strong>{{ infoBonCommande?.montant_global| number:'1.0-2' }} GNF</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+  </section>
+
+  <section class="payment-terms">
+    <h3>Modalités de paiement :</h3>
+    <p>✔ Le paiement est dû à la réception de la facture.</p>
+    <p>✔ Méthode de paiement : le paiement doit être effectué dans un délai de 5 jours.</p>
+  </section>
+
+  <section class="remarks">
+    <h3>Remarques :</h3>
+    <p>✔ Ce bon de commande est un document commercial et ne constitue pas une demande de paiement immédiate.</p>
+  </section>
+
+  <footer>
+    <p>Merci pour votre confiance et votre collaboration.</p>
+    <div class="signature">
+      <p>{{ infoBonCommande?.utilisateur?.Nom_Complet }}</p>
+      <p>AFRIFISH</p>
+      <p><strong>Email :</strong> {{ infoBonCommande?.utilisateur?.Email }}</p>
+      <p>Téléphone : +224 628 68 37 39 / 625 06 71 61</p>
+    </div>
+  </footer>
 </div>

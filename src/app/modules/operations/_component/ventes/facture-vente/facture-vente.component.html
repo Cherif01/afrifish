@@ -1,72 +1,133 @@
-<div class="print-container">
-  <!-- Boutons d'action -->
-  <div class="print-card">
-    <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer la facture</button>
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label> Facture De Paiements</ng-template>
+    <div class="print-container">
+      <!-- Boutons d'action -->
+      <div class="print-card">
+        <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer la facture</button>
 
-  </div>
+      </div>
 
-  <!-- Contenu de la facture -->
-  <div class="bon-de-commande">
-    <section class="client-info">
-      <h3>Informations du client</h3>
-      <p><strong>Nom :</strong> {{ infoFacture?.client?.libelle }}</p>
-      <p><strong>Adresse :</strong> {{ infoFacture?.client?.adresse }}</p>
-      <p><strong>Téléphone :</strong> {{ infoFacture?.client?.telephone }}</p>
-      <p><strong>Ville :</strong> {{ infoFacture?.client?.ville }}</p>
-    </section>
+      <!-- Contenu de la facture -->
+      <div class="bon-de-commande">
+        <section class="client-info">
+          <h3>Informations du client</h3>
+          <p><strong>Nom :</strong> {{ infoFacture?.client?.libelle }}</p>
+          <p><strong>Adresse :</strong> {{ infoFacture?.client?.adresse }}</p>
+          <p><strong>Téléphone :</strong> {{ infoFacture?.client?.telephone }}</p>
+          <p><strong>Ville :</strong> {{ infoFacture?.client?.ville }}</p>
+        </section>
 
-    <section class="order-details">
-      <h3>Détails de la commande</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Produit</th>
-            <th>Quantité</th>
-            <th>Prix Unitaire</th>
-            <th>Montant Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of infoFacture?.articles">
-            <td>{{ item.designation }}</td>
-            <td>{{ item.quantite_vente }}</td>
-            <td>{{ item.prix_de_vente | number:'1.0-0' }} GNF</td>
-            <td>{{ item.montant_total | number:'1.0-0' }} GNF</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+        <section class="order-details">
+          <h3>Détails de la commande</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix Unitaire</th>
+                <th>Montant Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of infoFacture?.articles">
+                <td>{{ item.designation }}</td>
+                <td>{{ item.quantite_vente }}</td>
+                <td>{{ item.prix_de_vente | number:'1.0-0' }} GNF</td>
+                <td>{{ item.montant_total | number:'1.0-0' }} GNF</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
 
-    <section class="summary">
-      <h3>Résumé</h3>
-      <p><strong>Total HT :</strong></p>
-      <p><strong>Taxes :</strong></p>
-      <p class="total"><strong>Total TTC :</strong> {{ infoFacture?.montant_global | number:'1.0-0' }} GNF</p>
-      <p *ngIf="montantRestant > 0"><strong>Montant restant :</strong> {{ montantRestant | number:'1.0-0' }} GNF</p>
-    </section>
+        <section class="summary">
+          <h3>Résumé</h3>
+          <p><strong>Total HT :</strong></p>
+          <p><strong>Taxes :</strong></p>
+          <p class="total"><strong>Total TTC :</strong> {{ infoFacture?.montant_global | number:'1.0-0' }} GNF</p>
+          <p *ngIf="montantRestant > 0"><strong>Montant restant :</strong> {{ montantRestant | number:'1.0-0' }} GNF</p>
+        </section>
 
-    <section class="payment-form" *ngIf="montantRestant > 0" >
-      <h3>Effectuer un paiement</h3>
-      <mat-form-field appearance="outline">
-        <mat-label>Montant à payer</mat-label>
-        <input matInput type="number" [(ngModel)]="montantPaiement">
-      </mat-form-field>
+        <section class="payment-form" *ngIf="montantRestant > 0" >
+          <h3>Effectuer un paiement</h3>
+          <mat-form-field appearance="outline">
+            <mat-label>Montant à payer</mat-label>
+            <input matInput type="number" [(ngModel)]="montantPaiement">
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <input matInput type="text" [(ngModel)]="descriptions">
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Mode de paiement</mat-label>
-        <mat-select [(value)]="modePaiement">
-          <mat-option value="cash">💵 Espèces</mat-option>
-          <mat-option value="virement">🏦 Virement</mat-option>
-          <mat-option value="carte bancaire">💳 Carte bancaire</mat-option>
-        </mat-select>
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Mode de paiement</mat-label>
+            <mat-select [(value)]="modePaiement">
+              <mat-option value="cash">💵 Espèces</mat-option>
+              <mat-option value="virement">🏦 Virement</mat-option>
+              <mat-option value="carte bancaire">💳 Carte bancaire</mat-option>
+            </mat-select>
+          </mat-form-field>
 
-      <button mat-raised-button color="accent" (click)="payerFacture()">💰 Payer</button>
-    </section>
+          <button mat-raised-button color="accent" (click)="payerFacture()">💰 Payer</button>
+        </section>
 
-    <footer class="footer">
-      <p><strong>Conditions générales :</strong> Paiement à réception.</p>
-      <p><strong>Signature :</strong> ___________________</p>
-    </footer>
-  </div>
-</div>
+        <footer class="footer">
+          <p><strong>Conditions générales :</strong> Paiement à réception.</p>
+          <p><strong>Signature :</strong> ___________________</p>
+        </footer>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label> 💳 Historique des paiements</ng-template>
+    <div class="print-card">
+      <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer</button>
+
+    </div>
+    <table mat-table [dataSource]="paiements" class="mat-elevation-z8">
+
+      <!-- Date Paiement Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let i=index">{{ i+1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let paiement">{{ paiement.date_paiement }}</td>
+      </ng-container>
+
+      <!-- Montant Column -->
+      <ng-container matColumnDef="montant">
+        <th mat-header-cell *matHeaderCellDef>Montant</th>
+        <td mat-cell *matCellDef="let paiement">{{ paiement.montant | number:'1.0-0' }} GNF</td>
+      </ng-container>
+
+      <!-- Mode de Paiement Column -->
+      <ng-container matColumnDef="modePaiement">
+        <th mat-header-cell *matHeaderCellDef>Mode de paiement</th>
+        <td mat-cell *matCellDef="let paiement">{{ paiement.modePaiement }}</td>
+      </ng-container>
+
+      <!-- Effectué par Column -->
+      <ng-container matColumnDef="effectue_par">
+        <th mat-header-cell *matHeaderCellDef>Effectué par</th>
+        <td mat-cell *matCellDef="let paiement">{{ paiement.effectue_par.nom }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-tab>
+</mat-tab-group>
+<!-- <mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        💳 Historique des paiements
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+
+  </mat-expansion-panel>
+</mat-accordion> -->
