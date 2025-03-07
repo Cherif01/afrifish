@@ -46,6 +46,17 @@ export class AffectationComponent {
     }
   }
 
+
+  onEdit(affectation: any) {
+    this.Affectation.patchValue({
+      id_entite: affectation.id_entite,
+      id_utilisateur: affectation.id_utilisateur,
+      table: 'affectation',
+      created_by: this.created_by,
+    });
+  }
+
+
   ngOnInit(): void {
     this.getAffectation();
     this.getUser();
@@ -121,6 +132,30 @@ export class AffectationComponent {
       });
     }
   }
+
+  updateUser() {
+    if (this.Affectation.valid) {
+      const formData = convertObjectInFormData(this.Affectation.value);
+      this.service.update('public', 'update.php', formData).subscribe({
+        next: (response) => {
+          this.snackBar.open('Affectation mis à jour avec succès !', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-success', 'text-white'],
+          });
+          this.Affectation.reset();
+          this.getUser();
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur, veuillez réessayer!', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-danger', 'text-white'],
+          });
+          console.log('Erreur : ', err);
+        },
+      });
+    }
+  }
+
   deleteFunction(id: any, table: string) {
     this.dialog
       .open(DefaultDeleteComponent, {

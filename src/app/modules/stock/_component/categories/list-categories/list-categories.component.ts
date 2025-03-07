@@ -15,9 +15,12 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-categories.component.scss']
 })
 export class ListCategoriesComponent {
- title: string = 'Gestion des Categories';
+  title: string = 'Gestion des Catégories';
   created_by = localStorage.getItem('id_user');
+
+  // Formulaire de création/modification
   Category = new FormGroup({
+    id: new FormControl(null), // Ajout du champ ID pour la modification
     libelle: new FormControl('', Validators.required),
     id_entite: new FormControl('', Validators.required),
     table: new FormControl('categorie', Validators.required),
@@ -26,92 +29,125 @@ export class ListCategoriesComponent {
 
   dataSource = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'libelle', 'entite', 'actions'];
-  entites:any
+  entites: any;
 
   constructor(
     private service: HomeService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
+
+  ngOnInit(): void {
+    this.getCategory();
+    this.getEntite();
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
 
-  ngOnInit(): void {
-    this.getCategory();
-    this.getEntite()
-  }
-
   getCategory() {
-    this.service.getByCreated('categorie', 'readAll.php',this.created_by).subscribe({
+    this.service.getByCreated('categorie', 'readAll.php', this.created_by).subscribe({
       next: (reponse: any) => {
-         console.log('REPONSE SUCCESS : ', reponse);
+        console.log('Réponse Catégories : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
-        console.log('REPONSE ERROR : ', err);
+        console.log('Erreur Catégories : ', err);
       },
     });
   }
-  id_utilisateur =localStorage.getItem('id_user')
-  getEntite() {
-    // console.log('user',this.iid_utilisateur);
 
-    this.service.getone('entite', 'readAll.php',this.id_utilisateur).subscribe({
+  getEntite() {
+    this.service.getone('entite', 'readAll.php', this.created_by).subscribe({
       next: (reponse: any) => {
-         console.log('REPONSE SUCCESS : ', reponse);
-        this.entites= reponse;
+        console.log('Réponse Entités : ', reponse);
+        this.entites = reponse;
       },
       error: (err: any) => {
-        console.log('REPONSE ERROR : ', err);
+        console.log('Erreur Entités : ', err);
       },
     });
   }
 
+  // 🟢 Ajouter une nouvelle catégorie
   onAjouter() {
     if (this.Category.valid) {
       const formData = convertObjectInFormData(this.Category.value);
       this.service.create('public', 'create.php', formData).subscribe({
         next: (response) => {
-          const message =
-            response?.message || 'Category  Enregistrer avec succès !';
-          this.snackBar.open(message, 'Okay', {
+          this.snackBar.open('Catégorie enregistrée avec succès !', 'OK', {
             duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Category.reset(
-            {
-              table: 'entite',
-              created_by:this.created_by
-            }
-          );
+          this.Category.reset({
+            table: 'categorie',
+            created_by: this.created_by,
+          });
           this.getCategory();
         },
         error: (err) => {
-          this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
+          this.snackBar.open('Erreur, veuillez réessayer!', 'OK', {
             duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom',
             panelClass: ['bg-danger', 'text-white'],
           });
-          console.log('Error : ', err);
+          console.log('Erreur : ', err);
         },
       });
     }
   }
+
+  // 🟡 Modifier une catégorie
+  onModifier(category: any) {
+    this.Category.patchValue({
+      id: category.id,
+      libelle: category.libelle,
+      id_entite: category.id_entite,
+      table: 'categorie',
+      created_by: this.created_by,
+    });
+  }
+
+  // 🔵 Mettre à jour la catégorie
+  updateCategory() {
+    if (this.Category.valid) {
+      const formData = convertObjectInFormData(this.Category.value);
+      this.service.update('public', 'update.php', formData).subscribe({
+        next: (response) => {
+          this.snackBar.open('Catégorie mise à jour avec succès !', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-success', 'text-white'],
+          });
+          this.Category.reset({
+            table: 'categorie',
+            created_by: this.created_by,
+          });
+          this.getCategory();
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur, veuillez réessayer!', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-danger', 'text-white'],
+          });
+          console.log('Erreur : ', err);
+        },
+      });
+    }
+  }
+
+  // 🔴 Supprimer une catégorie
   deleteFunction(id: any, table: string) {
     this.dialog
       .open(DefaultDeleteComponent, {
@@ -119,7 +155,7 @@ export class ListCategoriesComponent {
         data: {
           title: 'Suppression demandée!',
           message: 'Voulez-vous vraiment supprimer cet élément ?',
-          messageNo: 'Non ?',
+          messageNo: 'Non',
           messageYes: 'Oui, Confirmer !',
         },
       })
@@ -128,22 +164,16 @@ export class ListCategoriesComponent {
         if (data) {
           this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
-              const messageClass =
-                response.status == 1
-                  ? ['bg-success', 'text-white']
-                  : ['bg-danger', 'text-white'];
-              this.snackBar.open(response.message, 'Okay', {
+              this.snackBar.open(response.message, 'OK', {
                 duration: 3000,
-                horizontalPosition: 'right',
-                verticalPosition: 'top',
-                panelClass: messageClass,
+                panelClass: response.status == 1 ? ['bg-success', 'text-white'] : ['bg-danger', 'text-white'],
               });
+              this.getCategory();
             },
             error: (err: any) => {
-              console.error('Error : ', err);
+              console.error('Erreur : ', err);
             },
           });
-          this.getCategory();
         }
       });
   }

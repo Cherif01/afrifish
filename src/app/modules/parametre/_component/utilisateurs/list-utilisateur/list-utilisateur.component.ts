@@ -15,10 +15,13 @@ import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-de
   styleUrls: ['./list-utilisateur.component.scss']
 })
 export class ListUtilisateurComponent {
- title: string = 'Gestion des Utilisateurs';
+  title: string = 'Gestion des Utilisateurs';
   created_by = localStorage.getItem('id_user');
   id_utilisateur = localStorage.getItem('id_user');
-  Utilisateurs  = new FormGroup({
+
+  // Formulaire de création/modification
+  Utilisateurs = new FormGroup({
+    id: new FormControl(null), // Ajout du champ ID pour la modification
     nom: new FormControl('', Validators.required),
     prenom: new FormControl('', Validators.required),
     telephone: new FormControl('', Validators.required),
@@ -28,83 +31,116 @@ export class ListUtilisateurComponent {
     adresse: new FormControl(''),
     mot_de_passe: new FormControl('', [Validators.required, Validators.minLength(4)]),
     privilege: new FormControl('', Validators.required),
-    //table: new FormControl('utilisateur', Validators.required),
-   // created_by: new FormControl(this.created_by, Validators.required),
   });
-  dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'nom',  'email',   'actions'];
 
+  dataSource = new MatTableDataSource([]);
+  displayedColumns: string[] = ['id', 'nom', 'email', 'actions'];
 
   constructor(
     private service: HomeService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) {}
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 
   ngOnInit(): void {
     this.getUser();
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   getUser() {
-    this.service.getone('utilisateur', 'readAll.php',this.id_utilisateur).subscribe({
+    this.service.getone('utilisateur', 'readAll.php', this.id_utilisateur).subscribe({
       next: (reponse: any) => {
-         console.log('REPONSE SUCCESS : ', reponse);
+        console.log('Réponse Utilisateurs : ', reponse);
         this.dataSource.data = reponse;
       },
       error: (err: any) => {
-        console.log('REPONSE ERROR : ', err);
+        console.log('Erreur Utilisateurs : ', err);
       },
     });
   }
 
-
+  // 🟢 Ajouter un nouvel utilisateur
   onAjouter() {
-    console.log('userrrrrr',this.Utilisateurs.value);
+    console.log('Utilisateur à ajouter :', this.Utilisateurs.value);
 
-    if (this.Utilisateurs .valid) {
-      const formData = convertObjectInFormData(this.Utilisateurs .value);
-      this.service.create('authentification ', 'register.php', formData).subscribe({
+    if (this.Utilisateurs.valid) {
+      const formData = convertObjectInFormData(this.Utilisateurs.value);
+      this.service.create('authentification', 'register.php', formData).subscribe({
         next: (response) => {
-          const message =
-            response?.message || 'Utilisateurs   Enregistrer avec succès !';
-          this.snackBar.open(message, 'Okay', {
+          this.snackBar.open('Utilisateur enregistré avec succès !', 'OK', {
             duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'top',
             panelClass: ['bg-success', 'text-white'],
           });
-          this.Utilisateurs.reset(
-
-          );
+          this.Utilisateurs.reset();
           this.getUser();
         },
         error: (err) => {
-          this.snackBar.open('Erreur, Veuillez reessayer!', 'Okay', {
+          this.snackBar.open('Erreur, veuillez réessayer!', 'OK', {
             duration: 3000,
-            horizontalPosition: 'right',
-            verticalPosition: 'bottom',
             panelClass: ['bg-danger', 'text-white'],
           });
-          console.log('Error : ', err);
-
+          console.log('Erreur : ', err);
         },
       });
     }
   }
+
+  // 🟡 Modifier un utilisateur
+  onModifier(user: any) {
+    this.Utilisateurs.patchValue({
+      id: user.id,
+      nom: user.nom,
+      prenom: user.prenom,
+      telephone: user.telephone,
+      email: user.email,
+      ville: user.ville,
+      pays: user.pays,
+      adresse: user.adresse,
+      privilege: user.privilege,
+      mot_de_passe: '', // Ne pas pré-remplir le mot de passe pour la sécurité
+    });
+  }
+
+  // 🔵 Mettre à jour l'utilisateur
+  updateUser() {
+    if (this.Utilisateurs.valid) {
+      const formData = convertObjectInFormData(this.Utilisateurs.value);
+      this.service.update('authentification', 'update.php', formData).subscribe({
+        next: (response) => {
+          this.snackBar.open('Utilisateur mis à jour avec succès !', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-success', 'text-white'],
+          });
+          this.Utilisateurs.reset();
+          this.getUser();
+        },
+        error: (err) => {
+          this.snackBar.open('Erreur, veuillez réessayer!', 'OK', {
+            duration: 3000,
+            panelClass: ['bg-danger', 'text-white'],
+          });
+          console.log('Erreur : ', err);
+        },
+      });
+    }
+  }
+
+  // 🔴 Supprimer un utilisateur
   deleteFunction(id: any, table: string) {
     this.dialog
       .open(DefaultDeleteComponent, {
@@ -112,7 +148,7 @@ export class ListUtilisateurComponent {
         data: {
           title: 'Suppression demandée!',
           message: 'Voulez-vous vraiment supprimer cet élément ?',
-          messageNo: 'Non ?',
+          messageNo: 'Non',
           messageYes: 'Oui, Confirmer !',
         },
       })
@@ -121,22 +157,16 @@ export class ListUtilisateurComponent {
         if (data) {
           this.service.delete('agence', 'delete.php', table, id).subscribe({
             next: (response: any) => {
-              const messageClass =
-                response.status == 1
-                  ? ['bg-success', 'text-white']
-                  : ['bg-danger', 'text-white'];
-              this.snackBar.open(response.message, 'Okay', {
+              this.snackBar.open(response.message, 'OK', {
                 duration: 3000,
-                horizontalPosition: 'right',
-                verticalPosition: 'top',
-                panelClass: messageClass,
+                panelClass: response.status == 1 ? ['bg-success', 'text-white'] : ['bg-danger', 'text-white'],
               });
+              this.getUser();
             },
             error: (err: any) => {
-              console.error('Error : ', err);
+              console.error('Erreur : ', err);
             },
           });
-          this.getUser();
         }
       });
   }
