@@ -1,82 +1,62 @@
-<div class="container-fluid mt-4">
-  <div class="card g-4 p-3">
-    <div class="row align-items-center">
-      <div class="col text-start">
-        <h4 class="text-uppercase fw-bold">{{ title }}</h4>
-      </div>
-  
-      <!-- Sélection des dates sur une seule ligne -->
-      <div class="col-auto d-flex  align-items-center gap-3">
-        <form [formGroup]="Rapport" class="d-flex align-items-center gap-3">
-          <div class="mx-5">  <mat-form-field appearance="outline">
-            <mat-label>Début</mat-label>
-            <input matInput [matDatepicker]="picker1" formControlName="date_debut" (dateChange)="getHistorique()">
-            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+<div class="container mt-4">
+  <div class="card p-4 shadow-sm">
+    <h4 class="text-uppercase fw-bold text-center mb-3">{{ title }}</h4>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <form [formGroup]="Rapport" class="d-flex gap-4 flex-wrap">
+        <div class="position-relative">
+          <label class="fw-bold">Début</label>
+          <div class="input-group mx-3">
+            <input matInput [matDatepicker]="picker1" formControlName="date_debut" (dateChange)="getHistorique()" class="form-control pe-5">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
-        </div>
-          <div class="mx-5">
-            <mat-form-field appearance="outline">
-              <mat-label>Fin</mat-label>
-              <input matInput [matDatepicker]="picker2" formControlName="date_fin" (dateChange)="getHistorique()">
-              <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-              <mat-datepicker #picker2></mat-datepicker>
-            </mat-form-field>
           </div>
-        
-  
-          
-        </form>
-      </div>
-  
-      <!-- Bouton de génération du rapport -->
-      <div class="col text-right">
-        <!-- <button mat-raised-button color="primary" (click)="getHistorique()">
-          <mat-icon>picture_as_pdf</mat-icon> Générer Rapport
-        </button> -->
-      </div>
+        </div>
+
+        <div class="position-relative">
+          <label class="fw-bold">Fin</label>
+          <div class="input-group mx-3">
+            <input matInput [matDatepicker]="picker2" formControlName="date_fin" (dateChange)="getHistorique()" class="form-control pe-5">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </div>
+        </div>
+      </form>
+
+      <button class="btn btn-danger d-flex align-items-center gap-2" (click)="imprimer()">
+        <i class="fas fa-print"></i> Imprimer
+      </button>
     </div>
   </div>
-  
 
-  <!-- Tableau des transactions -->
-  <mat-card class="shadow-sm mt-3">
-    <div class="table-responsive p-3">
-      <h3 class="text-center text-primary mb-3">Liste des Transactions</h3>
+  <div class="card p-3 mt-3 shadow-sm">
+    <h4 class="text-primary text-center">Liste des Transactions</h4>
 
-      <mat-form-field class="w-100 mb-3" appearance="outline">
-        <mat-label>Rechercher...</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Rechercher">
-      </mat-form-field>
+    <input type="text" class="form-control mb-3" placeholder="Rechercher..." (keyup)="applyFilter($event)">
 
-      <table mat-table [dataSource]="dataSource" id="maTable" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef>#</th>
-          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="descriptions">
-          <th mat-header-cell *matHeaderCellDef>Descriptions</th>
-          <td mat-cell *matCellDef="let element">{{ element.descriptions }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="montant">
-          <th mat-header-cell *matHeaderCellDef>Montant</th>
-          <td mat-cell *matCellDef="let element">{{ element.montant | currency :'GNF '}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let element">{{ element.type }}</td>
-        </ng-container>
-
-       
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover "id="maTable">
+        <thead class="table-danger">
+          <tr>
+            <th>ID</th>
+            <th>Montant</th>
+            <th>Type</th>
+            <th>Mode de paiement</th>
+            <th>Créé par</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of dataSource.data">
+            <td>{{ transaction.transaction_id }}</td>
+            <td>{{ transaction.montant | number }}</td>
+            <td>{{ transaction.type_transaction }}</td>
+            <td>{{ transaction.mode_paiement }}</td>
+            <td>{{ transaction.created_by }}</td>
+            <td>{{ transaction.created_at | date: 'dd/MM/yyyy HH:mm' }}</td>
+          </tr>
+        </tbody>
       </table>
-
-      <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
     </div>
-  </mat-card>
+  </div>
 </div>

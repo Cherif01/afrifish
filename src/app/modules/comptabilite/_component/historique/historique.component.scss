@@ -1,0 +1,46 @@
+@media print {
+  /* Cache tout sauf le contenu à imprimer */
+  body * {
+    visibility: hidden;
+  }
+
+  .container, .container * {
+    visibility: visible;
+  }
+
+  .container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  /* Ajustement du tableau pour l'impression */
+  .table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    border: 1px solid whitesmoke !important;
+    padding: 8px;
+    text-align: left;
+  }
+
+  /* Changer la couleur du thead pour l'impression */
+  .table thead {
+    background-color: rgb(34, 10, 173) !important;
+    color: whitesmoke !important;
+  }
+
+  /* Cacher le bouton d'impression */
+  .btn {
+    display: none !important;
+  }
+
+  /* Supprimer l'input de recherche à l'impression */
+  input[type="text"] {
+    display: none !important;
+  }
+}

@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 3px solid #00796b;
+  border-bottom: 3px solid#6D2323;
   padding-bottom: 15px;
 }
 
@@ -34,8 +34,8 @@
 }
 
 h3 {
-  color: #00796b;
-  border-bottom: 2px solid #00796b;
+  color:#6D2323;
+  border-bottom: 2px solid#6D2323;
   padding-bottom: 5px;
   margin-bottom: 10px;
 }
@@ -54,7 +54,7 @@ table th, table td {
 }
 
 table th {
-  background-color: #00796b;
+  background-color:#6D2323;
   color: white;
 }
 
@@ -161,7 +161,7 @@ table th {
   }
 
   table th {
-    background-color: #00796b !important;
+    background-color:#6D2323 !important;
     color: white !important;
   }
 }

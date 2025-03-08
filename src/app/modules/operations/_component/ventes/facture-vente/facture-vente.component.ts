@@ -14,9 +14,9 @@ export class FactureVenteComponent {
   infoFacture: any;
   montantRestant: number = 0;
   montantPaye: number = 0;
-  montantPaiement: number = 0; // Pour stocker le montant que l'utilisateur veut payer
-  modePaiement: string = 'cash'; // Mode de paiement sélectionné
-  descriptions: string = 'Paiement Factures'; // Mode de paiement sélectionné
+  montantPaiement: number = 0;
+  modePaiement: string = 'cash';
+  descriptions: string = 'Paiement Factures';
   created_by = localStorage.getItem('id_user');
   constructor(
     private router: Router,
@@ -38,7 +38,7 @@ export class FactureVenteComponent {
       next: (reponse: any) => {
         console.log('Détails de la facture : ', reponse);
         this.infoFacture = reponse;
-        this.getPaiements(); // Récupérer les paiements une fois la facture chargée
+        this.getPaiements();
       },
       error: (err: any) => {
         console.log('Erreur : ', err);
@@ -77,7 +77,7 @@ export class FactureVenteComponent {
       montant: this.montantPaiement,
       modePaiement: this.modePaiement,
       descriptions: this.descriptions,
-      created_by: this.created_by // Remplace par l'ID de l'utilisateur connecté
+      created_by: this.created_by 
     };
     const formData = convertObjectInFormData(paiementData);
     this.service.create('paiement', 'payer.php', formData).subscribe({

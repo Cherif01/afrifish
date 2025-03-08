@@ -23,7 +23,7 @@
   height: 80px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid #3f51b5;
+  border: 3px solid#6D2323;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,7 +52,7 @@
 }
 
 .detail-item mat-icon {
-  color: #3f51b5;
+  color:#6D2323 ;
 }
 
 // 🌟 Table des approvisionnements
@@ -66,7 +66,7 @@
 }
 
 .table-dark th {
-  background-color: #3f51b5 !important;
+  background-color:#6D2323 !important;
   color: white;
 }
 mat-tab-group {

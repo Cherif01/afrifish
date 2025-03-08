@@ -78,6 +78,28 @@
     <h3>Remarques :</h3>
     <p>✔ Ce bon de commande est un document commercial et ne constitue pas une demande de paiement immédiate.</p>
   </section>
+  <section class="payment-form" *ngIf="infoBonCommande?.statut === 'livrer'" >
+    <h3>Effectuer un paiement</h3>
+    <mat-form-field appearance="outline">
+      <mat-label>Montant à payer</mat-label>
+      <input matInput type="number" [(ngModel)]="montantPaiement">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input matInput type="text" [(ngModel)]="descriptions">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mode de paiement</mat-label>
+      <mat-select [(value)]="modePaiement">
+        <mat-option value="cash">💵 Espèces</mat-option>
+        <mat-option value="virement">🏦 Virement</mat-option>
+        <mat-option value="carte bancaire">💳 Carte bancaire</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" (click)="payerFacture()">💰 Payer</button>
+  </section>
 
   <footer>
     <p>Merci pour votre confiance et votre collaboration.</p>

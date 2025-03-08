@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
 
 @Component({
@@ -9,12 +12,18 @@ import { HomeService } from 'src/app/modules/accueil/services/home.service';
 })
 export class DetailsFournisseurComponent {
   title: string = 'Details Fournisseurs';
+  montantRestant: number = 0;
+  montantPaye: number = 0;
+  montantPaiement: number = 0;
+  modePaiement: string = 'cash';
+  descriptions: string = 'Paiement Fournisseurs';
+  created_by = localStorage.getItem('id_user');
    constructor(
       private activeroute: ActivatedRoute,
       private service: HomeService,
-      // private snackBar: MatSnackBar,
-      // private dialog: MatDialog,
-      // private router : Router
+       private snackBar: MatSnackBar,
+       private dialog: MatDialog,
+      private router : Router
     ) {}
     id: any
 ngOnInit(){
@@ -44,5 +53,54 @@ getApprovisionnements() {
     }
   });
 }
+ infoFacture: any;
+  paiements: any[] = [];
+  id_initCommande: any
+  getPaiements() {
+    this.service.getOne('paiement', 'getPaiements.php', this.id).subscribe({
+      next: (response: any) => {
+        console.log('Paiements : ', response);
+        this.montantRestant = response.montantRestant || 0;
+
+        this.montantPaye = response.totalPaye || 0;
+        this.paiements = response.paiements;
+        this.id_initCommande = response.id_initCommande;
+       // this.calculerMontantRestant();
+      },
+      error: (err: any) => {
+        console.log('Erreur récupération paiements : ', err);
+      }
+    });
+  }
+
+  calculerMontantRestant() {
+    this.montantRestant = this.infoFacture?.montant_global - this.montantPaye;
+  }
+ payerFacture() {
+    if (this.montantPaiement <= 0 || this.montantPaiement > this.montantRestant) {
+      this.snackBar.open('Montant invalide', 'Fermer', { duration: 3000 });
+      return;
+    }
+
+    const paiementData = {
+      id_initCommande: this.id_initCommande,
+      montant: this.montantPaiement,
+      modePaiement: this.modePaiement,
+      descriptions: this.descriptions,
+      created_by: this.created_by
+    };
+    const formData = convertObjectInFormData(paiementData);
+    this.service.create('paiement', 'payer.php', formData).subscribe({
+      next: (response: any) => {
+        console.log('Réponse du serveur : ', response);
+        this.snackBar.open('Paiement effectué avec succès', 'Fermer', { duration: 3000 });
+        this.getPaiements(); // Recalculer les montants après paiement
+        this.montantPaiement = 0; // Réinitialiser le champ
+      },
+      error: (err: any) => {
+        this.snackBar.open('Erreur lors du paiement', 'Fermer', { duration: 3000 });
+      }
+    });
+  }
 
 }
