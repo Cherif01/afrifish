@@ -51,13 +51,27 @@ mat-card-title {
 }
 
 mat-form-field {
-  width: 100%;
-  margin-bottom: 15px;
+  width: 80%;
+  // margin-bottom: 15px;
   display: flex;
   align-items: center;
   margin: 0;
   padding: 0;
 }
+#maTable mat-form-field {
+  width: 80% !important; // Ajustement pour ne pas prendre trop d'espace
+  margin: 0;
+  margin-top: 20px;
+  margin-left: 20px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; // Centrage horizontal
+}
+#maTable .mat-form-field-appearance-outline .mat-form-field-outline {
+  display: none;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -70,6 +84,7 @@ mat-form-field {
   }
 }
 #maTable th, #maTable td {
+  text-align: center;
   vertical-align: middle;
 }
 
@@ -177,3 +192,7 @@ mat-form-field {
   border-radius: 50%;
 }
 // IMAGE
+/* Affichage d'une bordure seulement au focus */
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline {
+  display: block;
+}

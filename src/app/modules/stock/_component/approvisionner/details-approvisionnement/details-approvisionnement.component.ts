@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
+import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 
 @Component({
   selector: 'app-details-approvisionnement',
@@ -11,7 +14,9 @@ export class DetailsApprovisionnementComponent {
   title: string = 'Bon de Commande';
   constructor(private router: Router,
     private service :HomeService,
-    private activeRoute:ActivatedRoute
+    private activeRoute:ActivatedRoute,
+    private snackBar :MatSnackBar,
+    private dialog: MatDialog,
   ){
 
   }
@@ -42,6 +47,10 @@ export class DetailsApprovisionnementComponent {
 
 // Fonction pour imprimer le bon de commande
 print(): void {
-  window.print();
+  setTimeout(() => {
+    window.print();
+  }, 500);
 }
+
+
 }

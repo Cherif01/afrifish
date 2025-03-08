@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { convertObjectInFormData } from 'src/app/app.component';
+import { AuthserviceService } from 'src/app/core/guards/services/authservice.service';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
 import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 
@@ -37,7 +38,8 @@ export class FactureProformatComponent {
    constructor(
      private service: HomeService,
      private snackBar: MatSnackBar,
-     private dialog: MatDialog
+     private dialog: MatDialog,
+      private authService :AuthserviceService,
    ) {}
    @ViewChild(MatPaginator) paginator!: MatPaginator;
    @ViewChild(MatSort) sort!: MatSort;
@@ -56,7 +58,21 @@ export class FactureProformatComponent {
 
    ngOnInit(): void {
      this.getBonCommande();
+     this.getUserConnect()
    }
+   InfoUser: any = {};
+   privilege: any;
+ getUserConnect() {
+   this.authService.getClauseID('utilisateur', 'getOne.php', this.created_by).subscribe({
+     next: (response: any) => {
+       this.InfoUser = response;
+       this.privilege = response.privilege;
+     },
+     error: (error: any) => {
+       console.log('Erreur : ', error);
+     },
+   });
+ }
 
    getBonCommande() {
      this.service.getByCreated('initCommande', 'initAttente.php',this.created_by).subscribe({

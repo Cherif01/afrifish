@@ -89,7 +89,12 @@ id_utilisateur =localStorage.getItem('id_user')
             panelClass: ['bg-success', 'text-white'],
           });
           this.Entite.updateValueAndValidity();
-          this.Entite.reset();
+          this.Entite.reset(
+            {
+              table: 'entite',
+              created_by :this.created_by
+            }
+          );
           this.getEntite();
         },
         error: (err) => {

@@ -93,7 +93,17 @@ export class FactureVenteComponent {
     });
   }
 
-  print(): void {
-    window.print();
+  print(section: 'facture' | 'historique'): void {
+    setTimeout(() => {
+      if (section === 'facture') {
+        document.querySelector('.bon-de-commande')?.classList.add('print-container');
+        document.querySelector('.historique-paiements')?.classList.remove('print-container');
+      } else {
+        document.querySelector('.historique-paiements')?.classList.add('print-container');
+        document.querySelector('.bon-de-commande')?.classList.remove('print-container');
+      }
+      window.print();
+    }, 300);
   }
+
 }

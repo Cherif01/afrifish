@@ -10,6 +10,7 @@ export class SidebarComponent implements OnInit {
   InfoUser: any = {};
   id_user = localStorage.getItem('id_user');
   privilege: string = '';
+  entite: string = '';
 
   // menus: any[] = [
   //   { name: 'Tableau de bord', link: '/home/home', icon: 'dashboard', allowedFor: ['admin', '', 'employe'] },

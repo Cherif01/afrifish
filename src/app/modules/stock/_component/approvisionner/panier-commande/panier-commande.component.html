@@ -190,11 +190,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of infoBonCommande?.articles">
+                  <tr *ngFor="let item of infoBonCommande?.articles"(dblclick)="supprimerDuPanier(item)">
                     <td>{{ item.designation }}</td>
                     <td>{{ item.quantite }}</td>
                     <td>
-                      {{ item.prix_unitaire_initiale | currency : "GNF: " }}
+                      {{ item.prix_unitaire | currency : "GNF: " }}
                     </td>
                     <td>{{ item.montant_total | currency : "GNF: " }}</td>
                   </tr>

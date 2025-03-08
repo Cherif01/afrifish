@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
+import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 
 @Component({
   selector: 'app-details-bon-commande',
@@ -134,6 +135,7 @@ const commande = {
       },
     });
   }
+
  print(): void {
    window.print();
  }

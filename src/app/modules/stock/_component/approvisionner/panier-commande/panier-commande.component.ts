@@ -120,9 +120,9 @@
         quantite: article.qteInitiale,
         id_initCommande: this.id_initCommande, // S'assurer que c'est bien défini
         created_by: this.created_by,
-        table: 'paniercommande',
+       // table: 'paniercommande',
       };
-      this.service.create('public', 'create.php', convertObjectInFormData(commande)).subscribe({
+      this.service.create('panierCommande', 'create.php', convertObjectInFormData(commande)).subscribe({
         next: () => {
           this.snackBar.open(`Commande pour ${article.designation} ajoutée au panier !`, 'Fermer', { duration: 3000 });
           this.getAllPanierCommandeByFournisseur();
@@ -164,20 +164,15 @@
     }
 
 
-    supprimerArticle(article: any) {
-      if (!article.id) {
-        this.snackBar.open('Erreur : ID article introuvable !', 'Fermer', { duration: 3000 });
-        return;
-      }
-
+    supprimerDuPanier(article: any) {
       this.dialog
         .open(DefaultDeleteComponent, {
           disableClose: true,
           data: {
             title: 'Suppression demandée!',
-            message: `Voulez-vous vraiment supprimer l'article "${article.designation}" ?`,
-            messageNo: 'Annuler',
-            messageYes: 'Oui, Supprimer !',
+            message: `Voulez-vous vraiment supprimer "${article.designation}" du panier ?`,
+            messageNo: 'Non',
+            messageYes: 'Oui, Confirmer !',
           },
         })
         .afterClosed()
@@ -185,16 +180,14 @@
           if (confirm) {
             this.service.delete('public', 'delete.php', 'paniercommande', article.id).subscribe({
               next: (response: any) => {
-                this.snackBar.open(`Article "${article.designation}" supprimé du panier !`, 'Fermer', {
+                this.snackBar.open(response.message, 'OK', {
                   duration: 3000,
-                  panelClass: response.status == 1 ? 'bg-success text-white' : 'bg-danger text-white',
+                  panelClass: response.status == 1 ? ['bg-success', 'text-white'] : ['bg-danger', 'text-white'],
                 });
-
-                // Mise à jour de la liste après suppression
                 this.getAllPanierCommandeByFournisseur();
               },
               error: (err: any) => {
-                console.error('Erreur lors de la suppression de l\'article', err);
+                console.error('Erreur : ', err);
                 this.snackBar.open('Erreur lors de la suppression', 'Fermer', { duration: 3000 });
               },
             });

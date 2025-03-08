@@ -1,10 +1,13 @@
 <mat-tab-group>
   <mat-tab>
     <ng-template mat-tab-label> Facture De Paiements</ng-template>
-    <div class="print-container">
+    <div >
+      <div class="print-container">
+
+
       <!-- Boutons d'action -->
       <div class="print-card">
-        <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer la facture</button>
+        <button mat-raised-button color="primary" (click)="print('facture')">🖨️ Imprimer la facture</button>
 
       </div>
 
@@ -47,7 +50,7 @@
           <p class="total"><strong>Total TTC :</strong> {{ infoFacture?.montant_global | number:'1.0-0' }} GNF</p>
           <p *ngIf="montantRestant > 0"><strong>Montant restant :</strong> {{ montantRestant | number:'1.0-0' }} GNF</p>
         </section>
-
+  </div>
         <section class="payment-form" *ngIf="montantRestant > 0" >
           <h3>Effectuer un paiement</h3>
           <mat-form-field appearance="outline">
@@ -80,8 +83,8 @@
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label> 💳 Historique des paiements</ng-template>
-    <div class="print-card">
-      <button mat-raised-button color="primary" (click)="print()">🖨️ Imprimer</button>
+    <div  class="historique-paiements">
+      <button mat-raised-button color="primary" (click)="print('historique')">🖨️ Imprimer l'historique</button>
 
     </div>
     <table mat-table [dataSource]="paiements" class="mat-elevation-z8">

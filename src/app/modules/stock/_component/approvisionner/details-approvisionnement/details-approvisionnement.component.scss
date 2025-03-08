@@ -78,3 +78,25 @@ footer {
   text-align: center;
   margin-top: 20px;
 }
+@media print {
+  body {
+    -webkit-print-color-adjust: exact; /* Pour forcer les couleurs */
+    print-color-adjust: exact;
+  }
+
+  .card, .print-card {
+    display: none; /* Masquer les boutons et éléments inutiles */
+  }
+
+  .invoice-container {
+    width: 100%;
+    box-shadow: none;
+    border: none;
+  }
+
+  .invoice-table th {
+    background-color: #6D2323 !important; /* Forcer la couleur */
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+  }
+}

@@ -34,7 +34,7 @@ export class ListUtilisateurComponent {
   });
 
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'nom', 'email', 'actions'];
+  displayedColumns: string[] = ['id', 'nom', 'email','privilege', 'actions'];
 
   constructor(
     private service: HomeService,

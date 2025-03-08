@@ -14,9 +14,9 @@
       </div>
   </div>
 
-  <div class="row g-4">
+  <div class="row g-4" >
       <!-- Formulaire -->
-      <div class="col-lg-4 card-box">
+      <div class="col-lg-4 card-box" *ngIf="privilege === 'admin'">
           <mat-card class="p-4 shadow-sm card-form card-box">
               <h3
                   class="form-title text-center text-uppercase shadow p-3"
@@ -83,7 +83,7 @@
       </div>
 
       <!-- Tableau -->
-      <div class="col-lg-8">
+      <div class="col">
           <mat-card class="shadow-sm">
               <div class="table-responsive p-3">
                   <h3 class="form-title text-center text-primary mb-3">Listes

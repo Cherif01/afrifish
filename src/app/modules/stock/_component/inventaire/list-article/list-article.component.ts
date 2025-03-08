@@ -9,6 +9,7 @@ import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
 import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 import { AddArticleComponent } from '../../../_dialogs/add-article/add-article.component';
+import { AuthserviceService } from 'src/app/core/guards/services/authservice.service';
 
 @Component({
   selector: 'app-list-article',
@@ -31,7 +32,8 @@ export class ListArticleComponent {
   constructor(
     private service: HomeService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog ,
+    private authService : AuthserviceService
   ) {}
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -49,6 +51,7 @@ export class ListArticleComponent {
   }
 
   ngOnInit(): void {
+    this.getUserConnect();
     this.getArticle();
   }
 
@@ -63,6 +66,19 @@ export class ListArticleComponent {
       },
     });
   }
+  InfoUser: any = {};
+  privilege: any;
+getUserConnect() {
+  this.authService.getClauseID('utilisateur', 'getOne.php', this.created_by).subscribe({
+    next: (response: any) => {
+      this.InfoUser = response;
+      this.privilege = response.privilege;
+    },
+    error: (error: any) => {
+      console.log('Erreur : ', error);
+    },
+  });
+}
 
   openDialog() {
     this.dialog.open(AddArticleComponent, {

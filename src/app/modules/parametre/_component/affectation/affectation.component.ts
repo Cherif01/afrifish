@@ -20,11 +20,11 @@ export class AffectationComponent {
   Affectation = new FormGroup({
     id_entite: new FormControl('', Validators.required),
     id_utilisateur: new FormControl('', Validators.required),
-    table: new FormControl('affectation', Validators.required),
+   // table: new FormControl('affectation', Validators.required),
     created_by: new FormControl(this.created_by, Validators.required),
   });
   dataSource = new MatTableDataSource([]);
-  displayedColumns: string[] = ['id', 'nom', 'codeEntite', 'actions'];
+  displayedColumns: string[] = ['id', 'nom', 'reference', 'actions'];
 
   constructor(
     private service: HomeService,
@@ -51,7 +51,7 @@ export class AffectationComponent {
     this.Affectation.patchValue({
       id_entite: affectation.id_entite,
       id_utilisateur: affectation.id_utilisateur,
-      table: 'affectation',
+     // table: 'affectation',
       created_by: this.created_by,
     });
   }
@@ -105,7 +105,7 @@ export class AffectationComponent {
   onAjouter() {
     if (this.Affectation.valid) {
       const formData = convertObjectInFormData(this.Affectation.value);
-      this.service.create('public', 'create.php', formData).subscribe({
+      this.service.create('affectation', 'create.php', formData).subscribe({
         next: (response) => {
           const message =
             response?.message || 'Affectation  Enregistrer avec succès !';
@@ -116,7 +116,7 @@ export class AffectationComponent {
             panelClass: ['bg-success', 'text-white'],
           });
           this.Affectation.reset(
-           { table :'affectation'}
+          { created_by :this.created_by}
           );
           this.getAffectation();
         },
@@ -170,7 +170,7 @@ export class AffectationComponent {
       .afterClosed()
       .subscribe((data: any) => {
         if (data) {
-          this.service.delete('agence', 'delete.php', table, id).subscribe({
+          this.service.delete('public', 'delete.php', table, id).subscribe({
             next: (response: any) => {
               const messageClass =
                 response.status == 1

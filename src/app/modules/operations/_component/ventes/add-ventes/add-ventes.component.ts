@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { convertObjectInFormData } from 'src/app/app.component';
 import { HomeService } from 'src/app/modules/accueil/services/home.service';
+import { DefaultDeleteComponent } from 'src/app/public/default-delete/default-delete.component';
 
 @Component({
   selector: 'app-add-ventes',
@@ -82,13 +83,14 @@ export class AddVentesComponent {
       },
     });
   }
+  infoVente: any
    getAllPanierVenteByClient() {
      console.log("ID Init Vente", this.id_initVente);
 
      this.service.getOne('panierVente', 'getOne.php', this.id_initVente).subscribe({
        next: (reponse: any) => {
          console.log('Panier Vente : ', reponse);
-        this.dataSource2.data = reponse.articles;
+        this.infoVente = reponse;
 
          // ✅ Stocker id_initVente pour l'utiliser plus tard
          this.id_initVente = reponse.initVente_id;
@@ -100,7 +102,7 @@ export class AddVentesComponent {
      });
    }
    isValiderDisabled(): boolean {
-    
+
     const panierVide = this.dataSource2.data.length === 0;
 
 
@@ -124,13 +126,13 @@ export class AddVentesComponent {
        id_initVente: this.id_initVente,
        quantite_vente : article.quantite_vente,
        created_by: this.created_by,
-       table :'paniervente',
+      // table :'paniervente',
      };
      console.log('Vente envoyée', vente);
      const formData = convertObjectInFormData(vente);
 
      console.log('Vente envoyée', formData);
-     this.service.create('public', 'create.php', formData).subscribe({
+     this.service.create('panierVente', 'create.php', formData).subscribe({
        next: (response: any) => {
          this.snackBar.open(`Vente pour ${article.designation} Ajouter au panier !`, 'Fermer', { duration: 3000 })
          this.getAllPanierVenteByClient();
@@ -160,5 +162,36 @@ export class AddVentesComponent {
       },
     });
   }
+  supprimerDuPanier(article: any) {
+    this.dialog
+      .open(DefaultDeleteComponent, {
+        disableClose: true,
+        data: {
+          title: 'Suppression demandée!',
+          message: `Voulez-vous vraiment supprimer "${article.designation}" du panier ?`,
+          messageNo: 'Non',
+          messageYes: 'Oui, Confirmer !',
+        },
+      })
+      .afterClosed()
+      .subscribe((confirm: boolean) => {
+        if (confirm) {
+          this.service.delete('panierVente', 'delete.php', 'panier', article.id).subscribe({
+            next: (response: any) => {
+              this.snackBar.open(response.message, 'OK', {
+                duration: 3000,
+                panelClass: response.status == 1 ? ['bg-success', 'text-white'] : ['bg-danger', 'text-white'],
+              });
+              this.getAllPanierVenteByClient(); // Mettre à jour le panier
+            },
+            error: (err: any) => {
+              console.error('Erreur : ', err);
+              this.snackBar.open('Erreur lors de la suppression', 'Fermer', { duration: 3000 });
+            },
+          });
+        }
+      });
+  }
+
 
 }

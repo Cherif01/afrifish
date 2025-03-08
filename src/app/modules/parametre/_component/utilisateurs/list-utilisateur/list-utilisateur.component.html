@@ -110,8 +110,8 @@
                   <mat-select formControlName="privilege">
                     <mat-option value="" disabled>Sélectionnez un privilège</mat-option>
                     <mat-option value="admin">Admin</mat-option>
-                    <mat-option value="employer">Employer</mat-option>
-                   
+                    <mat-option value="gerant">Gerant</mat-option>
+
                   </mat-select>
                   <mat-error *ngIf="Utilisateurs.get('privilege')?.invalid && Utilisateurs.get('privilege')?.touched">
                     Le privilège est obligatoire
@@ -164,6 +164,21 @@
                       <th mat-header-cell *matHeaderCellDef>Email</th>
                       <td mat-cell *matCellDef="let element">{{ element.email }}</td>
                     </ng-container>
+                    <ng-container matColumnDef="privilege">
+                      <th mat-header-cell *matHeaderCellDef>Privilege</th>
+                      <td mat-cell *matCellDef="let element">
+                        <span
+                          [ngClass]="{
+                            'text-success': element.privilege === 'admin',
+                            'text-blue': element.privilege === 'gerant',
+                            'text-danger': element.privilege === 'fournisseur'
+                          }"
+                        >
+                          {{ element.privilege | uppercase }}
+                        </span>
+                      </td>
+                    </ng-container>
+
 
 
 

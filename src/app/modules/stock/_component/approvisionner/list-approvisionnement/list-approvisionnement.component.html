@@ -7,6 +7,7 @@
       </div>
       <div class="col text-right">
         <button
+        *ngIf="privilege === 'gerant'"
           mat-raised-button
           color="primary"
           routerLink="/stock/list-fournisseur"
@@ -58,6 +59,14 @@
                 <span class="text-blue">de : {{ element.raison_sociale }}</span>
                 <br />
                 <span class="text-red">{{ element.telephone }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="entite">
+              <th mat-header-cell *matHeaderCellDef>Entite</th>
+              <td mat-cell *matCellDef="let element">
+
+                <span class="text-blue"> {{ element.entite }}</span>
+
               </td>
             </ng-container>
 

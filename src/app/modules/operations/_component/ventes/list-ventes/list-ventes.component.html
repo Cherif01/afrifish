@@ -7,6 +7,7 @@
       </div>
       <div class="col text-right">
         <button
+        *ngIf="privilege === 'gerant'"
           mat-raised-button
           color="primary"
           routerLink="/operation/client-vente"
@@ -53,7 +54,7 @@
               <th mat-header-cell *matHeaderCellDef>Clients</th>
               <td mat-cell *matCellDef="let element">
                 {{ element.Nomcompletclient }} <br />
-                <span class="text-blue">de : {{ element.reference }}</span>
+                <span class="text-blue">de : {{ element.entite }}</span>
                 <br />
                 <span class="text-red">{{ element.telephone }}</span>
               </td>
@@ -107,8 +108,10 @@
                     'badge-valider': element.statut === 'valider'
                   }"
                 >
-                  {{ element.statut }}
+                  {{ element.statut }} <br>
+
                 </span>
+
               </td>
             </ng-container>
 
@@ -119,14 +122,15 @@
                 <div class="d-flex gap-2 justify-content-center">
                   <!-- Edit Button -->
                   <button
-                    *ngIf="element.statut === 'en cours'"
-                    mat-stroked-button
-                    class="mx-2"
-                    color="primary"
-                    routerLink="/operation/panier-vente/{{ element.id }}"
-                  >
-                    <mat-icon>edit</mat-icon>
-                  </button>
+                  *ngIf="element.statut === 'en cours' && privilege === 'gerant'"
+                  mat-stroked-button
+                  class="mx-2"
+                  color="primary"
+                  routerLink="/operation/panier-vente/{{ element.id }}"
+                >
+                  <mat-icon>edit</mat-icon>
+                </button>
+
                   <!-- Facture Button -->
                   <button
                     mat-stroked-button
